@@ -1,6 +1,12 @@
 [gd_scene format=3 uid="uid://cqlr0bjgoa7ne"]
 
 [ext_resource type="Script" uid="uid://lumsn2lsy8im" path="res://escenas/pistola/pantalla_escaner.gd" id="1_tt4yi"]
+[ext_resource type="Shader" uid="uid://bbr782sqy61ft" path="res://escenas/pistola/pantalla_escaner.gdshader" id="2_epjqv"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_epjqv"]
+render_priority = 0
+shader = ExtResource("2_epjqv")
+shader_parameter/color_rayos_x = Color(0.2, 0.5, 1, 1)
 
 [node name="PantallaEscaner" type="Control" unique_id=1713069112]
 visible = false
@@ -52,5 +58,6 @@ render_target_update_mode = 0
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport" unique_id=239813759]
+material_override = SubResource("ShaderMaterial_epjqv")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="SubViewportContainer/SubViewport" unique_id=1654022739]
