@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://8k0bkcrdqofj"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_g4v7s"]
+size = Vector3(1, 1, 1.0058594)
+
+[sub_resource type="BoxMesh" id="BoxMesh_g4v7s"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_g4v7s"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_g4v7s"]
+
+[node name="caja" type="Node3D" unique_id=1000838108]
+
+[node name="caja_interactiva" type="RigidBody3D" parent="." unique_id=1073896255]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="caja_interactiva" unique_id=218842001]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.0029296875)
+shape = SubResource("BoxShape3D_g4v7s")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="caja_interactiva" unique_id=1741353014]
+mesh = SubResource("BoxMesh_g4v7s")
+
+[node name="puntoObjeto" type="Marker3D" parent="caja_interactiva" unique_id=1532387342]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.0028383732)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="caja_interactiva/puntoObjeto" unique_id=399833008]
+transform = Transform3D(0.55142045, 0, 0, 0, 0.7497103, 0, 0, 0, 0.9344719, 0, 0, 0)
+mesh = SubResource("SphereMesh_g4v7s")
+
+[node name="Area3D" type="Area3D" parent="caja_interactiva/puntoObjeto/MeshInstance3D" unique_id=1306459603]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="caja_interactiva/puntoObjeto/MeshInstance3D/Area3D" unique_id=2043082838]
+shape = SubResource("SphereShape3D_g4v7s")
