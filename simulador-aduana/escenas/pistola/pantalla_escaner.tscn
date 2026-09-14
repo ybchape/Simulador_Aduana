@@ -1,0 +1,39 @@
+[gd_scene format=3 uid="uid://cqlr0bjgoa7ne"]
+
+[node name="PantallaEscaner" type="Control" unique_id=1713069112]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=977555669]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.09027592, 0.11905212, 0.14284372, 1)
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=1613269814]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -414.99994
+offset_top = -353.0
+offset_right = -374.99994
+offset_bottom = -313.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.6932794, 1.4049531)
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer" unique_id=2084148774]
+
+[node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport" unique_id=1378117296]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport" unique_id=239813759]
