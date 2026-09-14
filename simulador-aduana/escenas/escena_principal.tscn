@@ -1,8 +1,14 @@
 [gd_scene format=3 uid="uid://ci6pyufyjqgss"]
 
+[ext_resource type="PackedScene" uid="uid://b2jtkujpef1e" path="res://assets/GLB format/floor-large.glb" id="1_imiid"]
+[ext_resource type="PackedScene" uid="uid://cscfx13ldscq2" path="res://assets/GLB format/structure-wall.glb" id="2_uxd1d"]
+[ext_resource type="PackedScene" uid="uid://cfjv2w3qqwe8c" path="res://assets/GLB format/structure-corner-outer.glb" id="3_hxpc2"]
+[ext_resource type="PackedScene" uid="uid://yojfo3gtv2fj" path="res://assets/GLB format/conveyor-bars-high.glb" id="4_uxd1d"]
+[ext_resource type="PackedScene" uid="uid://blds6omlj1kni" path="res://assets/GLB format/box-small.glb" id="5_hxpc2"]
+
 [sub_resource type="Environment" id="Environment_g4v7s"]
 ambient_light_source = 2
-ambient_light_energy = 0.34
+ambient_light_color = Color(0.8732984, 0.8732984, 0.8732984, 1)
 
 [node name="Node3D" type="Node3D" unique_id=363520377]
 
@@ -16,7 +22,69 @@ transform = Transform3D(0.8660254, 0.35355338, -0.35355338, 0, 0.70710677, 0.707
 shadow_enabled = true
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1842094814]
+transform = Transform3D(1, 0, 0, 0, 0.9659259, 0.25881907, 0, -0.25881907, 0.9659258, 1, 1.4, 3.2)
+current = true
 
 [node name="Estructura_Habitacion" type="Node3D" parent="." unique_id=386274611]
 
+[node name="floor-large2" parent="Estructura_Habitacion" unique_id=1252762518 instance=ExtResource("1_imiid")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+
+[node name="floor-large3" parent="Estructura_Habitacion" unique_id=251801868 instance=ExtResource("1_imiid")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 2, 0, 0)
+
+[node name="structure-wall2" parent="Estructura_Habitacion" unique_id=264759821 instance=ExtResource("2_uxd1d")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.5)
+
+[node name="structure-wall3" parent="Estructura_Habitacion" unique_id=1880313193 instance=ExtResource("2_uxd1d")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -2.5)
+
+[node name="structure-wall4" parent="Estructura_Habitacion" unique_id=1122577589 instance=ExtResource("2_uxd1d")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -2.5)
+
+[node name="structure-wall5" parent="Estructura_Habitacion" unique_id=1862027777 instance=ExtResource("2_uxd1d")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, -2.5)
+
+[node name="structure-wall6" parent="Estructura_Habitacion" unique_id=1019367119 instance=ExtResource("2_uxd1d")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 4, 0, -0.5)
+
+[node name="structure-wall7" parent="Estructura_Habitacion" unique_id=1330770001 instance=ExtResource("2_uxd1d")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 4, 0, 0.5)
+
+[node name="structure-wall8" parent="Estructura_Habitacion" unique_id=902088747 instance=ExtResource("2_uxd1d")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 4, 0, 1.5)
+
+[node name="structure-wall9" parent="Estructura_Habitacion" unique_id=1677949611 instance=ExtResource("2_uxd1d")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -2, 0, -0.5)
+
+[node name="structure-wall10" parent="Estructura_Habitacion" unique_id=1349266665 instance=ExtResource("2_uxd1d")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -2, 0, 0.5)
+
+[node name="structure-wall11" parent="Estructura_Habitacion" unique_id=484990338 instance=ExtResource("2_uxd1d")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -2, 0, 1.5)
+
+[node name="structure-corner-outer2" parent="Estructura_Habitacion" unique_id=979076254 instance=ExtResource("3_hxpc2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -2.5)
+
+[node name="structure-corner-outer3" parent="Estructura_Habitacion" unique_id=1786773491 instance=ExtResource("3_hxpc2")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 4, 0, -2.5)
+
 [node name="Espacio_Trabajo" type="Node3D" parent="." unique_id=1448636977]
+
+[node name="conveyor-bars-high" parent="Espacio_Trabajo" unique_id=1423438143 instance=ExtResource("4_uxd1d")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
+
+[node name="conveyor-bars-high2" parent="Espacio_Trabajo" unique_id=1350425050 instance=ExtResource("4_uxd1d")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1)
+
+[node name="conveyor-bars-high3" parent="Espacio_Trabajo" unique_id=483405750 instance=ExtResource("4_uxd1d")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 1)
+
+[node name="conveyor-bars-high4" parent="Espacio_Trabajo" unique_id=410575823 instance=ExtResource("4_uxd1d")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 1)
+
+[node name="conveyor-bars-high5" parent="Espacio_Trabajo" unique_id=1162198474 instance=ExtResource("4_uxd1d")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 1)
+
+[node name="box-small2" parent="Espacio_Trabajo" unique_id=393881187 instance=ExtResource("5_hxpc2")]
+transform = Transform3D(0.8660254, 0, -0.5, 0, 1, 0, 0.5, 0, 0.8660254, 1, 0.5, 1)
