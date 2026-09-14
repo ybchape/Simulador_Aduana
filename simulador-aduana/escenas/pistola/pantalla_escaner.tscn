@@ -1,0 +1,63 @@
+[gd_scene format=3 uid="uid://cqlr0bjgoa7ne"]
+
+[ext_resource type="Script" uid="uid://lumsn2lsy8im" path="res://escenas/pistola/pantalla_escaner.gd" id="1_tt4yi"]
+[ext_resource type="Shader" uid="uid://bbr782sqy61ft" path="res://escenas/pistola/pantalla_escaner.gdshader" id="2_epjqv"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_epjqv"]
+render_priority = 0
+shader = ExtResource("2_epjqv")
+shader_parameter/color_rayos_x = Color(0.2, 0.5, 1, 1)
+
+[node name="PantallaEscaner" type="Control" unique_id=1713069112]
+visible = false
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -339.0
+offset_top = -345.0
+offset_right = 561.0
+offset_bottom = 355.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_tt4yi")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=977555669]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.09027592, 0.11905212, 0.14284372, 1)
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=1613269814]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -426.0
+offset_top = -304.0
+offset_right = 86.0
+offset_bottom = 208.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.6663046, 1.1647172)
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer" unique_id=2084148774]
+own_world_3d = true
+transparent_bg = true
+handle_input_locally = false
+render_target_update_mode = 0
+
+[node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport" unique_id=1378117296]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport" unique_id=239813759]
+material_override = SubResource("ShaderMaterial_epjqv")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="SubViewportContainer/SubViewport" unique_id=1654022739]

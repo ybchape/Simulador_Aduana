@@ -1,0 +1,39 @@
+[gd_scene format=3 uid="uid://8k0bkcrdqofj"]
+
+[ext_resource type="Script" uid="uid://frmgsawadu2l" path="res://escenas/caja/caja_interactiva.gd" id="1_4xr26"]
+[ext_resource type="PackedScene" uid="uid://blds6omlj1kni" path="res://assets/GLB format/box-small.glb" id="1_vjljx"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_g4v7s"]
+size = Vector3(1, 1.0352173, 1.0264893)
+
+[sub_resource type="SphereMesh" id="SphereMesh_g4v7s"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_g4v7s"]
+
+[node name="caja" type="Node3D" unique_id=1000838108]
+
+[node name="caja_interactiva" type="RigidBody3D" parent="." unique_id=1073896255]
+script = ExtResource("1_4xr26")
+
+[node name="box-small2" parent="caja_interactiva" unique_id=2141492959 instance=ExtResource("1_vjljx")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0.0011070967, -0.4986866, -1.1920929e-07)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="caja_interactiva" unique_id=218842001]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0038146973, -0.00091552734)
+shape = SubResource("BoxShape3D_g4v7s")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="caja_interactiva" unique_id=1741353014]
+
+[node name="puntoObjeto" type="Marker3D" parent="caja_interactiva" unique_id=1532387342]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.0028383732)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="caja_interactiva/puntoObjeto" unique_id=399833008]
+transform = Transform3D(0.55142045, 0, 0, 0, 0.7497103, 0, 0, 0, 0.9344719, 0, 0, 0)
+mesh = SubResource("SphereMesh_g4v7s")
+
+[node name="Area3D" type="Area3D" parent="caja_interactiva/puntoObjeto/MeshInstance3D" unique_id=1306459603]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="caja_interactiva/puntoObjeto/MeshInstance3D/Area3D" unique_id=2043082838]
+shape = SubResource("SphereShape3D_g4v7s")
+
+[connection signal="input_event" from="caja_interactiva" to="caja_interactiva" method="_on_input_event"]
