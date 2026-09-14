@@ -1,3 +1,22 @@
 [gd_scene format=3 uid="uid://ci6pyufyjqgss"]
 
+[sub_resource type="Environment" id="Environment_g4v7s"]
+ambient_light_source = 2
+ambient_light_energy = 0.34
+
 [node name="Node3D" type="Node3D" unique_id=363520377]
+
+[node name="Environment" type="Node3D" parent="." unique_id=743419106]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Environment" unique_id=2090558405]
+environment = SubResource("Environment_g4v7s")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Environment" unique_id=743756400]
+transform = Transform3D(0.8660254, 0.35355338, -0.35355338, 0, 0.70710677, 0.70710677, 0.5, -0.6123724, 0.6123724, 0, 0, 0)
+shadow_enabled = true
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1842094814]
+
+[node name="Estructura_Habitacion" type="Node3D" parent="." unique_id=386274611]
+
+[node name="Espacio_Trabajo" type="Node3D" parent="." unique_id=1448636977]
