@@ -154,7 +154,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 1)
 [node name="conveyor-bars-high2" parent="Espacio_Trabajo" unique_id=1350425050 instance=ExtResource("4_uxd1d")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1)
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Espacio_Trabajo/conveyor-bars-high2/Group" parent_id_path=PackedInt32Array(1350425050, 1691386305) index="0" unique_id=1321537338]
+[node name="StaticBody3D" type="StaticBody3D" parent="Espacio_Trabajo/conveyor-bars-high2/Group" parent_id_path=PackedInt32Array(1350425050, 1787907962) index="0" unique_id=1321537338]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Espacio_Trabajo/conveyor-bars-high2/Group/StaticBody3D" unique_id=638340572]
 shape = SubResource("ConcavePolygonShape3D_646mu")
@@ -186,7 +186,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 1)
 [node name="conveyor-bars-stripe-high3" parent="Espacio_Trabajo" unique_id=1412000741 instance=ExtResource("12_5mxg4")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Espacio_Trabajo/conveyor-bars-stripe-high3/Group" parent_id_path=PackedInt32Array(1412000741, 1733416165) index="0" unique_id=1142430050]
+[node name="StaticBody3D" type="StaticBody3D" parent="Espacio_Trabajo/conveyor-bars-stripe-high3/Group" parent_id_path=PackedInt32Array(1412000741, 509693552) index="0" unique_id=1142430050]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Espacio_Trabajo/conveyor-bars-stripe-high3/Group/StaticBody3D" unique_id=1510512350]
 shape = SubResource("ConcavePolygonShape3D_t1stn")

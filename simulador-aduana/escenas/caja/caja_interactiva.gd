@@ -15,5 +15,5 @@ func _on_input_event(camera: Node, event: InputEvent, event_position: Vector3, n
 			# 3. Le pedimos la forma al objeto que escondimos adentro
 			var forma_secreta = objeto_secreto.mesh
 			
-			# 4. Gritamos por el Bus de Eventos para que la pantalla aparezca
+			# 4. Llamamos al Bus de Eventos para que la pantalla aparezca
 			EventBus.escanear_objeto.emit(forma_secreta)
