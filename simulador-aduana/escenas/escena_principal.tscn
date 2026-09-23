@@ -21,6 +21,7 @@
 [ext_resource type="PackedScene" uid="uid://8k0bkcrdqofj" path="res://escenas/caja/caja.tscn" id="19_646mu"]
 [ext_resource type="PackedScene" uid="uid://bmcj7oox0fy2h" path="res://escenas/pistola/pistola_escaner.tscn" id="20_t1stn"]
 [ext_resource type="PackedScene" uid="uid://cqlr0bjgoa7ne" path="res://escenas/pistola/pantalla_escaner.tscn" id="21_siyr2"]
+[ext_resource type="PackedScene" uid="uid://bvjcfpbmfukfk" path="res://escenas/planilla.tscn" id="22_t1stn"]
 
 [sub_resource type="Environment" id="Environment_g4v7s"]
 ambient_light_source = 2
@@ -225,6 +226,14 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8164029, 0.9501412, 1)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6779113, 0.92821264, 4.1574173)
 
 [node name="PantallaEscaner" parent="." unique_id=1713069112 instance=ExtResource("21_siyr2")]
+
+[node name="UIPlanilla" type="CanvasLayer" parent="." unique_id=1542697480]
+
+[node name="PlanillaUI" parent="." unique_id=1847737339 instance=ExtResource("22_t1stn")]
+offset_left = 104.0
+offset_top = 379.0
+offset_right = 104.0
+offset_bottom = 379.0
 
 [editable path="Espacio_Trabajo/conveyor-bars-high2"]
 [editable path="Espacio_Trabajo/conveyor-bars-stripe-high3"]
