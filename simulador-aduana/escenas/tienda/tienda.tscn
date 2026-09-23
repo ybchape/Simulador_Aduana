@@ -1,0 +1,200 @@
+[gd_scene format=3 uid="uid://dw4ht40cbfe8b"]
+
+[ext_resource type="Script" uid="uid://blftq8tmy4v2w" path="res://escenas/tienda/tienda.gd" id="1_g62me"]
+
+[sub_resource type="Theme" id="Theme_bvjvf"]
+default_font_size = 35
+
+[node name="tienda" type="Control" unique_id=263551707]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_bvjvf")
+script = ExtResource("1_g62me")
+
+[node name="Label" type="Label" parent="." unique_id=1679907025]
+layout_mode = 0
+offset_right = 358.0
+offset_bottom = 44.0
+theme_override_font_sizes/font_size = 30
+text = "Dinero disponible:"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="." unique_id=1774776948]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 198.0
+offset_top = 76.0
+offset_right = -196.0
+offset_bottom = -78.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer" unique_id=233262483]
+custom_minimum_size = Vector2(1000, 700)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="PanelEscaner" type="PanelContainer" parent="ScrollContainer/VBoxContainer" unique_id=410841702]
+layout_mode = 2
+tooltip_text = "Dispositivo de inspección por rayos X."
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/PanelEscaner" unique_id=331814163]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="ScrollContainer/VBoxContainer/PanelEscaner/HBoxContainer" unique_id=542025604]
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/PanelEscaner/HBoxContainer" unique_id=307719993]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Escaner" type="Label" parent="ScrollContainer/VBoxContainer/PanelEscaner/HBoxContainer/VBoxContainer" unique_id=57125690]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Escáner"
+
+[node name="Label2" type="Label" parent="ScrollContainer/VBoxContainer/PanelEscaner/HBoxContainer/VBoxContainer" unique_id=184000960]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Nivel 1: 3 usos diarios"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/PanelEscaner/HBoxContainer" unique_id=1734700037]
+layout_mode = 2
+
+[node name="BtnComprar" type="Button" parent="ScrollContainer/VBoxContainer/PanelEscaner/HBoxContainer/VBoxContainer2" unique_id=346275700]
+visible = false
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "Comprar: $450"
+
+[node name="BtnMejorar" type="Button" parent="ScrollContainer/VBoxContainer/PanelEscaner/HBoxContainer/VBoxContainer2" unique_id=1969260091]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Mejorar: $300"
+
+[node name="PanelCuter" type="PanelContainer" parent="ScrollContainer/VBoxContainer" unique_id=1314061528]
+layout_mode = 2
+tooltip_text = "Permite abrir paquetes para realizar una inspección directa."
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/PanelCuter" unique_id=1444364840]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="ScrollContainer/VBoxContainer/PanelCuter/HBoxContainer" unique_id=675872001]
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/PanelCuter/HBoxContainer" unique_id=1255967515]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Cuter" type="Label" parent="ScrollContainer/VBoxContainer/PanelCuter/HBoxContainer/VBoxContainer" unique_id=1195322640]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Cúter"
+
+[node name="Label2" type="Label" parent="ScrollContainer/VBoxContainer/PanelCuter/HBoxContainer/VBoxContainer" unique_id=1309194150]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Nivel 1: 3 usos diarios"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/PanelCuter/HBoxContainer" unique_id=1368452193]
+layout_mode = 2
+
+[node name="BtnComprar" type="Button" parent="ScrollContainer/VBoxContainer/PanelCuter/HBoxContainer/VBoxContainer2" unique_id=326487509]
+visible = false
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "Comprar: $450"
+
+[node name="BtnMejorar" type="Button" parent="ScrollContainer/VBoxContainer/PanelCuter/HBoxContainer/VBoxContainer2" unique_id=1045881014]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Mejorar: $300"
+
+[node name="PanelBalanza" type="PanelContainer" parent="ScrollContainer/VBoxContainer" unique_id=1897959223]
+layout_mode = 2
+tooltip_text = "Pesa los paquetes en tiempo real para contrastar su peso real con la planilla."
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/PanelBalanza" unique_id=466126006]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="ScrollContainer/VBoxContainer/PanelBalanza/HBoxContainer" unique_id=159801136]
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/PanelBalanza/HBoxContainer" unique_id=2000315084]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/PanelBalanza/HBoxContainer/VBoxContainer" unique_id=1933604310]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Balanza"
+
+[node name="Label2" type="Label" parent="ScrollContainer/VBoxContainer/PanelBalanza/HBoxContainer/VBoxContainer" unique_id=1467144970]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Nivel 1: 2 usos"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/PanelBalanza/HBoxContainer" unique_id=1246031306]
+layout_mode = 2
+
+[node name="BtnComprar" type="Button" parent="ScrollContainer/VBoxContainer/PanelBalanza/HBoxContainer/VBoxContainer2" unique_id=1732416498]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Comprar: $450"
+
+[node name="BtnMejorar" type="Button" parent="ScrollContainer/VBoxContainer/PanelBalanza/HBoxContainer/VBoxContainer2" unique_id=1046322141]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Mejorar: $300"
+
+[node name="PanelEnergizante" type="PanelContainer" parent="ScrollContainer/VBoxContainer" unique_id=883922817]
+layout_mode = 2
+tooltip_text = "Bebida de recuperación rápida."
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/PanelEnergizante" unique_id=1264198097]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="ScrollContainer/VBoxContainer/PanelEnergizante/HBoxContainer" unique_id=2031919979]
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/PanelEnergizante/HBoxContainer" unique_id=935381389]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/PanelEnergizante/HBoxContainer/VBoxContainer" unique_id=850681965]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Energizante"
+
+[node name="Label2" type="Label" parent="ScrollContainer/VBoxContainer/PanelEnergizante/HBoxContainer/VBoxContainer" unique_id=1332776230]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Nivel 1: 3 usos diarios"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/PanelEnergizante/HBoxContainer" unique_id=701002688]
+layout_mode = 2
+
+[node name="BtnComprar" type="Button" parent="ScrollContainer/VBoxContainer/PanelEnergizante/HBoxContainer/VBoxContainer2" unique_id=1118372325]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Comprar: $150."
+
+[node name="BtnMejorar" type="Button" parent="ScrollContainer/VBoxContainer/PanelEnergizante/HBoxContainer/VBoxContainer2" unique_id=509926794]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Mejorar: $300"
+
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/PanelEscaner/HBoxContainer/VBoxContainer2/BtnMejorar" to="." method="_on_btn_mejorar_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/PanelCuter/HBoxContainer/VBoxContainer2/BtnMejorar" to="." method="_on_mejorar_cuter_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/PanelBalanza/HBoxContainer/VBoxContainer2/BtnComprar" to="." method="_on_comprar_balanza_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/PanelEnergizante/HBoxContainer/VBoxContainer2/BtnComprar" to="." method="_on_comprar_energizante_pressed"]
