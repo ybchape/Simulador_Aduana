@@ -12,4 +12,4 @@ func cargar_pedido(datos: PedidoInfo) -> void:
 
 	lbl_producto.text = "Producto: " + datos.nombre_producto
 	lbl_peso.text = "Peso: " + str(datos.peso_kg) + " kg"
-	lbl_codigo.text = "Código: " + datos.codigo_identificadorextends
+	lbl_codigo.text = "Código: " + datos.codigo_identificador
