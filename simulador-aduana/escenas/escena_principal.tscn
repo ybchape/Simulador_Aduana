@@ -236,9 +236,9 @@ script = ExtResource("22_t1stn")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8055427, 0.9089891, 2.960217)
 shape = SubResource("BoxShape3D_g4v7s")
 
-[node name="PantallaEscaner" parent="." unique_id=1713069112 instance=ExtResource("21_siyr2")]
-
 [node name="botones" parent="." unique_id=1540033895 instance=ExtResource("23_siyr2")]
+
+[node name="PantallaEscaner" parent="." unique_id=1713069112 instance=ExtResource("21_siyr2")]
 
 [connection signal="body_entered" from="ZonaInspeccion" to="ZonaInspeccion" method="_on_body_entered"]
 [connection signal="body_exited" from="ZonaInspeccion" to="ZonaInspeccion" method="_on_body_exited"]
