@@ -4,6 +4,17 @@ extends RigidBody3D
 # Busca el nodo Marker3D y luego el dibujo de adentro.
 @onready var objeto_secreto = $puntoObjeto/MeshInstance3D
 
+func _ready():
+	# Le decimos a la caja que escuche el megáfono del EventBus
+	# para saber en qué momento tomaste la decisión
+	EventBus.decision_tomada.connect(_desaparecer_caja)
+
+func _desaparecer_caja(fue_permitido):
+	# queue_free() elimina este nodo por completo de la memoria del juego
+	await get_tree().create_timer(1).timeout
+	queue_free()
+	print("La caja fue destruida de la escena.")
+
 # Esta función salta cuando haces clic en la caja de afuera
 func _on_input_event(camera: Node, event: InputEvent, event_position: Vector3, normal: Vector3, shape_idx: int) -> void:
 	# 1. Preguntamos: ¿El evento fue un clic del mouse?
