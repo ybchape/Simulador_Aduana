@@ -25,7 +25,7 @@
 [ext_resource type="Script" uid="uid://bcc5mfiihcagg" path="res://escenas/zona_inspeccion.gd" id="22_t1stn"]
 [ext_resource type="PackedScene" uid="uid://brrl6k6ub8ies" path="res://escenas/botones/botones.tscn" id="23_siyr2"]
 [ext_resource type="Script" uid="uid://cva4p2appdk7m" path="res://scripts/gestor_dia.gd" id="25_86fqv"]
-[ext_resource type="Script" uid="uid://bk3ihuivc37aa" path="res://escenas/hud_objetivo.gd" id="26_3nc4o"]
+[ext_resource type="Script" uid="uid://bk3ihuivc37aa" path="res://scripts/hud_objetivo.gd" id="26_3nc4o"]
 [ext_resource type="Texture2D" uid="uid://bpir1b8uctacc" path="res://assets/ui/barras/bar_shadow_round_outline_large.png" id="27_0ae84"]
 [ext_resource type="Texture2D" uid="uid://cdhbq1w23rudq" path="res://assets/ui/barras/bar_round_large.png" id="28_e55y7"]
 
