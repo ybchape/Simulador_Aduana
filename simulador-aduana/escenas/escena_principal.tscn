@@ -24,6 +24,7 @@
 [ext_resource type="PackedScene" uid="uid://cqlr0bjgoa7ne" path="res://escenas/pistola/pantalla_escaner.tscn" id="21_siyr2"]
 [ext_resource type="Script" uid="uid://bcc5mfiihcagg" path="res://escenas/zona_inspeccion.gd" id="22_t1stn"]
 [ext_resource type="PackedScene" uid="uid://brrl6k6ub8ies" path="res://escenas/botones/botones.tscn" id="23_siyr2"]
+[ext_resource type="Script" uid="uid://cva4p2appdk7m" path="res://scripts/gestor_dia.gd" id="25_86fqv"]
 
 [sub_resource type="Environment" id="Environment_g4v7s"]
 ambient_light_source = 2
@@ -243,6 +244,9 @@ shape = SubResource("BoxShape3D_g4v7s")
 [node name="botones" parent="." unique_id=1540033895 instance=ExtResource("23_siyr2")]
 
 [node name="PantallaEscaner" parent="." unique_id=1713069112 instance=ExtResource("21_siyr2")]
+
+[node name="GestorDia" type="Node" parent="." unique_id=1342465940]
+script = ExtResource("25_86fqv")
 
 [connection signal="body_entered" from="ZonaInspeccion" to="ZonaInspeccion" method="_on_body_entered"]
 [connection signal="body_exited" from="ZonaInspeccion" to="ZonaInspeccion" method="_on_body_exited"]
