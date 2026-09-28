@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://tady738mrlvl"]
 
 [node name="VentanaResumen" type="CanvasLayer" unique_id=1341823846]
-visible = false
 
 [node name="PanelContainer" type="PanelContainer" parent="." unique_id=509755836]
 custom_minimum_size = Vector2(800, 700)
