@@ -54,10 +54,11 @@ transform = Transform3D(0.8660254, 0.35355338, -0.35355338, 0, 0.70710677, 0.707
 shadow_enabled = true
 
 [node name="CameraPivot" type="Node3D" parent="." unique_id=887759548]
-transform = Transform3D(0.25881907, 0, 0.9659258, 0, 1, 0, -0.9659258, 0, 0.25881907, 1, 2, 6)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 2, 6)
 script = ExtResource("1_t1stn")
 
 [node name="Camera3D" type="Camera3D" parent="CameraPivot" unique_id=1842094814]
+transform = Transform3D(0.25881907, 0, -0.9659258, 0, 1, 0, 0.9659258, 0, 0.25881907, 0, 0, 0)
 current = true
 
 [node name="Estructura_Habitacion" type="Node3D" parent="." unique_id=386274611]
