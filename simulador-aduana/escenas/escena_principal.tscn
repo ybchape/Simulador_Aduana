@@ -28,6 +28,7 @@
 [ext_resource type="Script" uid="uid://bk3ihuivc37aa" path="res://scripts/hud_objetivo.gd" id="26_3nc4o"]
 [ext_resource type="Texture2D" uid="uid://bpir1b8uctacc" path="res://assets/ui/barras/bar_shadow_round_outline_large.png" id="27_0ae84"]
 [ext_resource type="Texture2D" uid="uid://cdhbq1w23rudq" path="res://assets/ui/barras/bar_round_large.png" id="28_e55y7"]
+[ext_resource type="PackedScene" uid="uid://tady738mrlvl" path="res://escenas/ventana_resumen/ventana_resumen.tscn" id="29_e55y7"]
 
 [sub_resource type="Environment" id="Environment_g4v7s"]
 ambient_light_source = 2
@@ -251,7 +252,6 @@ shape = SubResource("BoxShape3D_g4v7s")
 
 [node name="GestorDia" type="Node" parent="." unique_id=1342465940]
 script = ExtResource("25_86fqv")
-meta_pedidos_dia = 1
 
 [node name="HUD_objetivo" type="CanvasLayer" parent="." unique_id=222939173]
 script = ExtResource("26_3nc4o")
@@ -278,6 +278,8 @@ stretch_margin_right = 10
 stretch_margin_bottom = 10
 texture_under = ExtResource("27_0ae84")
 texture_progress = ExtResource("28_e55y7")
+
+[node name="VentanaResumen" parent="." unique_id=1341823846 instance=ExtResource("29_e55y7")]
 
 [connection signal="body_entered" from="ZonaInspeccion" to="ZonaInspeccion" method="_on_body_entered"]
 [connection signal="body_exited" from="ZonaInspeccion" to="ZonaInspeccion" method="_on_body_exited"]

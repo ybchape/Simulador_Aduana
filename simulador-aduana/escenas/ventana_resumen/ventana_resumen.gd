@@ -12,6 +12,8 @@ extends CanvasLayer
 func _ready() -> void:
 	# Nos aseguramos de que inicie oculta
 	hide()
+	if panel_container:
+		panel_container.hide()
 	
 	# Nos conectamos a la señal del EventBus
 	EventBus.objetivo_dia_alcanzado.connect(_mostrar_resumen)
@@ -29,8 +31,11 @@ func _mostrar_resumen(stats: Dictionary) -> void:
 	
 	
 	# Mostrar la ventana inmediatamente
+
 	show()
-	
+	if panel_container:
+		panel_container.show()
+		
 	# Liberar el mouse para interactuar con el botón
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 

@@ -16,6 +16,6 @@ func _actualizar_progreso(actual: int, meta: int) -> void:
 	if label_texto:
 		label_texto.text = "Pedidos: " + str(actual) + " / " + str(meta)
 
-func _on_objetivo_alcanzado() -> void:
+func _on_objetivo_alcanzado(_stats: Dictionary = {}) -> void:
 	if label_texto:
 		label_texto.text = "¡JORNADA COMPLETADA!"
