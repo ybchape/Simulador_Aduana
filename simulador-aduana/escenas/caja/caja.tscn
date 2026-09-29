@@ -10,6 +10,9 @@ size = Vector3(1, 1.0352173, 1.0264893)
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_g4v7s"]
 
+[sub_resource type="ViewportTexture" id="ViewportTexture_g4v7s"]
+viewport_path = NodePath("caja_interactiva/TicketViewport")
+
 [node name="caja" type="Node3D" unique_id=1000838108]
 
 [node name="caja_interactiva" type="RigidBody3D" parent="." unique_id=1073896255]
@@ -35,5 +38,51 @@ mesh = SubResource("SphereMesh_g4v7s")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="caja_interactiva/puntoObjeto/MeshInstance3D/Area3D" unique_id=2043082838]
 shape = SubResource("SphereShape3D_g4v7s")
+
+[node name="TicketViewport" type="SubViewport" parent="caja_interactiva" unique_id=1085700317]
+transparent_bg = true
+size = Vector2i(300, 200)
+
+[node name="ColorRect" type="ColorRect" parent="caja_interactiva/TicketViewport" unique_id=1336026933]
+offset_right = 40.0
+offset_bottom = 40.0
+scale = Vector2(16, 16)
+color = Color(1, 1, 0.68235296, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="caja_interactiva/TicketViewport/ColorRect" unique_id=106106967]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -69.0
+offset_top = -32.0
+offset_right = 91.0
+offset_bottom = 78.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LblTitulo" type="Label" parent="caja_interactiva/TicketViewport/ColorRect/VBoxContainer" unique_id=279122258]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "MANIFIESTO DE CARGA"
+
+[node name="LblPeso" type="Label" parent="caja_interactiva/TicketViewport/ColorRect/VBoxContainer" unique_id=1720264211]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Peso:"
+
+[node name="LblCodigo" type="Label" parent="caja_interactiva/TicketViewport/ColorRect/VBoxContainer" unique_id=351163095]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Código:"
+
+[node name="LblProducto" type="Label" parent="caja_interactiva/TicketViewport/ColorRect/VBoxContainer" unique_id=543596664]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.0071415612, 0.0071415612, 0.0071415603, 1)
+text = "Producto:"
+
+[node name="TicketSprite" type="Sprite3D" parent="caja_interactiva" unique_id=2036628200]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, -0.23623672, 0.29461545, 0.51838684)
+texture = SubResource("ViewportTexture_g4v7s")
 
 [connection signal="input_event" from="caja_interactiva" to="caja_interactiva" method="_on_input_event"]
