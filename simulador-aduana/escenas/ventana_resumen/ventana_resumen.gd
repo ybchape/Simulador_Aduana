@@ -23,7 +23,7 @@ func _ready() -> void:
 		siguiente_dia.pressed.connect(_on_btn_siguiente_dia_pressed)
 
 func _mostrar_resumen(stats: Dictionary) -> void:
-	titulo.text = "RESUMEN DEL DÍA (" + str(stats.correctos) + "/" + str(stats.total) + ")"
+	titulo.text = "RESUMEN DEL DÍA\nPedidos correctos: " + str(stats.correctos) + " / " + str(stats.total)
 	dinero_ganado.text = "Dinero obtenido: $" + str(stats.ganado)
 	dinero_descontado.text = "Dinero descontado: -$" + str(stats.descontado)
 	total.text = "Balance neto: $" + str(stats.neto)
