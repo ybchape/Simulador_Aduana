@@ -5,6 +5,8 @@
 [sub_resource type="Theme" id="Theme_bvjvf"]
 default_font_size = 35
 
+[sub_resource type="FontVariation" id="FontVariation_d0u6y"]
+
 [node name="tienda" type="Control" unique_id=263551707]
 layout_mode = 3
 anchors_preset = 15
@@ -60,10 +62,10 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 50
 text = "Escáner"
 
-[node name="Label2" type="Label" parent="ScrollContainer/VBoxContainer/PanelEscaner/HBoxContainer/VBoxContainer" unique_id=184000960]
+[node name="nivel_escaner" type="Label" parent="ScrollContainer/VBoxContainer/PanelEscaner/HBoxContainer/VBoxContainer" unique_id=184000960]
 layout_mode = 2
 theme_override_font_sizes/font_size = 50
-text = "Nivel 1: 3 usos diarios"
+text = "Nivel 1"
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/PanelEscaner/HBoxContainer" unique_id=1734700037]
 layout_mode = 2
@@ -99,10 +101,10 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 50
 text = "Cúter"
 
-[node name="Label2" type="Label" parent="ScrollContainer/VBoxContainer/PanelCuter/HBoxContainer/VBoxContainer" unique_id=1309194150]
+[node name="nivel_cutar" type="Label" parent="ScrollContainer/VBoxContainer/PanelCuter/HBoxContainer/VBoxContainer" unique_id=1309194150]
 layout_mode = 2
 theme_override_font_sizes/font_size = 50
-text = "Nivel 1: 3 usos diarios"
+text = "Nivel 1"
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/PanelCuter/HBoxContainer" unique_id=1368452193]
 layout_mode = 2
@@ -138,10 +140,10 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 50
 text = "Balanza"
 
-[node name="Label2" type="Label" parent="ScrollContainer/VBoxContainer/PanelBalanza/HBoxContainer/VBoxContainer" unique_id=1467144970]
+[node name="nivel_balanza" type="Label" parent="ScrollContainer/VBoxContainer/PanelBalanza/HBoxContainer/VBoxContainer" unique_id=1467144970]
 layout_mode = 2
 theme_override_font_sizes/font_size = 50
-text = "Nivel 1: 2 usos"
+text = "Nivel 1"
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/PanelBalanza/HBoxContainer" unique_id=1246031306]
 layout_mode = 2
@@ -152,6 +154,7 @@ theme_override_font_sizes/font_size = 50
 text = "Comprar: $450"
 
 [node name="BtnMejorar" type="Button" parent="ScrollContainer/VBoxContainer/PanelBalanza/HBoxContainer/VBoxContainer2" unique_id=1046322141]
+visible = false
 layout_mode = 2
 theme_override_font_sizes/font_size = 50
 text = "Mejorar: $300"
@@ -176,10 +179,10 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 50
 text = "Energizante"
 
-[node name="Label2" type="Label" parent="ScrollContainer/VBoxContainer/PanelEnergizante/HBoxContainer/VBoxContainer" unique_id=1332776230]
+[node name="Nivel_energizante" type="Label" parent="ScrollContainer/VBoxContainer/PanelEnergizante/HBoxContainer/VBoxContainer" unique_id=1332776230]
 layout_mode = 2
 theme_override_font_sizes/font_size = 50
-text = "Nivel 1: 3 usos diarios"
+text = "Nivel 1"
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/PanelEnergizante/HBoxContainer" unique_id=701002688]
 layout_mode = 2
@@ -194,7 +197,18 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 50
 text = "Mejorar: $300"
 
+[node name="Button" type="Button" parent="." unique_id=2135883990]
+layout_mode = 0
+offset_left = 1845.0
+offset_right = 1853.0
+offset_bottom = 8.0
+scale = Vector2(9.181171, 7.1106157)
+theme_override_fonts/font = SubResource("FontVariation_d0u6y")
+theme_override_font_sizes/font_size = 1
+text = "x"
+
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/PanelEscaner/HBoxContainer/VBoxContainer2/BtnMejorar" to="." method="_on_btn_mejorar_pressed"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/PanelCuter/HBoxContainer/VBoxContainer2/BtnMejorar" to="." method="_on_mejorar_cuter_pressed"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/PanelBalanza/HBoxContainer/VBoxContainer2/BtnComprar" to="." method="_on_comprar_balanza_pressed"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/PanelEnergizante/HBoxContainer/VBoxContainer2/BtnComprar" to="." method="_on_comprar_energizante_pressed"]
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
