@@ -3,6 +3,10 @@ extends RigidBody3D
 # aca le decimos a la caja donde esta el objeto
 # buscamosel nodo Marker3D y despues el objeto de adentro
 @onready var objeto_secreto = $puntoObjeto/MeshInstance3D
+#@onready var lbl_titulo: Label = $MarginContainer/VBoxContainer/LblTitulo
+#@onready var lbl_producto: Label = $MarginContainer/VBoxContainer/LblProducto
+#@onready var lbl_peso: Label = $MarginContainer/VBoxContainer/LblPeso
+#@onready var lbl_codigo: Label = $MarginContainer/VBoxContainer/LblCodigo
 
 # Esta función salta cuando haces clic en la caja de afuera
 func _on_input_event(camera: Node, event: InputEvent, event_position: Vector3, normal: Vector3, shape_idx: int) -> void:

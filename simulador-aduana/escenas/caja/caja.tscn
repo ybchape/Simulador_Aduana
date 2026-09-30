@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://frmgsawadu2l" path="res://escenas/caja/caja_interactiva.gd" id="1_4xr26"]
 [ext_resource type="PackedScene" uid="uid://blds6omlj1kni" path="res://assets/GLB format/box-small.glb" id="1_vjljx"]
+[ext_resource type="PackedScene" uid="uid://cadfxir1r7kt8" path="res://escenas/ticket/ticket.tscn" id="3_qs45v"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_g4v7s"]
 size = Vector3(1, 1.0352173, 1.0264893)
@@ -35,5 +36,9 @@ mesh = SubResource("SphereMesh_g4v7s")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="caja_interactiva/puntoObjeto/MeshInstance3D/Area3D" unique_id=2043082838]
 shape = SubResource("SphereShape3D_g4v7s")
+
+[node name="Ticket" parent="." unique_id=831184241 instance=ExtResource("3_qs45v")]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="Ticket" unique_id=390052837]
 
 [connection signal="input_event" from="caja_interactiva" to="caja_interactiva" method="_on_input_event"]
