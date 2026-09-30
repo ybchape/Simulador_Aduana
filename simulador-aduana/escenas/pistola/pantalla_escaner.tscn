@@ -16,12 +16,13 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -339.0
-offset_top = -345.0
-offset_right = 561.0
-offset_bottom = 355.0
+offset_left = -344.0
+offset_top = -200.0
+offset_right = 556.0
+offset_bottom = 500.0
 grow_horizontal = 2
 grow_vertical = 2
+scale = Vector2(0.6, 0.601)
 script = ExtResource("1_tt4yi")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=977555669]
