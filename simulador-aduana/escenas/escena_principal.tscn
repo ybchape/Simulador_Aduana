@@ -24,6 +24,11 @@
 [ext_resource type="PackedScene" uid="uid://cqlr0bjgoa7ne" path="res://escenas/pistola/pantalla_escaner.tscn" id="21_siyr2"]
 [ext_resource type="Script" uid="uid://bcc5mfiihcagg" path="res://escenas/zona_inspeccion.gd" id="22_t1stn"]
 [ext_resource type="PackedScene" uid="uid://brrl6k6ub8ies" path="res://escenas/botones/botones.tscn" id="23_siyr2"]
+[ext_resource type="Script" uid="uid://cva4p2appdk7m" path="res://scripts/gestor_dia.gd" id="25_86fqv"]
+[ext_resource type="Script" uid="uid://bk3ihuivc37aa" path="res://scripts/hud_objetivo.gd" id="26_3nc4o"]
+[ext_resource type="Texture2D" uid="uid://bpir1b8uctacc" path="res://assets/ui/barras/bar_shadow_round_outline_large.png" id="27_0ae84"]
+[ext_resource type="Texture2D" uid="uid://cdhbq1w23rudq" path="res://assets/ui/barras/bar_round_large.png" id="28_e55y7"]
+[ext_resource type="PackedScene" uid="uid://tady738mrlvl" path="res://escenas/ventana_resumen/ventana_resumen.tscn" id="29_e55y7"]
 
 [sub_resource type="Environment" id="Environment_g4v7s"]
 ambient_light_source = 2
@@ -50,10 +55,11 @@ transform = Transform3D(0.8660254, 0.35355338, -0.35355338, 0, 0.70710677, 0.707
 shadow_enabled = true
 
 [node name="CameraPivot" type="Node3D" parent="." unique_id=887759548]
-transform = Transform3D(0.25881907, 0, 0.9659258, 0, 1, 0, -0.9659258, 0, 0.25881907, 1, 2, 6)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 2, 6)
 script = ExtResource("1_t1stn")
 
 [node name="Camera3D" type="Camera3D" parent="CameraPivot" unique_id=1842094814]
+transform = Transform3D(0.25881907, 0, -0.9659258, 0, 1, 0, 0.9659258, 0, 0.25881907, 0, 0, 0)
 current = true
 
 [node name="Estructura_Habitacion" type="Node3D" parent="." unique_id=386274611]
@@ -243,6 +249,37 @@ shape = SubResource("BoxShape3D_g4v7s")
 [node name="botones" parent="." unique_id=1540033895 instance=ExtResource("23_siyr2")]
 
 [node name="PantallaEscaner" parent="." unique_id=1713069112 instance=ExtResource("21_siyr2")]
+
+[node name="GestorDia" type="Node" parent="." unique_id=1342465940]
+script = ExtResource("25_86fqv")
+
+[node name="HUD_objetivo" type="CanvasLayer" parent="." unique_id=222939173]
+script = ExtResource("26_3nc4o")
+
+[node name="Label_Texto" type="Label" parent="HUD_objetivo" unique_id=541549463]
+offset_left = 26.0
+offset_top = 17.0
+offset_right = 66.0
+offset_bottom = 40.0
+
+[node name="Barra_Progreso" type="TextureProgressBar" parent="HUD_objetivo" unique_id=374654481]
+texture_filter = 2
+offset_left = 16.0
+offset_top = 103.0
+offset_right = 55.00555
+offset_bottom = 414.944
+rotation = -1.568121
+max_value = 3.0
+fill_mode = 2
+nine_patch_stretch = true
+stretch_margin_left = 10
+stretch_margin_top = 10
+stretch_margin_right = 10
+stretch_margin_bottom = 10
+texture_under = ExtResource("27_0ae84")
+texture_progress = ExtResource("28_e55y7")
+
+[node name="VentanaResumen" parent="." unique_id=1341823846 instance=ExtResource("29_e55y7")]
 
 [connection signal="body_entered" from="ZonaInspeccion" to="ZonaInspeccion" method="_on_body_entered"]
 [connection signal="body_exited" from="ZonaInspeccion" to="ZonaInspeccion" method="_on_body_exited"]
