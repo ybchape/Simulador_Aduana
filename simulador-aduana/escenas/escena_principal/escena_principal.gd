@@ -1,15 +1,24 @@
 extends Node3D
 
+#Referencia a la instancia de la planilla dentro del CanvasLayer
+@onready var planilla_ui: Control = $UIPlanilla/PlanillaUI
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
+	probar_carga_pedido()
 
+func probar_carga_pedido() -> void:
+# crea un Pedidoinfo de prueba
+	var pedido_test = PedidoInfo.new()
+	pedido_test.nombre_producto = "Alfajor"
+	pedido_test.peso_kg = 20.546
+	pedido_test.codigo_identificador = "RF-396 VY"
+	pedido_test.es_ilegal = false
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
-
+#lo envia a la planilla para que actualice sus datos
+	if planilla_ui:
+		planilla_ui.cargar_pedido(pedido_test)
+	else:
+		print("Error: No se encontró la PlanillaUI en la ruta especificada.")
 
 func _on_boton_tienda_pressed() -> void:
 	$CanvasLayer/tienda.show()
