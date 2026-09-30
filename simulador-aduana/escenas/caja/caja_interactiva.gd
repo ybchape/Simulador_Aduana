@@ -4,12 +4,6 @@ extends RigidBody3D
 # buscamosel nodo Marker3D y despues el objeto de adentro
 @onready var objeto_secreto = $puntoObjeto/MeshInstance3D
 
-# referencias a los lbls 2D dentro del SubViewport del ticket
-@onready var lbl_titulo: Label = $TicketViewport/ColorRect/VBoxContainer/LblTitulo
-@onready var lbl_producto: Label = $TicketViewport/ColorRect/VBoxContainer/LblProducto
-@onready var lbl_peso: Label = $TicketViewport/ColorRect/VBoxContainer/LblPeso
-@onready var lbl_codigo: Label = $TicketViewport/ColorRect/VBoxContainer/LblCodigo
-
 # Esta función salta cuando haces clic en la caja de afuera
 func _on_input_event(camera: Node, event: InputEvent, event_position: Vector3, normal: Vector3, shape_idx: int) -> void:
 	# chequea si el evento fue un clic del mouse
@@ -28,10 +22,3 @@ func _on_input_event(camera: Node, event: InputEvent, event_position: Vector3, n
 func cargar_datos_ticket(datos: PedidoInfo) -> void:
 	if datos == null:
 		return
-
-	if lbl_producto:
-		lbl_producto.text = "PROD: " + datos.nombre_producto
-	if lbl_peso:
-		lbl_peso.text = "PESO: " + str(datos.peso_kg) + " kg"
-	if lbl_codigo:
-		lbl_codigo.text = "COD: " + datos.codigo_identificador
