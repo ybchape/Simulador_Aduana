@@ -22,6 +22,7 @@
 [ext_resource type="PackedScene" uid="uid://8k0bkcrdqofj" path="res://escenas/caja/caja.tscn" id="19_646mu"]
 [ext_resource type="PackedScene" uid="uid://bmcj7oox0fy2h" path="res://escenas/pistola/pistola_escaner.tscn" id="20_t1stn"]
 [ext_resource type="PackedScene" uid="uid://cqlr0bjgoa7ne" path="res://escenas/pistola/pantalla_escaner.tscn" id="21_siyr2"]
+
 [ext_resource type="Script" uid="uid://bcc5mfiihcagg" path="res://escenas/zona_inspeccion.gd" id="22_t1stn"]
 [ext_resource type="PackedScene" uid="uid://brrl6k6ub8ies" path="res://escenas/botones/botones.tscn" id="23_siyr2"]
 [ext_resource type="Script" uid="uid://cva4p2appdk7m" path="res://scripts/gestor_dia.gd" id="25_86fqv"]
@@ -250,6 +251,13 @@ shape = SubResource("BoxShape3D_g4v7s")
 
 [node name="PantallaEscaner" parent="." unique_id=1713069112 instance=ExtResource("21_siyr2")]
 
+[node name="UIPlanilla" type="CanvasLayer" parent="." unique_id=1542697480]
+
+[node name="PlanillaUI" parent="." unique_id=1847737339 instance=ExtResource("22_t1stn")]
+offset_left = 104.0
+offset_top = 379.0
+offset_right = 104.0
+offset_bottom = 379.0
 [node name="GestorDia" type="Node" parent="." unique_id=1342465940]
 script = ExtResource("25_86fqv")
 
