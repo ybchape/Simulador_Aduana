@@ -13,7 +13,6 @@ offset_left = 89.0
 offset_top = 326.0
 offset_right = 89.0
 offset_bottom = 326.0
-pivot_offset = Vector2(200, 250)
 script = ExtResource("1_042uh")
 
 [node name="Fondo" type="ColorRect" parent="." unique_id=1417029325]
