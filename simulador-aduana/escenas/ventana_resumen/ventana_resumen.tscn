@@ -1,0 +1,48 @@
+[gd_scene format=3 uid="uid://tady738mrlvl"]
+
+[ext_resource type="Script" uid="uid://cv3bibf37ttx7" path="res://escenas/ventana_resumen/ventana_resumen.gd" id="1_bsto0"]
+
+[node name="VentanaResumen" type="CanvasLayer" unique_id=1341823846]
+script = ExtResource("1_bsto0")
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=509755836]
+visible = false
+custom_minimum_size = Vector2(800, 700)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -70.5
+offset_top = -69.5
+offset_right = 70.5
+offset_bottom = 69.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer" unique_id=98312909]
+layout_mode = 2
+theme_override_constants/separation = 94
+
+[node name="Titulo" type="Label" parent="PanelContainer/VBoxContainer" unique_id=1241275252]
+layout_mode = 2
+theme_override_font_sizes/font_size = 35
+text = "RESUMEN DEL DÍA"
+horizontal_alignment = 1
+
+[node name="DineroGanado" type="Label" parent="PanelContainer/VBoxContainer" unique_id=1568426980]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+
+[node name="DineroDescontado" type="Label" parent="PanelContainer/VBoxContainer" unique_id=1054573853]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+
+[node name="Total" type="Label" parent="PanelContainer/VBoxContainer" unique_id=208988045]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+
+[node name="SiguienteDia" type="Button" parent="PanelContainer/VBoxContainer" unique_id=98662962]
+layout_mode = 2
+theme_override_font_sizes/font_size = 35
+text = "SIGUIENTE DÍA"
