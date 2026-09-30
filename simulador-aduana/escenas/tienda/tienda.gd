@@ -75,7 +75,7 @@ func _on_comprar_balanza_pressed() -> void:
 		btn_mejorar_balanza.visible = true # Aparece la mejora
 		
 		# ¡Nuevo! Actualizamos el texto de la Balanza
-		nivel_balanza.text = "¡Sensor Inteligente activado!"
+		nivel_balanza.text = "balanza obtenida"
 	else:
 		btn_comprar_balanza.text = "Dinero insuficiente"
 		await get_tree().create_timer(1.5).timeout
