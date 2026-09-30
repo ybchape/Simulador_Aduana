@@ -1,9 +1,32 @@
 [gd_scene format=3 uid="uid://dw4ht40cbfe8b"]
 
 [ext_resource type="Script" uid="uid://blftq8tmy4v2w" path="res://escenas/tienda/tienda.gd" id="1_g62me"]
+[ext_resource type="Texture2D" uid="uid://cp2q7x750npbd" path="res://assets/fondos/fondo_tienda.png" id="2_bvjvf"]
+[ext_resource type="Texture2D" uid="uid://dktyrlqpdu44d" path="res://icon.svg" id="3_653qh"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bvjvf"]
+content_margin_left = 5.0
+content_margin_top = 5.0
+content_margin_right = 5.0
+content_margin_bottom = 5.0
+bg_color = Color(0.84313726, 0.83137256, 0.9254902, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 3
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+expand_margin_left = 15.0
+expand_margin_top = 15.0
+expand_margin_right = 15.0
+expand_margin_bottom = 15.0
 
 [sub_resource type="Theme" id="Theme_bvjvf"]
 default_font_size = 35
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_bvjvf")
 
 [sub_resource type="FontVariation" id="FontVariation_d0u6y"]
 
@@ -17,6 +40,31 @@ grow_vertical = 2
 theme = SubResource("Theme_bvjvf")
 script = ExtResource("1_g62me")
 
+[node name="NinePatchRect" type="NinePatchRect" parent="." unique_id=131386448]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -47.0
+offset_top = -15.0
+offset_right = 86.0
+offset_bottom = 40.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_bvjvf")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1371914715]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -81.0
+offset_top = -11.0
+offset_right = 91.0
+offset_bottom = 48.0
+grow_horizontal = 2
+grow_vertical = 2
+
 [node name="Label" type="Label" parent="." unique_id=1679907025]
 layout_mode = 0
 offset_right = 358.0
@@ -29,18 +77,20 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 198.0
-offset_top = 76.0
-offset_right = -196.0
-offset_bottom = -78.0
+offset_left = 213.0
+offset_top = 151.0
+offset_right = -167.0
+offset_bottom = -43.0
 grow_horizontal = 2
 grow_vertical = 2
+scale = Vector2(1, 0.9199997)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer" unique_id=233262483]
 custom_minimum_size = Vector2(1000, 700)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme_override_constants/separation = 7
 
 [node name="PanelEscaner" type="PanelContainer" parent="ScrollContainer/VBoxContainer" unique_id=410841702]
 layout_mode = 2
@@ -52,6 +102,7 @@ layout_mode = 2
 [node name="TextureRect" type="TextureRect" parent="ScrollContainer/VBoxContainer/PanelEscaner/HBoxContainer" unique_id=542025604]
 custom_minimum_size = Vector2(200, 200)
 layout_mode = 2
+texture = ExtResource("3_653qh")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/PanelEscaner/HBoxContainer" unique_id=307719993]
 layout_mode = 2
@@ -91,6 +142,7 @@ layout_mode = 2
 [node name="TextureRect" type="TextureRect" parent="ScrollContainer/VBoxContainer/PanelCuter/HBoxContainer" unique_id=675872001]
 custom_minimum_size = Vector2(200, 200)
 layout_mode = 2
+texture = ExtResource("3_653qh")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/PanelCuter/HBoxContainer" unique_id=1255967515]
 layout_mode = 2
@@ -130,6 +182,7 @@ layout_mode = 2
 [node name="TextureRect" type="TextureRect" parent="ScrollContainer/VBoxContainer/PanelBalanza/HBoxContainer" unique_id=159801136]
 custom_minimum_size = Vector2(200, 200)
 layout_mode = 2
+texture = ExtResource("3_653qh")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/PanelBalanza/HBoxContainer" unique_id=2000315084]
 layout_mode = 2
@@ -169,6 +222,7 @@ layout_mode = 2
 [node name="TextureRect" type="TextureRect" parent="ScrollContainer/VBoxContainer/PanelEnergizante/HBoxContainer" unique_id=2031919979]
 custom_minimum_size = Vector2(200, 200)
 layout_mode = 2
+texture = ExtResource("3_653qh")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/PanelEnergizante/HBoxContainer" unique_id=935381389]
 layout_mode = 2
@@ -193,15 +247,17 @@ theme_override_font_sizes/font_size = 50
 text = "Comprar: $150."
 
 [node name="BtnMejorar" type="Button" parent="ScrollContainer/VBoxContainer/PanelEnergizante/HBoxContainer/VBoxContainer2" unique_id=509926794]
+visible = false
 layout_mode = 2
 theme_override_font_sizes/font_size = 50
 text = "Mejorar: $300"
 
 [node name="Button" type="Button" parent="." unique_id=2135883990]
 layout_mode = 0
-offset_left = 1845.0
-offset_right = 1853.0
-offset_bottom = 8.0
+offset_left = 1793.9999
+offset_top = 26.000004
+offset_right = 1802.9999
+offset_bottom = 37.000004
 scale = Vector2(9.181171, 7.1106157)
 theme_override_fonts/font = SubResource("FontVariation_d0u6y")
 theme_override_font_sizes/font_size = 1
@@ -211,4 +267,4 @@ text = "x"
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/PanelCuter/HBoxContainer/VBoxContainer2/BtnMejorar" to="." method="_on_mejorar_cuter_pressed"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/PanelBalanza/HBoxContainer/VBoxContainer2/BtnComprar" to="." method="_on_comprar_balanza_pressed"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/PanelEnergizante/HBoxContainer/VBoxContainer2/BtnComprar" to="." method="_on_comprar_energizante_pressed"]
-[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="Button" to="." method="_on_button_cerrar_pressed"]

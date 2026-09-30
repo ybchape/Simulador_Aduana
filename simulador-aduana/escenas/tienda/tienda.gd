@@ -40,7 +40,7 @@ func _on_btn_mejorar_pressed() -> void:
 		btn_mejorar_escaner.disabled = true
 		
 		# ¡Aquí actualizamos el texto dinámicamente!
-		nivel_escaner.text = "Nivel 2: 6 usos diarios"
+		nivel_escaner.text = "Nivel 2"
 	else:
 		btn_mejorar_escaner.text = "Dinero insuficiente"
 		await get_tree().create_timer(1.5).timeout
@@ -57,7 +57,7 @@ func _on_mejorar_cuter_pressed() -> void:
 		btn_mejorar_cuter.disabled = true
 		
 		# ¡Nuevo! Actualizamos el texto del Cúter
-		nivel_cutar.text = "Nivel 2: 6 usos diarios"
+		nivel_cutar.text = "Nivel 2"
 	else:
 		btn_mejorar_cuter.text = "Dinero insuficiente"
 		await get_tree().create_timer(1.5).timeout
@@ -91,10 +91,9 @@ func _on_comprar_energizante_pressed() -> void:
 		
 		btn_comprar_energizante.text = "¡Adquirido!"
 		btn_comprar_energizante.disabled = true
-		btn_mejorar_energizante.visible = true # Aparece la mejora
 		
-		# ¡Nuevo! Actualizamos el texto del Energizante
-		nivel_energizante.text = "¡En inventario!"
+		# Esta es la línea clave que lo vuelve a hacer visible:
+		btn_mejorar_energizante.visible = true
 	else:
 		btn_comprar_energizante.text = "Dinero insuficiente"
 		await get_tree().create_timer(1.5).timeout
