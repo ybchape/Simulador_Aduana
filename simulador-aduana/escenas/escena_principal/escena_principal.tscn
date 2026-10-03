@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://cvtj015yomjft" path="res://assets/GLB format/cover-top.glb" id="10_mbhr4"]
 [ext_resource type="PackedScene" uid="uid://wha6asq51efk" path="res://assets/GLB format/scanner-low.glb" id="11_cr0xl"]
 [ext_resource type="PackedScene" uid="uid://yojfo3gtv2fj" path="res://assets/GLB format/conveyor-bars-high.glb" id="12_2yig5"]
+[ext_resource type="Script" uid="uid://c7rx0xvft02di" path="res://escenas/escena_principal/cinta_transportadora.gd" id="12_jn0hn"]
 [ext_resource type="PackedScene" uid="uid://blds6omlj1kni" path="res://assets/GLB format/box-small.glb" id="13_ms636"]
 [ext_resource type="PackedScene" uid="uid://b8x6t4n0f8x1k" path="res://assets/GLB format/conveyor-bars-fence.glb" id="14_ctsim"]
 [ext_resource type="PackedScene" uid="uid://djwxpk4mkmout" path="res://assets/GLB format/conveyor-bars-stripe-high.glb" id="15_1n332"]
@@ -167,7 +168,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 3)
 [node name="Espacio_Trabajo" type="Node3D" parent="." unique_id=1448636977]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
 
-[node name="CintaTransportadora" type="Node3D" parent="Espacio_Trabajo" unique_id=559761559]
+[node name="CintaTransportadora" type="Node3D" parent="Espacio_Trabajo" unique_id=559761559 node_paths=PackedStringArray("punto_entrada", "punto_inspeccion", "punto_salida_permitido")]
+script = ExtResource("12_jn0hn")
+punto_entrada = NodePath("PuntoEntrada")
+punto_inspeccion = NodePath("PuntoInspeccion")
+punto_salida_permitido = NodePath("PuntoSalidaPermitido")
 
 [node name="conveyor-bars-stripe-high" parent="Espacio_Trabajo/CintaTransportadora" unique_id=95368184 instance=ExtResource("15_1n332")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 1)

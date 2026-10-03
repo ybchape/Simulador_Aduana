@@ -5,6 +5,10 @@ extends Node3D
 
 func _ready() -> void:
 	probar_carga_pedido()
+	
+	$Espacio_Trabajo/CintaTransportadora.registrar_caja($Espacio_Trabajo/caja)
+
+
 
 func probar_carga_pedido() -> void:
 # crea un Pedidoinfo de prueba
