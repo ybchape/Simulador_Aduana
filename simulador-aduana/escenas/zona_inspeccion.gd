@@ -12,7 +12,7 @@ func _process(delta: float) -> void:
 # Esta función salta automáticamente cuando ALGO entra al sensor
 func _on_body_entered(body: Node3D) -> void:
 	# Le preguntamos a ese "algo": ¿tienes la etiqueta 'cajas'?
-	if body.is_in_group("cajas"):
+	if body.is_in_group("cajas")or body.name.begins_with("caja"):
 		
 		# Le gritamos al EventBus que la caja llegó. ¡Los botones se activarán!
 		EventBus.pedido_en_zona.emit(true)
@@ -20,7 +20,7 @@ func _on_body_entered(body: Node3D) -> void:
 
 
 func _on_body_exited(body: Node3D) -> void:
-	if body.is_in_group("cajas"):
+	if body.is_in_group("cajas")or body.name.begins_with("caja"):
 		
 		# Le gritamos al EventBus que ya no hay caja. ¡Los botones se bloquean!
 		EventBus.pedido_en_zona.emit(false)

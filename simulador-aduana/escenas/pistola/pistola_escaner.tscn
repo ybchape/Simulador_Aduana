@@ -10,5 +10,6 @@ transform = Transform3D(-4.3711385e-08, -0.26897675, 0, 0.99999994, -1.1757347e-
 mesh = SubResource("BoxMesh_g4v7s")
 
 [node name="RayCast3D" type="RayCast3D" parent="." unique_id=1400223913]
+visible = false
 target_position = Vector3(0, 0, -5)
 collide_with_areas = true

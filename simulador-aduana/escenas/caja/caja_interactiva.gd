@@ -9,10 +9,11 @@ func _ready():
 	# para saber en qué momento tomaste la decisión
 	EventBus.decision_tomada.connect(_desaparecer_caja)
 
-func _desaparecer_caja(fue_permitido):
-	# queue_free() elimina este nodo por completo de la memoria del juego
-	await get_tree().create_timer(1).timeout
-	queue_free()
+func _desaparecer_caja(_fue_permitido: bool) -> void:
+	# Al presionar cualquier botón, espera 1 segundo y se destruye si fue denegada
+	await get_tree().create_timer(1.0).timeout
+	if is_instance_valid(self):
+		queue_free()
 	print("La caja fue destruida de la escena.")
 
 # Esta función salta cuando haces clic en la caja de afuera

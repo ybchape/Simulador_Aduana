@@ -1,7 +1,7 @@
 class_name GestorDia
 extends Node
 
-@export var meta_pedidos_dia: int = 1# objetivo configurable desde el inspector
+@export var meta_pedidos_dia: int = 3# objetivo configurable desde el inspector
 @export var valor_pedido_base: float = 50.0 #valores de los pedidos
 @export var penalizacion_error: float = 50.0
 

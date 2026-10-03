@@ -11,8 +11,10 @@ size = Vector3(1, 1.0352173, 1.0264893)
 [sub_resource type="SphereShape3D" id="SphereShape3D_g4v7s"]
 
 [node name="caja" type="Node3D" unique_id=1000838108 groups=["cajas"]]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 0, 0, 0)
 
 [node name="caja_interactiva" type="RigidBody3D" parent="." unique_id=1073896255 groups=["cajas"]]
+freeze = true
 script = ExtResource("1_4xr26")
 
 [node name="box-small2" parent="caja_interactiva" unique_id=2141492959 instance=ExtResource("1_vjljx")]
