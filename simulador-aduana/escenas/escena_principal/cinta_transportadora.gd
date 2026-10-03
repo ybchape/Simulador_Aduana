@@ -2,8 +2,9 @@ class_name CintaTransportadora
 extends Node3D
 
 @export var velocidad: float = 2.0
+@export var velocidad_animacion_cinta: float = 0.5
 
-
+@export var material_cinta: StandardMaterial3D
 # Puntos del recorrido de ENTRADA (desde la persiana hasta la zona de inspección)
 @export var ruta_entrada: Array[Marker3D] = []
 
@@ -22,7 +23,14 @@ func _ready() -> void:
 	EventBus.objetivo_dia_alcanzado.connect(_on_objetivo_alcanzado)
 
 func _process(delta: float) -> void:
-	if jornada_completada or caja_actual == null:
+	if jornada_completada:
+		return
+
+	# ANIMACIÓN VISUAL: Desplazamos la textura solo cuando la caja se mueve
+	if estado in ["AVANZANDO", "SALIENDO"] and material_cinta != null:
+		material_cinta.uv1_offset.x += delta * velocidad_animacion_cinta
+
+	if caja_actual == null:
 		return
 
 	match estado:

@@ -1,0 +1,8 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://dkedhstecyx81"]
+
+[ext_resource type="Texture2D" uid="uid://dkgxc2m7bpxuy" path="res://assets/GLB format/Textures/textura_rodillos.png" id="1_30ljk"]
+
+[resource]
+albedo_texture = ExtResource("1_30ljk")
+uv1_triplanar = true
+texture_filter = 1
