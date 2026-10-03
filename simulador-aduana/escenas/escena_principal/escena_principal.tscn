@@ -167,72 +167,83 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 3)
 [node name="Espacio_Trabajo" type="Node3D" parent="." unique_id=1448636977]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
 
-[node name="scanner-low2" parent="Espacio_Trabajo" unique_id=873557928 instance=ExtResource("11_cr0xl")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 1)
+[node name="CintaTransportadora" type="Node3D" parent="Espacio_Trabajo" unique_id=559761559]
 
-[node name="conveyor-bars-high2" parent="Espacio_Trabajo" unique_id=1350425050 instance=ExtResource("12_2yig5")]
+[node name="conveyor-bars-stripe-high" parent="Espacio_Trabajo/CintaTransportadora" unique_id=95368184 instance=ExtResource("15_1n332")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 1)
+
+[node name="conveyor-bars-high2" parent="Espacio_Trabajo/CintaTransportadora" unique_id=1350425050 instance=ExtResource("12_2yig5")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1)
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Espacio_Trabajo/conveyor-bars-high2/Group" parent_id_path=PackedInt32Array(1350425050, 1691386305) index="0" unique_id=1321537338]
+[node name="StaticBody3D" type="StaticBody3D" parent="Espacio_Trabajo/CintaTransportadora/conveyor-bars-high2/Group" parent_id_path=PackedInt32Array(1350425050, 1907832776) index="0" unique_id=1321537338]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Espacio_Trabajo/conveyor-bars-high2/Group/StaticBody3D" unique_id=638340572]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Espacio_Trabajo/CintaTransportadora/conveyor-bars-high2/Group/StaticBody3D" unique_id=638340572]
 shape = SubResource("ConcavePolygonShape3D_646mu")
 
-[node name="conveyor-bars-high4" parent="Espacio_Trabajo" unique_id=410575823 instance=ExtResource("12_2yig5")]
+[node name="conveyor-bars-high4" parent="Espacio_Trabajo/CintaTransportadora" unique_id=410575823 instance=ExtResource("12_2yig5")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 1)
 
-[node name="conveyor-bars-high7" parent="Espacio_Trabajo" unique_id=1423438143 instance=ExtResource("12_2yig5")]
+[node name="conveyor-bars-high7" parent="Espacio_Trabajo/CintaTransportadora" unique_id=1423438143 instance=ExtResource("12_2yig5")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 0, 1)
 
-[node name="conveyor-bars-high6" parent="Espacio_Trabajo" unique_id=590919902 instance=ExtResource("12_2yig5")]
+[node name="conveyor-bars-high6" parent="Espacio_Trabajo/CintaTransportadora" unique_id=590919902 instance=ExtResource("12_2yig5")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 1)
 
-[node name="conveyor-bars-high5" parent="Espacio_Trabajo" unique_id=1162198474 instance=ExtResource("12_2yig5")]
+[node name="conveyor-bars-high5" parent="Espacio_Trabajo/CintaTransportadora" unique_id=1162198474 instance=ExtResource("12_2yig5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 1)
+
+[node name="conveyor-bars-fence" parent="Espacio_Trabajo/CintaTransportadora" unique_id=1811184886 instance=ExtResource("14_ctsim")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, 0, -2)
+
+[node name="conveyor-bars-stripe-high2" parent="Espacio_Trabajo/CintaTransportadora" unique_id=1311597311 instance=ExtResource("15_1n332")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 1)
+
+[node name="conveyor-bars-stripe-high3" parent="Espacio_Trabajo/CintaTransportadora" unique_id=1412000741 instance=ExtResource("15_1n332")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Espacio_Trabajo/CintaTransportadora/conveyor-bars-stripe-high3/Group" parent_id_path=PackedInt32Array(1412000741, 159916300) index="0" unique_id=1142430050]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Espacio_Trabajo/CintaTransportadora/conveyor-bars-stripe-high3/Group/StaticBody3D" unique_id=1510512350]
+shape = SubResource("ConcavePolygonShape3D_t1stn")
+
+[node name="conveyor-bars-stripe-high4" parent="Espacio_Trabajo/CintaTransportadora" unique_id=1480245603 instance=ExtResource("15_1n332")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 1)
+
+[node name="conveyor-long-stripe-sides" parent="Espacio_Trabajo/CintaTransportadora" unique_id=1674979397 instance=ExtResource("16_f67lk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -2)
+
+[node name="conveyor-long-stripe-sides3" parent="Espacio_Trabajo/CintaTransportadora" unique_id=881236309 instance=ExtResource("16_f67lk")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -3.5, 0, -0.5)
+
+[node name="conveyor-long-stripe-sides2" parent="Espacio_Trabajo/CintaTransportadora" unique_id=465058503 instance=ExtResource("16_f67lk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, -2)
+
+[node name="conveyor-long-stripe2" parent="Espacio_Trabajo/CintaTransportadora" unique_id=2098920320 instance=ExtResource("17_moeeo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
+
+[node name="conveyor-long-stripe3" parent="Espacio_Trabajo/CintaTransportadora" unique_id=542822646 instance=ExtResource("17_moeeo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -2)
+
+[node name="conveyor-stripe-sides" parent="Espacio_Trabajo/CintaTransportadora" unique_id=186985784 instance=ExtResource("18_k4cq1")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -3.5, 0, -2)
+
+[node name="conveyor-stripe-sides2" parent="Espacio_Trabajo/CintaTransportadora" unique_id=84500975 instance=ExtResource("18_k4cq1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5, 0, 1)
+
+[node name="PuntoEntrada" type="Marker3D" parent="Espacio_Trabajo/CintaTransportadora" unique_id=89883242]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.130513, 0.5846962, -2.245836)
+
+[node name="PuntoInspeccion" type="Marker3D" parent="Espacio_Trabajo/CintaTransportadora" unique_id=958830381]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.15980816, 0, 0.41226768)
+
+[node name="PuntoSalidaPermitido" type="Marker3D" parent="Espacio_Trabajo/CintaTransportadora" unique_id=1496590615]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.206683, 0, 0)
+
+[node name="scanner-low2" parent="Espacio_Trabajo" unique_id=873557928 instance=ExtResource("11_cr0xl")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 1)
 
 [node name="box-small2" parent="Espacio_Trabajo" unique_id=393881187 instance=ExtResource("13_ms636")]
 transform = Transform3D(0.8660254, 0, -0.5, 0, 1, 0, 0.5, 0, 0.8660254, -3, 0.5, 1)
-
-[node name="conveyor-bars-fence" parent="Espacio_Trabajo" unique_id=1811184886 instance=ExtResource("14_ctsim")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, 0, -2)
-
-[node name="conveyor-bars-stripe-high" parent="Espacio_Trabajo" unique_id=95368184 instance=ExtResource("15_1n332")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 1)
-
-[node name="conveyor-bars-stripe-high2" parent="Espacio_Trabajo" unique_id=1311597311 instance=ExtResource("15_1n332")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 1)
-
-[node name="conveyor-bars-stripe-high3" parent="Espacio_Trabajo" unique_id=1412000741 instance=ExtResource("15_1n332")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
-
-[node name="StaticBody3D" type="StaticBody3D" parent="Espacio_Trabajo/conveyor-bars-stripe-high3/Group" parent_id_path=PackedInt32Array(1412000741, 1733416165) index="0" unique_id=1142430050]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Espacio_Trabajo/conveyor-bars-stripe-high3/Group/StaticBody3D" unique_id=1510512350]
-shape = SubResource("ConcavePolygonShape3D_t1stn")
-
-[node name="conveyor-bars-stripe-high4" parent="Espacio_Trabajo" unique_id=1480245603 instance=ExtResource("15_1n332")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 1)
-
-[node name="conveyor-long-stripe-sides" parent="Espacio_Trabajo" unique_id=1674979397 instance=ExtResource("16_f67lk")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -2)
-
-[node name="conveyor-long-stripe-sides3" parent="Espacio_Trabajo" unique_id=881236309 instance=ExtResource("16_f67lk")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -3.5, 0, -0.5)
-
-[node name="conveyor-long-stripe-sides2" parent="Espacio_Trabajo" unique_id=465058503 instance=ExtResource("16_f67lk")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, -2)
-
-[node name="conveyor-long-stripe2" parent="Espacio_Trabajo" unique_id=2098920320 instance=ExtResource("17_moeeo")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
-
-[node name="conveyor-long-stripe3" parent="Espacio_Trabajo" unique_id=542822646 instance=ExtResource("17_moeeo")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -2)
-
-[node name="conveyor-stripe-sides" parent="Espacio_Trabajo" unique_id=186985784 instance=ExtResource("18_k4cq1")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -3.5, 0, -2)
-
-[node name="conveyor-stripe-sides2" parent="Espacio_Trabajo" unique_id=84500975 instance=ExtResource("18_k4cq1")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5, 0, 1)
 
 [node name="box-wide2" parent="Espacio_Trabajo" unique_id=823513548 instance=ExtResource("19_0p0dg")]
 transform = Transform3D(-0.50000006, 0, -0.8660254, 0, 1, 0, 0.8660254, 0, -0.50000006, 3, 0, -3)
@@ -312,5 +323,5 @@ visible = false
 [connection signal="body_exited" from="ZonaInspeccion" to="ZonaInspeccion" method="_on_body_exited"]
 [connection signal="pressed" from="CanvasLayer/boton_tienda" to="." method="_on_boton_tienda_pressed"]
 
-[editable path="Espacio_Trabajo/conveyor-bars-high2"]
-[editable path="Espacio_Trabajo/conveyor-bars-stripe-high3"]
+[editable path="Espacio_Trabajo/CintaTransportadora/conveyor-bars-high2"]
+[editable path="Espacio_Trabajo/CintaTransportadora/conveyor-bars-stripe-high3"]
