@@ -218,19 +218,19 @@ transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -3.5
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5, 0, 1)
 
 [node name="PuntoEntrada" type="Marker3D" parent="Espacio_Trabajo/CintaTransportadora" unique_id=89883242]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.130513, 0.9574381, -2.0426238)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.131, 0.714, -2.1025965)
 
 [node name="PuntoEsquinaAtras" type="Marker3D" parent="Espacio_Trabajo/CintaTransportadora" unique_id=1169488679]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.8864212, 0.87976027, -2.4468474)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.886, 0.714, -2.1124754)
 
 [node name="PuntoEsquinaFrente" type="Marker3D" parent="Espacio_Trabajo/CintaTransportadora" unique_id=493325365]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.615982, 0.99050856, 1.337379)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.616, 0.714, 1.189)
 
 [node name="PuntoInspeccion" type="Marker3D" parent="Espacio_Trabajo/CintaTransportadora" unique_id=958830381]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.4371974, 0.9117063, 1.2572174)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.4371974, 0.7135154, 1.1893673)
 
 [node name="PuntoSalidaPermitido" type="Marker3D" parent="Espacio_Trabajo/CintaTransportadora" unique_id=1496590615]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.4095526, 0.61061835, 0.95024014)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.41, 0.714, 0.95000005)
 
 [node name="box-small2" parent="Espacio_Trabajo" unique_id=393881187 instance=ExtResource("13_ms636")]
 transform = Transform3D(0.8660254, 0, -0.5, 0, 1, 0, 0.5, 0, 0.8660254, -3.847359, 0.5, 3.1916018)
@@ -239,7 +239,7 @@ transform = Transform3D(0.8660254, 0, -0.5, 0, 1, 0, 0.5, 0, 0.8660254, -3.84735
 transform = Transform3D(-0.50000006, 0, -0.8660254, 0, 1, 0, 0.8660254, 0, -0.50000006, 3, 0, -3)
 
 [node name="caja" parent="Espacio_Trabajo" unique_id=1000838108 instance=ExtResource("20_7y3nc")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.7861993, 0.9097786, -1.936955)
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 3.7861993, 0.7202196, -1.936955)
 
 [node name="PistolaEscaner" parent="." unique_id=322953484 instance=ExtResource("21_wqth3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6779113, 0.92821264, 4.1574173)
