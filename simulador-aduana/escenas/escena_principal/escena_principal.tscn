@@ -11,7 +11,6 @@
 [ext_resource type="PackedScene" uid="uid://b8pim1vieieya" path="res://assets/GLB format/structure-window.glb" id="8_2smbc"]
 [ext_resource type="PackedScene" uid="uid://n6buwvwr57gi" path="res://assets/GLB format/cover-window.glb" id="9_0a0g7"]
 [ext_resource type="PackedScene" uid="uid://cvtj015yomjft" path="res://assets/GLB format/cover-top.glb" id="10_mbhr4"]
-[ext_resource type="PackedScene" uid="uid://wha6asq51efk" path="res://assets/GLB format/scanner-low.glb" id="11_cr0xl"]
 [ext_resource type="PackedScene" uid="uid://yojfo3gtv2fj" path="res://assets/GLB format/conveyor-bars-high.glb" id="12_2yig5"]
 [ext_resource type="Script" uid="uid://c7rx0xvft02di" path="res://escenas/escena_principal/cinta_transportadora.gd" id="12_jn0hn"]
 [ext_resource type="PackedScene" uid="uid://blds6omlj1kni" path="res://assets/GLB format/box-small.glb" id="13_ms636"]
@@ -38,14 +37,8 @@
 ambient_light_source = 2
 ambient_light_color = Color(0.8732984, 0.8732984, 0.8732984, 1)
 
-[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_646mu"]
-data = PackedVector3Array(-0.5, 0.39999998, -0.5, -0.5, 0.29999998, -0.5, 0.5, 0.29999998, -0.5, 0.5, 0.29999998, -0.5, 0.5, 0.39999998, -0.5, -0.5, 0.39999998, -0.5, -0.5, 0.39999998, -0.5, 0.5, 0.39999998, -0.5, 0.5, 0.39999998, -0.39999998, 0.5, 0.39999998, -0.39999998, -0.5, 0.39999998, -0.39999998, -0.5, 0.39999998, -0.5, -0.5, 0, -0.39999998, 0.5, 0, -0.39999998, 0.5, 0, -0.5, 0.5, 0, -0.5, -0.5, 0, -0.5, -0.5, 0, -0.39999998, 0.5, 0.39999998, -0.39999998, 0.5, 0, -0.39999998, -0.5, 0, -0.39999998, -0.5, 0, -0.39999998, -0.5, 0.39999998, -0.39999998, 0.5, 0.39999998, -0.39999998, -0.5, 0.099999994, -0.5, -0.5, 0, -0.5, 0.5, 0, -0.5, 0.5, 0, -0.5, 0.5, 0.099999994, -0.5, -0.5, 0.099999994, -0.5, 0.5, 0.39999998, -0.39999998, 0.5, 0.39999998, -0.5, 0.5, 0.29999998, -0.5, 0.5, 0.29999998, -0.5, 0.5, 0.275, -0.45, 0.5, 0.39999998, -0.39999998, 0.5, 0.275, -0.45, 0.5, 0.125, -0.45, 0.5, 0.39999998, -0.39999998, 0.5, 0, -0.39999998, 0.5, 0.39999998, -0.39999998, 0.5, 0.125, -0.45, 0.5, 0, -0.5, 0.5, 0, -0.39999998, 0.5, 0.125, -0.45, 0.5, 0.125, -0.45, 0.5, 0.099999994, -0.5, 0.5, 0, -0.5, -0.5, 0.275, -0.45, 0.5, 0.275, -0.45, 0.5, 0.29999998, -0.5, 0.5, 0.29999998, -0.5, -0.5, 0.29999998, -0.5, -0.5, 0.275, -0.45, -0.5, 0, -0.39999998, -0.5, 0, -0.5, -0.5, 0.099999994, -0.5, -0.5, 0.099999994, -0.5, -0.5, 0.125, -0.45, -0.5, 0, -0.39999998, -0.5, 0.125, -0.45, -0.5, 0.275, -0.45, -0.5, 0, -0.39999998, -0.5, 0.39999998, -0.39999998, -0.5, 0, -0.39999998, -0.5, 0.275, -0.45, -0.5, 0.39999998, -0.5, -0.5, 0.39999998, -0.39999998, -0.5, 0.275, -0.45, -0.5, 0.275, -0.45, -0.5, 0.29999998, -0.5, -0.5, 0.39999998, -0.5, -0.5, 0.099999994, -0.5, 0.5, 0.099999994, -0.5, 0.5, 0.125, -0.45, 0.5, 0.125, -0.45, -0.5, 0.125, -0.45, -0.5, 0.099999994, -0.5, 0.5, 0.39999998, 0.5, 0.5, 0.29999998, 0.5, -0.5, 0.29999998, 0.5, -0.5, 0.29999998, 0.5, -0.5, 0.39999998, 0.5, 0.5, 0.39999998, 0.5, -0.5, 0, 0.5, 0.5, 0, 0.5, 0.5, 0, 0.39999998, 0.5, 0, 0.39999998, -0.5, 0, 0.39999998, -0.5, 0, 0.5, 0.5, 0.39999998, 0.39999998, 0.5, 0.39999998, 0.5, -0.5, 0.39999998, 0.5, -0.5, 0.39999998, 0.5, -0.5, 0.39999998, 0.39999998, 0.5, 0.39999998, 0.39999998, 0.5, 0.125, 0.45, 0.5, 0.099999994, 0.5, -0.5, 0.099999994, 0.5, -0.5, 0.099999994, 0.5, -0.5, 0.125, 0.45, 0.5, 0.125, 0.45, 0.5, 0.275, 0.45, 0.5, 0.29999998, 0.5, 0.5, 0.39999998, 0.5, 0.5, 0.275, 0.45, 0.5, 0.39999998, 0.5, 0.5, 0.39999998, 0.39999998, 0.5, 0.39999998, 0.39999998, 0.5, 0, 0.39999998, 0.5, 0.275, 0.45, 0.5, 0.125, 0.45, 0.5, 0.275, 0.45, 0.5, 0, 0.39999998, 0.5, 0, 0.39999998, 0.5, 0, 0.5, 0.5, 0.125, 0.45, 0.5, 0, 0.5, 0.5, 0.099999994, 0.5, 0.5, 0.125, 0.45, -0.5, 0.39999998, 0.39999998, -0.5, 0, 0.39999998, 0.5, 0, 0.39999998, 0.5, 0, 0.39999998, 0.5, 0.39999998, 0.39999998, -0.5, 0.39999998, 0.39999998, -0.5, 0.125, 0.45, -0.5, 0.099999994, 0.5, -0.5, 0, 0.5, -0.5, 0.125, 0.45, -0.5, 0, 0.5, -0.5, 0, 0.39999998, -0.5, 0, 0.39999998, -0.5, 0.39999998, 0.39999998, -0.5, 0.125, 0.45, -0.5, 0.275, 0.45, -0.5, 0.125, 0.45, -0.5, 0.39999998, 0.39999998, -0.5, 0.39999998, 0.39999998, -0.5, 0.39999998, 0.5, -0.5, 0.275, 0.45, -0.5, 0.39999998, 0.5, -0.5, 0.29999998, 0.5, -0.5, 0.275, 0.45, -0.5, 0.29999998, 0.5, 0.5, 0.29999998, 0.5, 0.5, 0.275, 0.45, 0.5, 0.275, 0.45, -0.5, 0.275, 0.45, -0.5, 0.29999998, 0.5, 0.5, 0.099999994, 0.5, 0.5, 0, 0.5, -0.5, 0, 0.5, -0.5, 0, 0.5, -0.5, 0.099999994, 0.5, 0.5, 0.099999994, 0.5, -0.5, 0.275, -0.45, -0.5, 0.125, -0.45, 0.5, 0.125, -0.45, 0.5, 0.125, -0.45, 0.5, 0.275, -0.45, -0.5, 0.275, -0.45, 0.5, 0.275, 0.45, 0.5, 0.125, 0.45, -0.5, 0.125, 0.45, -0.5, 0.125, 0.45, -0.5, 0.275, 0.45, 0.5, 0.275, 0.45)
-
-[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_t1stn"]
-data = PackedVector3Array(-0.5, 0.39999998, -0.5, -0.5, 0.29999998, -0.5, 0.5, 0.29999998, -0.5, 0.5, 0.29999998, -0.5, 0.5, 0.39999998, -0.5, -0.5, 0.39999998, -0.5, -0.5, 0.39999998, -0.5, 0.5, 0.39999998, -0.5, 0.5, 0.39999998, -0.39999998, 0.5, 0.39999998, -0.39999998, -0.5, 0.39999998, -0.39999998, -0.5, 0.39999998, -0.5, -0.5, 0, -0.39999998, 0.5, 0, -0.39999998, 0.5, 0, -0.5, 0.5, 0, -0.5, -0.5, 0, -0.5, -0.5, 0, -0.39999998, 0.5, 0.39999998, -0.39999998, 0.5, 0, -0.39999998, -0.5, 0, -0.39999998, -0.5, 0, -0.39999998, -0.5, 0.39999998, -0.39999998, 0.5, 0.39999998, -0.39999998, -0.5, 0.099999994, -0.5, -0.5, 0, -0.5, 0.5, 0, -0.5, 0.5, 0, -0.5, 0.5, 0.099999994, -0.5, -0.5, 0.099999994, -0.5, 0.5, 0.39999998, -0.39999998, 0.5, 0.39999998, -0.5, 0.5, 0.29999998, -0.5, 0.5, 0.29999998, -0.5, 0.5, 0.275, -0.45, 0.5, 0.39999998, -0.39999998, 0.5, 0.275, -0.45, 0.5, 0.125, -0.45, 0.5, 0.39999998, -0.39999998, 0.5, 0, -0.39999998, 0.5, 0.39999998, -0.39999998, 0.5, 0.125, -0.45, 0.5, 0, -0.5, 0.5, 0, -0.39999998, 0.5, 0.125, -0.45, 0.5, 0.125, -0.45, 0.5, 0.099999994, -0.5, 0.5, 0, -0.5, -0.5, 0.275, -0.45, 0.5, 0.275, -0.45, 0.5, 0.29999998, -0.5, 0.5, 0.29999998, -0.5, -0.5, 0.29999998, -0.5, -0.5, 0.275, -0.45, -0.5, 0, -0.39999998, -0.5, 0, -0.5, -0.5, 0.099999994, -0.5, -0.5, 0.099999994, -0.5, -0.5, 0.125, -0.45, -0.5, 0, -0.39999998, -0.5, 0.125, -0.45, -0.5, 0.275, -0.45, -0.5, 0, -0.39999998, -0.5, 0.39999998, -0.39999998, -0.5, 0, -0.39999998, -0.5, 0.275, -0.45, -0.5, 0.39999998, -0.5, -0.5, 0.39999998, -0.39999998, -0.5, 0.275, -0.45, -0.5, 0.275, -0.45, -0.5, 0.29999998, -0.5, -0.5, 0.39999998, -0.5, -0.5, 0.099999994, -0.5, 0.5, 0.099999994, -0.5, 0.5, 0.125, -0.45, 0.5, 0.125, -0.45, -0.5, 0.125, -0.45, -0.5, 0.099999994, -0.5, 0.5, 0.39999998, 0.5, 0.5, 0.29999998, 0.5, -0.5, 0.29999998, 0.5, -0.5, 0.29999998, 0.5, -0.5, 0.39999998, 0.5, 0.5, 0.39999998, 0.5, -0.5, 0, 0.5, 0.5, 0, 0.5, 0.5, 0, 0.39999998, 0.5, 0, 0.39999998, -0.5, 0, 0.39999998, -0.5, 0, 0.5, 0.5, 0.39999998, 0.39999998, 0.5, 0.39999998, 0.5, -0.5, 0.39999998, 0.5, -0.5, 0.39999998, 0.5, -0.5, 0.39999998, 0.39999998, 0.5, 0.39999998, 0.39999998, 0.5, 0.125, 0.45, 0.5, 0.099999994, 0.5, -0.5, 0.099999994, 0.5, -0.5, 0.099999994, 0.5, -0.5, 0.125, 0.45, 0.5, 0.125, 0.45, 0.5, 0.275, 0.45, 0.5, 0.29999998, 0.5, 0.5, 0.39999998, 0.5, 0.5, 0.275, 0.45, 0.5, 0.39999998, 0.5, 0.5, 0.39999998, 0.39999998, 0.5, 0.39999998, 0.39999998, 0.5, 0, 0.39999998, 0.5, 0.275, 0.45, 0.5, 0.125, 0.45, 0.5, 0.275, 0.45, 0.5, 0, 0.39999998, 0.5, 0, 0.39999998, 0.5, 0, 0.5, 0.5, 0.125, 0.45, 0.5, 0, 0.5, 0.5, 0.099999994, 0.5, 0.5, 0.125, 0.45, -0.5, 0.39999998, 0.39999998, -0.5, 0, 0.39999998, 0.5, 0, 0.39999998, 0.5, 0, 0.39999998, 0.5, 0.39999998, 0.39999998, -0.5, 0.39999998, 0.39999998, -0.5, 0.125, 0.45, -0.5, 0.099999994, 0.5, -0.5, 0, 0.5, -0.5, 0.125, 0.45, -0.5, 0, 0.5, -0.5, 0, 0.39999998, -0.5, 0, 0.39999998, -0.5, 0.39999998, 0.39999998, -0.5, 0.125, 0.45, -0.5, 0.275, 0.45, -0.5, 0.125, 0.45, -0.5, 0.39999998, 0.39999998, -0.5, 0.39999998, 0.39999998, -0.5, 0.39999998, 0.5, -0.5, 0.275, 0.45, -0.5, 0.39999998, 0.5, -0.5, 0.29999998, 0.5, -0.5, 0.275, 0.45, -0.5, 0.29999998, 0.5, 0.5, 0.29999998, 0.5, 0.5, 0.275, 0.45, 0.5, 0.275, 0.45, -0.5, 0.275, 0.45, -0.5, 0.29999998, 0.5, 0.5, 0.099999994, 0.5, 0.5, 0, 0.5, -0.5, 0, 0.5, -0.5, 0, 0.5, -0.5, 0.099999994, 0.5, 0.5, 0.099999994, 0.5, -0.5, 0.275, -0.45, -0.5, 0.125, -0.45, 0.5, 0.125, -0.45, 0.5, 0.125, -0.45, 0.5, 0.275, -0.45, -0.5, 0.275, -0.45, 0.5, 0.275, 0.45, 0.5, 0.125, 0.45, -0.5, 0.125, 0.45, -0.5, 0.125, 0.45, -0.5, 0.275, 0.45, 0.5, 0.275, 0.45)
-
 [sub_resource type="BoxShape3D" id="BoxShape3D_g4v7s"]
-size = Vector3(1.5385742, 1.4760132, 1)
+size = Vector3(0.5827637, 0.4290619, 0.5911865)
 
 [node name="Node3D" type="Node3D" unique_id=363520377]
 script = ExtResource("1_1ijcn")
@@ -168,22 +161,16 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 3)
 [node name="Espacio_Trabajo" type="Node3D" parent="." unique_id=1448636977]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
 
-[node name="CintaTransportadora" type="Node3D" parent="Espacio_Trabajo" unique_id=559761559 node_paths=PackedStringArray("punto_entrada", "punto_inspeccion", "punto_salida_permitido")]
+[node name="CintaTransportadora" type="Node3D" parent="Espacio_Trabajo" unique_id=559761559 node_paths=PackedStringArray("ruta_entrada", "punto_salida_final")]
 script = ExtResource("12_jn0hn")
-punto_entrada = NodePath("PuntoEntrada")
-punto_inspeccion = NodePath("PuntoInspeccion")
-punto_salida_permitido = NodePath("PuntoSalidaPermitido")
+ruta_entrada = [NodePath("PuntoEntrada"), NodePath("PuntoEsquinaAtras"), NodePath("PuntoEsquinaFrente"), NodePath("PuntoInspeccion")]
+punto_salida_final = NodePath("PuntoSalidaPermitido")
 
 [node name="conveyor-bars-stripe-high" parent="Espacio_Trabajo/CintaTransportadora" unique_id=95368184 instance=ExtResource("15_1n332")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 1)
 
 [node name="conveyor-bars-high2" parent="Espacio_Trabajo/CintaTransportadora" unique_id=1350425050 instance=ExtResource("12_2yig5")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1)
-
-[node name="StaticBody3D" type="StaticBody3D" parent="Espacio_Trabajo/CintaTransportadora/conveyor-bars-high2/Group" parent_id_path=PackedInt32Array(1350425050, 1907832776) index="0" unique_id=1321537338]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Espacio_Trabajo/CintaTransportadora/conveyor-bars-high2/Group/StaticBody3D" unique_id=638340572]
-shape = SubResource("ConcavePolygonShape3D_646mu")
 
 [node name="conveyor-bars-high4" parent="Espacio_Trabajo/CintaTransportadora" unique_id=410575823 instance=ExtResource("12_2yig5")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 1)
@@ -205,11 +192,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 1)
 
 [node name="conveyor-bars-stripe-high3" parent="Espacio_Trabajo/CintaTransportadora" unique_id=1412000741 instance=ExtResource("15_1n332")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
-
-[node name="StaticBody3D" type="StaticBody3D" parent="Espacio_Trabajo/CintaTransportadora/conveyor-bars-stripe-high3/Group" parent_id_path=PackedInt32Array(1412000741, 159916300) index="0" unique_id=1142430050]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Espacio_Trabajo/CintaTransportadora/conveyor-bars-stripe-high3/Group/StaticBody3D" unique_id=1510512350]
-shape = SubResource("ConcavePolygonShape3D_t1stn")
 
 [node name="conveyor-bars-stripe-high4" parent="Espacio_Trabajo/CintaTransportadora" unique_id=1480245603 instance=ExtResource("15_1n332")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 1)
@@ -236,34 +218,38 @@ transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -3.5
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5, 0, 1)
 
 [node name="PuntoEntrada" type="Marker3D" parent="Espacio_Trabajo/CintaTransportadora" unique_id=89883242]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.130513, 0.5846962, -2.245836)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.130513, 0.9574381, -2.0426238)
+
+[node name="PuntoEsquinaAtras" type="Marker3D" parent="Espacio_Trabajo/CintaTransportadora" unique_id=1169488679]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.8864212, 0.87976027, -2.4468474)
+
+[node name="PuntoEsquinaFrente" type="Marker3D" parent="Espacio_Trabajo/CintaTransportadora" unique_id=493325365]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.615982, 0.99050856, 1.337379)
 
 [node name="PuntoInspeccion" type="Marker3D" parent="Espacio_Trabajo/CintaTransportadora" unique_id=958830381]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.15980816, 0, 0.41226768)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.4371974, 0.9117063, 1.2572174)
 
 [node name="PuntoSalidaPermitido" type="Marker3D" parent="Espacio_Trabajo/CintaTransportadora" unique_id=1496590615]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.206683, 0, 0)
-
-[node name="scanner-low2" parent="Espacio_Trabajo" unique_id=873557928 instance=ExtResource("11_cr0xl")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.4095526, 0.61061835, 0.95024014)
 
 [node name="box-small2" parent="Espacio_Trabajo" unique_id=393881187 instance=ExtResource("13_ms636")]
-transform = Transform3D(0.8660254, 0, -0.5, 0, 1, 0, 0.5, 0, 0.8660254, -3, 0.5, 1)
+transform = Transform3D(0.8660254, 0, -0.5, 0, 1, 0, 0.5, 0, 0.8660254, -3.847359, 0.5, 3.1916018)
 
 [node name="box-wide2" parent="Espacio_Trabajo" unique_id=823513548 instance=ExtResource("19_0p0dg")]
 transform = Transform3D(-0.50000006, 0, -0.8660254, 0, 1, 0, 0.8660254, 0, -0.50000006, 3, 0, -3)
 
 [node name="caja" parent="Espacio_Trabajo" unique_id=1000838108 instance=ExtResource("20_7y3nc")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8164029, 2.7832983, 1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.7861993, 0.9097786, -1.936955)
 
 [node name="PistolaEscaner" parent="." unique_id=322953484 instance=ExtResource("21_wqth3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6779113, 0.92821264, 4.1574173)
 
 [node name="ZonaInspeccion" type="Area3D" parent="." unique_id=1749358742]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 1.0262555, 0, 2.064836)
 script = ExtResource("22_bwkla")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="ZonaInspeccion" unique_id=1945575220]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8055427, 0.9089891, 2.960217)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.81207585, 1.1078693, 1.939609)
 shape = SubResource("BoxShape3D_g4v7s")
 
 [node name="botones" parent="." unique_id=1540033895 instance=ExtResource("23_6sfcp")]
@@ -327,6 +313,3 @@ visible = false
 [connection signal="body_entered" from="ZonaInspeccion" to="ZonaInspeccion" method="_on_body_entered"]
 [connection signal="body_exited" from="ZonaInspeccion" to="ZonaInspeccion" method="_on_body_exited"]
 [connection signal="pressed" from="CanvasLayer/boton_tienda" to="." method="_on_boton_tienda_pressed"]
-
-[editable path="Espacio_Trabajo/CintaTransportadora/conveyor-bars-high2"]
-[editable path="Espacio_Trabajo/CintaTransportadora/conveyor-bars-stripe-high3"]
