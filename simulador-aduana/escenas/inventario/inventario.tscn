@@ -5,54 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://hbwdtus08uk7" path="res://assets/generated/icono_cuter.png" id="3_cuter"]
 [ext_resource type="Texture2D" uid="uid://xvp7ip1gomm5" path="res://assets/generated/icono_balanza.png" id="4_balanza"]
 [ext_resource type="Texture2D" uid="uid://dwmfhvm0mqbcr" path="res://assets/generated/icono_energizante.png" id="5_energizante"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_slot_normal"]
-content_margin_left = 8.0
-content_margin_top = 8.0
-content_margin_right = 8.0
-content_margin_bottom = 8.0
-bg_color = Color(0.09, 0.1, 0.12, 0.9)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.5, 0.52, 0.56, 1)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_slot_pressed"]
-content_margin_left = 8.0
-content_margin_top = 8.0
-content_margin_right = 8.0
-content_margin_bottom = 8.0
-bg_color = Color(0.13, 0.28, 0.32, 0.95)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
-border_color = Color(0.3, 0.9, 0.95, 1)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_slot_hover"]
-content_margin_left = 8.0
-content_margin_top = 8.0
-content_margin_right = 8.0
-content_margin_bottom = 8.0
-bg_color = Color(0.16, 0.18, 0.22, 0.95)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
-border_color = Color(0.4, 0.8, 0.85, 1)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
+[ext_resource type="Theme" path="res://recursos/tema_botones.tres" id="6_tema"]
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_slots"]
 
@@ -64,6 +17,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+theme = ExtResource("6_tema")
 script = ExtResource("1_script")
 
 [node name="Hotbar" type="HBoxContainer" parent="." unique_id=714093538]
@@ -86,9 +40,6 @@ alignment = 1
 custom_minimum_size = Vector2(140, 130)
 layout_mode = 2
 tooltip_text = "Escáner (Nivel 1)"
-theme_override_styles/normal = SubResource("StyleBoxFlat_slot_normal")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_slot_pressed")
-theme_override_styles/hover = SubResource("StyleBoxFlat_slot_hover")
 toggle_mode = true
 button_group = SubResource("ButtonGroup_slots")
 icon = ExtResource("2_escaner")
@@ -116,9 +67,6 @@ vertical_alignment = 1
 custom_minimum_size = Vector2(140, 130)
 layout_mode = 2
 tooltip_text = "Cúter (Nivel 1)"
-theme_override_styles/normal = SubResource("StyleBoxFlat_slot_normal")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_slot_pressed")
-theme_override_styles/hover = SubResource("StyleBoxFlat_slot_hover")
 toggle_mode = true
 button_group = SubResource("ButtonGroup_slots")
 icon = ExtResource("3_cuter")
@@ -146,9 +94,6 @@ vertical_alignment = 1
 custom_minimum_size = Vector2(140, 130)
 layout_mode = 2
 tooltip_text = "Balanza (Nivel 1)"
-theme_override_styles/normal = SubResource("StyleBoxFlat_slot_normal")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_slot_pressed")
-theme_override_styles/hover = SubResource("StyleBoxFlat_slot_hover")
 toggle_mode = true
 button_group = SubResource("ButtonGroup_slots")
 icon = ExtResource("4_balanza")
@@ -176,9 +121,6 @@ vertical_alignment = 1
 custom_minimum_size = Vector2(140, 130)
 layout_mode = 2
 tooltip_text = "Energizante (Nivel 1)"
-theme_override_styles/normal = SubResource("StyleBoxFlat_slot_normal")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_slot_pressed")
-theme_override_styles/hover = SubResource("StyleBoxFlat_slot_hover")
 toggle_mode = true
 button_group = SubResource("ButtonGroup_slots")
 icon = ExtResource("5_energizante")
