@@ -173,62 +173,62 @@ punto_salida_final = NodePath("PuntoSalidaPermitido")
 [node name="conveyor-bars-stripe-high" parent="Espacio_Trabajo/CintaTransportadora" unique_id=95368184 instance=ExtResource("15_1n332")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 1)
 
-[node name="Group2" parent="Espacio_Trabajo/CintaTransportadora/conveyor-bars-stripe-high" index="1" unique_id=1532166238]
+[node name="Group2" parent="Espacio_Trabajo/CintaTransportadora/conveyor-bars-stripe-high" index="1" unique_id=1096717645]
 surface_material_override/0 = ExtResource("14_jn0hn")
 
 [node name="conveyor-bars-high2" parent="Espacio_Trabajo/CintaTransportadora" unique_id=1350425050 instance=ExtResource("12_2yig5")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1)
 
-[node name="Group2" parent="Espacio_Trabajo/CintaTransportadora/conveyor-bars-high2" index="1" unique_id=728779835]
+[node name="Group2" parent="Espacio_Trabajo/CintaTransportadora/conveyor-bars-high2" index="1" unique_id=1357423876]
 surface_material_override/0 = ExtResource("14_jn0hn")
 
 [node name="conveyor-bars-high4" parent="Espacio_Trabajo/CintaTransportadora" unique_id=410575823 instance=ExtResource("12_2yig5")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 1)
 
-[node name="Group2" parent="Espacio_Trabajo/CintaTransportadora/conveyor-bars-high4" index="1" unique_id=728779835]
+[node name="Group2" parent="Espacio_Trabajo/CintaTransportadora/conveyor-bars-high4" index="1" unique_id=1357423876]
 surface_material_override/0 = ExtResource("14_jn0hn")
 
 [node name="conveyor-bars-high7" parent="Espacio_Trabajo/CintaTransportadora" unique_id=1423438143 instance=ExtResource("12_2yig5")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 0, 1)
 
-[node name="Group2" parent="Espacio_Trabajo/CintaTransportadora/conveyor-bars-high7" index="1" unique_id=728779835]
+[node name="Group2" parent="Espacio_Trabajo/CintaTransportadora/conveyor-bars-high7" index="1" unique_id=1357423876]
 surface_material_override/0 = ExtResource("14_jn0hn")
 
 [node name="conveyor-bars-high6" parent="Espacio_Trabajo/CintaTransportadora" unique_id=590919902 instance=ExtResource("12_2yig5")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 1)
 
-[node name="Group2" parent="Espacio_Trabajo/CintaTransportadora/conveyor-bars-high6" index="1" unique_id=728779835]
+[node name="Group2" parent="Espacio_Trabajo/CintaTransportadora/conveyor-bars-high6" index="1" unique_id=1357423876]
 surface_material_override/0 = ExtResource("14_jn0hn")
 
 [node name="conveyor-bars-high5" parent="Espacio_Trabajo/CintaTransportadora" unique_id=1162198474 instance=ExtResource("12_2yig5")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 1)
 
-[node name="Group2" parent="Espacio_Trabajo/CintaTransportadora/conveyor-bars-high5" index="1" unique_id=728779835]
+[node name="Group2" parent="Espacio_Trabajo/CintaTransportadora/conveyor-bars-high5" index="1" unique_id=1357423876]
 surface_material_override/0 = ExtResource("14_jn0hn")
 
 [node name="conveyor-bars-fence" parent="Espacio_Trabajo/CintaTransportadora" unique_id=1811184886 instance=ExtResource("14_ctsim")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, 0, -2)
 
-[node name="Group3" parent="Espacio_Trabajo/CintaTransportadora/conveyor-bars-fence" index="2" unique_id=151369446]
+[node name="Group3" parent="Espacio_Trabajo/CintaTransportadora/conveyor-bars-fence" index="2" unique_id=478420928]
 transform = Transform3D(-0.99640954, 0, 0.08466443, 0, 1, 0, -0.08466443, 0, -0.99640954, 0, 0.1, -1.1241278e-08)
 surface_material_override/0 = ExtResource("14_jn0hn")
 
 [node name="conveyor-bars-stripe-high2" parent="Espacio_Trabajo/CintaTransportadora" unique_id=1311597311 instance=ExtResource("15_1n332")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 1)
 
-[node name="Group2" parent="Espacio_Trabajo/CintaTransportadora/conveyor-bars-stripe-high2" index="1" unique_id=1532166238]
+[node name="Group2" parent="Espacio_Trabajo/CintaTransportadora/conveyor-bars-stripe-high2" index="1" unique_id=1096717645]
 surface_material_override/0 = ExtResource("14_jn0hn")
 
 [node name="conveyor-bars-stripe-high3" parent="Espacio_Trabajo/CintaTransportadora" unique_id=1412000741 instance=ExtResource("15_1n332")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
 
-[node name="Group2" parent="Espacio_Trabajo/CintaTransportadora/conveyor-bars-stripe-high3" index="1" unique_id=1532166238]
+[node name="Group2" parent="Espacio_Trabajo/CintaTransportadora/conveyor-bars-stripe-high3" index="1" unique_id=1096717645]
 surface_material_override/0 = ExtResource("14_jn0hn")
 
 [node name="conveyor-bars-stripe-high4" parent="Espacio_Trabajo/CintaTransportadora" unique_id=1480245603 instance=ExtResource("15_1n332")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 1)
 
-[node name="Group2" parent="Espacio_Trabajo/CintaTransportadora/conveyor-bars-stripe-high4" index="1" unique_id=1532166238]
+[node name="Group2" parent="Espacio_Trabajo/CintaTransportadora/conveyor-bars-stripe-high4" index="1" unique_id=1096717645]
 surface_material_override/0 = ExtResource("14_jn0hn")
 
 [node name="conveyor-long-stripe-sides" parent="Espacio_Trabajo/CintaTransportadora" unique_id=1674979397 instance=ExtResource("16_f67lk")]
@@ -345,7 +345,7 @@ text = "Tienda"
 [node name="tienda" parent="CanvasLayer" unique_id=263551707 instance=ExtResource("32_jn0hn")]
 visible = false
 
-[node name="InventarioUI" parent="." instance=ExtResource("33_inventario")]
+[node name="InventarioUI" parent="." unique_id=584886887 instance=ExtResource("33_inventario")]
 
 [connection signal="body_entered" from="ZonaInspeccion" to="ZonaInspeccion" method="_on_body_entered"]
 [connection signal="body_exited" from="ZonaInspeccion" to="ZonaInspeccion" method="_on_body_exited"]
