@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://hbwdtus08uk7" path="res://assets/generated/icono_cuter.png" id="3_cuter"]
 [ext_resource type="Texture2D" uid="uid://xvp7ip1gomm5" path="res://assets/generated/icono_balanza.png" id="4_balanza"]
 [ext_resource type="Texture2D" uid="uid://dwmfhvm0mqbcr" path="res://assets/generated/icono_energizante.png" id="5_energizante"]
-[ext_resource type="Theme" path="res://recursos/tema_botones.tres" id="6_tema"]
+[ext_resource type="Theme" uid="uid://baadnr8nrfsbk" path="res://recursos/tema_botones.tres" id="6_tema"]
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_slots"]
 
@@ -47,6 +47,7 @@ expand_icon = true
 metadata/herramienta_id = "escaner"
 
 [node name="Badge" type="Label" parent="Hotbar/SlotEscaner" unique_id=1139030982]
+visible = false
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
@@ -74,6 +75,7 @@ expand_icon = true
 metadata/herramienta_id = "cuter"
 
 [node name="Badge" type="Label" parent="Hotbar/SlotCuter" unique_id=622238587]
+visible = false
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
@@ -101,6 +103,7 @@ expand_icon = true
 metadata/herramienta_id = "balanza"
 
 [node name="Badge" type="Label" parent="Hotbar/SlotBalanza" unique_id=1407977018]
+visible = false
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
@@ -128,6 +131,7 @@ expand_icon = true
 metadata/herramienta_id = "energizante"
 
 [node name="Badge" type="Label" parent="Hotbar/SlotEnergizante" unique_id=996354149]
+visible = false
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
