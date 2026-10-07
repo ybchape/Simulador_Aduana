@@ -1,0 +1,259 @@
+[gd_scene load_steps=11 format=3 uid="uid://d320lx1iqp05q"]
+
+[ext_resource type="Script" uid="uid://fnm15mmi0wn6" path="res://escenas/inventario/inventario.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/generated/icono_escaner.png" id="2_escaner"]
+[ext_resource type="Texture2D" path="res://assets/generated/icono_cuter.png" id="3_cuter"]
+[ext_resource type="Texture2D" path="res://assets/generated/icono_balanza.png" id="4_balanza"]
+[ext_resource type="Texture2D" path="res://assets/generated/icono_energizante.png" id="5_energizante"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_slot_normal"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(0.09, 0.1, 0.12, 0.9)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.5, 0.52, 0.56, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_slot_hover"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(0.16, 0.18, 0.22, 0.95)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.4, 0.8, 0.85, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_slot_pressed"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(0.13, 0.28, 0.32, 0.95)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.3, 0.9, 0.95, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cartel"]
+content_margin_left = 18.0
+content_margin_top = 14.0
+content_margin_right = 18.0
+content_margin_bottom = 14.0
+bg_color = Color(0.06, 0.07, 0.09, 0.92)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.4, 0.8, 0.85, 0.9)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_slots"]
+allow_unpress = false
+
+[node name="Inventario" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_script")
+
+[node name="Cartel" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -320.0
+offset_top = -330.0
+offset_right = 320.0
+offset_bottom = -190.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_cartel")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Cartel"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Nombre" type="Label" parent="Cartel/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 34
+text = "Escáner"
+horizontal_alignment = 1
+
+[node name="Nivel" type="Label" parent="Cartel/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.9, 0.95, 1)
+theme_override_font_sizes/font_size = 22
+text = "Nivel 1"
+horizontal_alignment = 1
+
+[node name="Descripcion" type="Label" parent="Cartel/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Dispositivo de inspección por rayos X."
+autowrap_mode = 2
+horizontal_alignment = 1
+
+[node name="Hotbar" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -320.0
+offset_top = -170.0
+offset_right = 320.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="SlotEscaner" type="Button" parent="Hotbar"]
+custom_minimum_size = Vector2(140, 130)
+layout_mode = 2
+toggle_mode = true
+button_group = SubResource("ButtonGroup_slots")
+theme_override_styles/normal = SubResource("StyleBoxFlat_slot_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_slot_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_slot_pressed")
+icon = ExtResource("2_escaner")
+expand_icon = true
+metadata/herramienta_id = "escaner"
+
+[node name="Badge" type="Label" parent="Hotbar/SlotEscaner"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -28.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.9)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 18
+text = "Nivel 1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SlotCuter" type="Button" parent="Hotbar"]
+custom_minimum_size = Vector2(140, 130)
+layout_mode = 2
+toggle_mode = true
+button_group = SubResource("ButtonGroup_slots")
+theme_override_styles/normal = SubResource("StyleBoxFlat_slot_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_slot_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_slot_pressed")
+icon = ExtResource("3_cuter")
+expand_icon = true
+metadata/herramienta_id = "cuter"
+
+[node name="Badge" type="Label" parent="Hotbar/SlotCuter"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -28.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.9)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 18
+text = "Nivel 1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SlotBalanza" type="Button" parent="Hotbar"]
+custom_minimum_size = Vector2(140, 130)
+layout_mode = 2
+toggle_mode = true
+button_group = SubResource("ButtonGroup_slots")
+theme_override_styles/normal = SubResource("StyleBoxFlat_slot_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_slot_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_slot_pressed")
+icon = ExtResource("4_balanza")
+expand_icon = true
+metadata/herramienta_id = "balanza"
+
+[node name="Badge" type="Label" parent="Hotbar/SlotBalanza"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -28.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.9)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 18
+text = "Nivel 1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SlotEnergizante" type="Button" parent="Hotbar"]
+custom_minimum_size = Vector2(140, 130)
+layout_mode = 2
+toggle_mode = true
+button_group = SubResource("ButtonGroup_slots")
+theme_override_styles/normal = SubResource("StyleBoxFlat_slot_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_slot_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_slot_pressed")
+icon = ExtResource("5_energizante")
+expand_icon = true
+metadata/herramienta_id = "energizante"
+
+[node name="Badge" type="Label" parent="Hotbar/SlotEnergizante"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -28.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.9)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 18
+text = "Nivel 1"
+horizontal_alignment = 1
+vertical_alignment = 1

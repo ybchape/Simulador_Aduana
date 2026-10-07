@@ -33,6 +33,7 @@
 [ext_resource type="Texture2D" uid="uid://cdhbq1w23rudq" path="res://assets/ui/barras/bar_round_large.png" id="29_a73fb"]
 [ext_resource type="PackedScene" uid="uid://tady738mrlvl" path="res://escenas/ventana_resumen/ventana_resumen.tscn" id="30_4bfgv"]
 [ext_resource type="PackedScene" uid="uid://dw4ht40cbfe8b" path="res://escenas/tienda/tienda.tscn" id="32_jn0hn"]
+[ext_resource type="PackedScene" uid="uid://d320lx1iqp05q" path="res://escenas/inventario/inventario.tscn" id="33_inventario"]
 
 [sub_resource type="Environment" id="Environment_g4v7s"]
 ambient_light_source = 2
@@ -343,6 +344,8 @@ text = "Tienda"
 
 [node name="tienda" parent="CanvasLayer" unique_id=263551707 instance=ExtResource("32_jn0hn")]
 visible = false
+
+[node name="InventarioUI" parent="." instance=ExtResource("33_inventario")]
 
 [connection signal="body_entered" from="ZonaInspeccion" to="ZonaInspeccion" method="_on_body_entered"]
 [connection signal="body_exited" from="ZonaInspeccion" to="ZonaInspeccion" method="_on_body_exited"]
