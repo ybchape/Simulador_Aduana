@@ -1,0 +1,149 @@
+[gd_scene format=3 uid="uid://d320lx1iqp05q"]
+
+[ext_resource type="Script" uid="uid://fnm15mmi0wn6" path="res://escenas/inventario/inventario.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://c4o6l012b5ecv" path="res://assets/generated/icono_escaner.png" id="2_escaner"]
+[ext_resource type="Texture2D" uid="uid://hbwdtus08uk7" path="res://assets/generated/icono_cuter.png" id="3_cuter"]
+[ext_resource type="Texture2D" uid="uid://xvp7ip1gomm5" path="res://assets/generated/icono_balanza.png" id="4_balanza"]
+[ext_resource type="Texture2D" uid="uid://dwmfhvm0mqbcr" path="res://assets/generated/icono_energizante.png" id="5_energizante"]
+[ext_resource type="Theme" uid="uid://baadnr8nrfsbk" path="res://recursos/tema_botones.tres" id="6_tema"]
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_slots"]
+
+[node name="Inventario" type="Control" unique_id=1104573485]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("6_tema")
+script = ExtResource("1_script")
+
+[node name="Hotbar" type="HBoxContainer" parent="." unique_id=714093538]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = 283.0
+offset_top = -150.0
+offset_right = 923.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="SlotEscaner" type="Button" parent="Hotbar" unique_id=2074119431]
+custom_minimum_size = Vector2(140, 130)
+layout_mode = 2
+tooltip_text = "Escáner (Nivel 1)"
+toggle_mode = true
+button_group = SubResource("ButtonGroup_slots")
+icon = ExtResource("2_escaner")
+expand_icon = true
+metadata/herramienta_id = "escaner"
+
+[node name="Badge" type="Label" parent="Hotbar/SlotEscaner" unique_id=1139030982]
+visible = false
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -28.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.9)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 18
+text = "Nivel 1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SlotCuter" type="Button" parent="Hotbar" unique_id=1592147571]
+custom_minimum_size = Vector2(140, 130)
+layout_mode = 2
+tooltip_text = "Cúter (Nivel 1)"
+toggle_mode = true
+button_group = SubResource("ButtonGroup_slots")
+icon = ExtResource("3_cuter")
+expand_icon = true
+metadata/herramienta_id = "cuter"
+
+[node name="Badge" type="Label" parent="Hotbar/SlotCuter" unique_id=622238587]
+visible = false
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -28.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.9)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 18
+text = "Nivel 1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SlotBalanza" type="Button" parent="Hotbar" unique_id=107106419]
+custom_minimum_size = Vector2(140, 130)
+layout_mode = 2
+tooltip_text = "Balanza (Nivel 1)"
+toggle_mode = true
+button_group = SubResource("ButtonGroup_slots")
+icon = ExtResource("4_balanza")
+expand_icon = true
+metadata/herramienta_id = "balanza"
+
+[node name="Badge" type="Label" parent="Hotbar/SlotBalanza" unique_id=1407977018]
+visible = false
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -28.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.9)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 18
+text = "Nivel 1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SlotEnergizante" type="Button" parent="Hotbar" unique_id=535141954]
+custom_minimum_size = Vector2(140, 130)
+layout_mode = 2
+tooltip_text = "Energizante (Nivel 1)"
+toggle_mode = true
+button_group = SubResource("ButtonGroup_slots")
+icon = ExtResource("5_energizante")
+expand_icon = true
+metadata/herramienta_id = "energizante"
+
+[node name="Badge" type="Label" parent="Hotbar/SlotEnergizante" unique_id=996354149]
+visible = false
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -28.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.9)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 18
+text = "Nivel 1"
+horizontal_alignment = 1
+vertical_alignment = 1
