@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://frmgsawadu2l" path="res://escenas/caja/caja_interactiva.gd" id="1_4xr26"]
 [ext_resource type="PackedScene" uid="uid://blds6omlj1kni" path="res://assets/GLB format/box-small.glb" id="1_vjljx"]
+[ext_resource type="PackedScene" uid="uid://cadfxir1r7kt8" path="res://ticket.tscn" id="3_qs45v"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_g4v7s"]
 size = Vector3(1, 1.0352173, 1.0264893)
@@ -9,6 +10,18 @@ size = Vector3(1, 1.0352173, 1.0264893)
 [sub_resource type="SphereMesh" id="SphereMesh_g4v7s"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_g4v7s"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_nvgnm"]
+viewport_path = NodePath("caja_interactiva/MeshInstance/SubViewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4xr26"]
+resource_local_to_scene = true
+albedo_color = Color(1, 1, 0.68235296, 1)
+albedo_texture = SubResource("ViewportTexture_nvgnm")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_aiqyg"]
+resource_local_to_scene = true
+size = Vector2(0.3, 0.3)
 
 [node name="caja" type="Node3D" unique_id=1000838108 groups=["cajas"]]
 transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 0, 0, 0)
@@ -35,5 +48,14 @@ mesh = SubResource("SphereMesh_g4v7s")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="caja_interactiva/puntoObjeto/MeshInstance3D/Area3D" unique_id=2043082838]
 shape = SubResource("SphereShape3D_g4v7s")
+
+[node name="MeshInstance" type="MeshInstance3D" parent="caja_interactiva" unique_id=552378889]
+transform = Transform3D(0.99999976, 0, 0, 0, 0.021662593, -0.9997644, 0, 0.9997644, 0.021662593, -0.27144885, 0.3260276, 0.50744104)
+material_override = SubResource("StandardMaterial3D_4xr26")
+mesh = SubResource("PlaneMesh_aiqyg")
+
+[node name="SubViewport" type="SubViewport" parent="caja_interactiva/MeshInstance" unique_id=1472596428]
+
+[node name="Ticket" parent="caja_interactiva/MeshInstance/SubViewport" unique_id=149076554 instance=ExtResource("3_qs45v")]
 
 [connection signal="input_event" from="caja_interactiva" to="caja_interactiva" method="_on_input_event"]
