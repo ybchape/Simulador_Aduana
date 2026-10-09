@@ -1,104 +1,151 @@
 extends Control
 
-# Simulamos que empiezas el día con $500 para poder probar
-var dinero_actual = 500 
+## Tienda de herramientas.
+##
+## La billetera del jugador es compartida a través de EventBus.billetera. Cada
+## producto descuenta su precio exacto, y la compra/mejora se comunica al
+## inventario emitiendo EventBus.herramienta_desbloqueada /
+## EventBus.herramienta_mejorada. Los botones se deshabilitan en vivo cuando el
+## saldo no alcanza para el producto.
 
+const NIVEL_MAXIMO: int = 2
 
+# id -> datos del producto. "inicial" es el nivel con el que arranca la partida
+# (0 = no adquirida).
+const CATALOGO: Dictionary = {
+	"escaner": {"nombre": "Escáner", "precio_compra": 450, "precio_mejora": 300, "inicial": 1},
+	"cuter": {"nombre": "Cúter", "precio_compra": 450, "precio_mejora": 300, "inicial": 1},
+	"balanza": {"nombre": "Balanza", "precio_compra": 450, "precio_mejora": 300, "inicial": 0},
+	"energizante": {"nombre": "Energizante", "precio_compra": 150, "precio_mejora": 300, "inicial": 0},
+}
 
-# Cambia "Label" por el nombre exacto que le pusiste a tu texto de dinero arriba
-@onready var texto_dinero = $Label
-@onready var btn_mejorar_escaner: Button = $ScrollContainer/VBoxContainer/PanelEscaner/HBoxContainer/VBoxContainer2/BtnMejorar
-@onready var btn_mejorar_cuter: Button = $ScrollContainer/VBoxContainer/PanelCuter/HBoxContainer/VBoxContainer2/BtnMejorar
+const RUTAS_PANEL: Dictionary = {
+	"escaner": "ScrollContainer/VBoxContainer/PanelEscaner/HBoxContainer",
+	"cuter": "ScrollContainer/VBoxContainer/PanelCuter/HBoxContainer",
+	"balanza": "ScrollContainer/VBoxContainer/PanelBalanza/HBoxContainer",
+	"energizante": "ScrollContainer/VBoxContainer/PanelEnergizante/HBoxContainer",
+}
 
-@onready var btn_comprar_energizante: Button = $ScrollContainer/VBoxContainer/PanelEnergizante/HBoxContainer/VBoxContainer2/BtnComprar
-@onready var btn_mejorar_energizante: Button = $ScrollContainer/VBoxContainer/PanelEnergizante/HBoxContainer/VBoxContainer2/BtnMejorar
+const RUTAS_LABEL: Dictionary = {
+	"escaner": "ScrollContainer/VBoxContainer/PanelEscaner/HBoxContainer/VBoxContainer/nivel_escaner",
+	"cuter": "ScrollContainer/VBoxContainer/PanelCuter/HBoxContainer/VBoxContainer/nivel_cutar",
+	"balanza": "ScrollContainer/VBoxContainer/PanelBalanza/HBoxContainer/VBoxContainer/nivel_balanza",
+	"energizante": "ScrollContainer/VBoxContainer/PanelEnergizante/HBoxContainer/VBoxContainer/Nivel_energizante",
+}
 
+@onready var texto_dinero: Label = $Label
 
-@onready var btn_comprar_balanza: Button = $ScrollContainer/VBoxContainer/PanelBalanza/HBoxContainer/VBoxContainer2/BtnComprar
-@onready var btn_mejorar_balanza: Button = $ScrollContainer/VBoxContainer/PanelBalanza/HBoxContainer/VBoxContainer2/BtnMejorar
+# Estado por producto: id -> nivel (0 = no adquirida).
+var niveles: Dictionary = {}
+# Referencias cacheadas: id -> { "comprar": Button, "mejorar": Button }.
+var botones: Dictionary = {}
+# Referencias a las etiquetas de nivel: id -> Label.
+var etiquetas: Dictionary = {}
 
-@onready var nivel_escaner: Label = $ScrollContainer/VBoxContainer/PanelEscaner/HBoxContainer/VBoxContainer/nivel_escaner
-@onready var nivel_cutar: Label = $ScrollContainer/VBoxContainer/PanelCuter/HBoxContainer/VBoxContainer/nivel_cutar
-@onready var nivel_balanza: Label = $ScrollContainer/VBoxContainer/PanelBalanza/HBoxContainer/VBoxContainer/nivel_balanza
-@onready var nivel_energizante: Label = $ScrollContainer/VBoxContainer/PanelEnergizante/HBoxContainer/VBoxContainer/Nivel_energizante
+func _ready() -> void:
+	_inicializar_estado()
+	_cachear_nodos()
+	_conectar_botones()
+	EventBus.dinero_cambiado.connect(_on_dinero_cambiado)
+	_refrescar_todo()
 
-func _ready():
-	_actualizar_pantalla()
-	
-func _actualizar_pantalla():
-	texto_dinero.text = "Dinero disponible: $" + str(dinero_actual)
+func _inicializar_estado() -> void:
+	for id in CATALOGO:
+		niveles[id] = CATALOGO[id]["inicial"]
 
-# --- BOTONES DEL ESCÁNER  ---
-func _on_btn_mejorar_pressed() -> void:
-	var precio_mejora_escaner = 300
-	
-	if dinero_actual >= precio_mejora_escaner:
-		dinero_actual -= precio_mejora_escaner
-		_actualizar_pantalla()
-		
-		btn_mejorar_escaner.text = "¡Adquirido!"
-		btn_mejorar_escaner.disabled = true
-		
-		# ¡Aquí actualizamos el texto dinámicamente!
-		nivel_escaner.text = "Nivel 2"
+func _cachear_nodos() -> void:
+	for id in CATALOGO:
+		var raiz: String = RUTAS_PANEL[id] + "/VBoxContainer2"
+		botones[id] = {
+			"comprar": get_node_or_null(raiz + "/BtnComprar"),
+			"mejorar": get_node_or_null(raiz + "/BtnMejorar"),
+		}
+		etiquetas[id] = get_node_or_null(RUTAS_LABEL[id])
+
+func _conectar_botones() -> void:
+	for id in CATALOGO:
+		var par: Dictionary = botones[id]
+		if par["comprar"]:
+			par["comprar"].pressed.connect(_on_comprar_pressed.bind(id))
+		if par["mejorar"]:
+			par["mejorar"].pressed.connect(_on_mejorar_pressed.bind(id))
+
+func _on_dinero_cambiado(_nuevo_saldo: float) -> void:
+	_refrescar_todo()
+
+func _on_comprar_pressed(id: String) -> void:
+	_intentar_transaccion(id, true)
+
+func _on_mejorar_pressed(id: String) -> void:
+	_intentar_transaccion(id, false)
+
+func _intentar_transaccion(id: String, es_compra: bool) -> void:
+	if not niveles.has(id):
+		return
+
+	var nivel: int = niveles[id]
+	if nivel >= NIVEL_MAXIMO:
+		return
+
+	var precio: int = CATALOGO[id]["precio_compra"] if nivel == 0 else CATALOGO[id]["precio_mejora"]
+
+	# Descuenta el precio exacto. Si no alcanza, no se hace nada.
+	if not EventBus.gastar_dinero(precio):
+		_refrescar_todo()
+		return
+
+	if es_compra and nivel == 0:
+		niveles[id] = 1
+		EventBus.herramienta_desbloqueada.emit(id)
 	else:
-		btn_mejorar_escaner.text = "Dinero insuficiente"
-		await get_tree().create_timer(1.5).timeout
-		btn_mejorar_escaner.text = "Mejorar: $300"
-# --- 2. CÚTER ---
-func _on_mejorar_cuter_pressed() -> void:
-	var precio = 300
-	
-	if dinero_actual >= precio:
-		dinero_actual -= precio
-		_actualizar_pantalla()
-		
-		btn_mejorar_cuter.text = "¡Adquirido!"
-		btn_mejorar_cuter.disabled = true
-		
-		# ¡Nuevo! Actualizamos el texto del Cúter
-		nivel_cutar.text = "Nivel 2"
-	else:
-		btn_mejorar_cuter.text = "Dinero insuficiente"
-		await get_tree().create_timer(1.5).timeout
-		btn_mejorar_cuter.text = "Mejorar: $300"
-# --- 3. BALANZA ---
-func _on_comprar_balanza_pressed() -> void:
-	var precio = 450
-	
-	if dinero_actual >= precio:
-		dinero_actual -= precio
-		_actualizar_pantalla()
-		
-		btn_comprar_balanza.text = "¡Adquirido!"
-		btn_comprar_balanza.disabled = true
-		btn_mejorar_balanza.visible = true # Aparece la mejora
-		
-		# ¡Nuevo! Actualizamos el texto de la Balanza
-		nivel_balanza.text = "balanza obtenida"
-	else:
-		btn_comprar_balanza.text = "Dinero insuficiente"
-		await get_tree().create_timer(1.5).timeout
-		btn_comprar_balanza.text = "Comprar: $450"
+		niveles[id] = nivel + 1
+		EventBus.herramienta_mejorada.emit(id, niveles[id])
 
-# --- 4. ENERGIZANTE ---
-func _on_comprar_energizante_pressed() -> void:
-	var precio = 150
-	
-	if dinero_actual >= precio:
-		dinero_actual -= precio
-		_actualizar_pantalla()
-		
-		btn_comprar_energizante.text = "¡Adquirido!"
-		btn_comprar_energizante.disabled = true
-		
-		# Esta es la línea clave que lo vuelve a hacer visible:
-		btn_mejorar_energizante.visible = true
-	else:
-		btn_comprar_energizante.text = "Dinero insuficiente"
-		await get_tree().create_timer(1.5).timeout
-		btn_comprar_energizante.text = "Comprar: $150"
+	_refrescar_todo()
 
+# --- Refresco de la interfaz -----------------------------------------------
+
+func _refrescar_todo() -> void:
+	texto_dinero.text = "Dinero disponible: $" + str(int(EventBus.billetera))
+	for id in CATALOGO:
+		_refrescar_producto(id)
+
+func _refrescar_producto(id: String) -> void:
+	var nivel: int = niveles[id]
+	var precio_compra: int = CATALOGO[id]["precio_compra"]
+	var precio_mejora: int = CATALOGO[id]["precio_mejora"]
+	var par: Dictionary = botones[id]
+	var btn_comprar: Button = par["comprar"]
+	var btn_mejorar: Button = par["mejorar"]
+	var label_nivel: Label = etiquetas[id]
+
+	if label_nivel:
+		label_nivel.text = "No adquirida" if nivel <= 0 else "Nivel " + str(nivel)
+
+	if nivel <= 0:
+		# No adquirida: se ofrece comprarla.
+		if btn_comprar:
+			btn_comprar.visible = true
+			btn_comprar.text = "Comprar: $" + str(precio_compra)
+			btn_comprar.disabled = EventBus.billetera < precio_compra
+		if btn_mejorar:
+			btn_mejorar.visible = false
+	elif nivel < NIVEL_MAXIMO:
+		# Adquirida, disponible para mejorar.
+		if btn_comprar:
+			btn_comprar.visible = false
+		if btn_mejorar:
+			btn_mejorar.visible = true
+			btn_mejorar.text = "Mejorar: $" + str(precio_mejora)
+			btn_mejorar.disabled = EventBus.billetera < precio_mejora
+	else:
+		# Nivel máximo alcanzado.
+		if btn_comprar:
+			btn_comprar.visible = false
+		if btn_mejorar:
+			btn_mejorar.visible = true
+			btn_mejorar.text = "Nivel máximo"
+			btn_mejorar.disabled = true
 
 func _on_button_cerrar_pressed() -> void:
-	self.hide() # Esto oculta la ventana entera
+	hide()

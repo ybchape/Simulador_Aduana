@@ -263,8 +263,4 @@ theme_override_fonts/font = SubResource("FontVariation_d0u6y")
 theme_override_font_sizes/font_size = 1
 text = "x"
 
-[connection signal="pressed" from="ScrollContainer/VBoxContainer/PanelEscaner/HBoxContainer/VBoxContainer2/BtnMejorar" to="." method="_on_btn_mejorar_pressed"]
-[connection signal="pressed" from="ScrollContainer/VBoxContainer/PanelCuter/HBoxContainer/VBoxContainer2/BtnMejorar" to="." method="_on_mejorar_cuter_pressed"]
-[connection signal="pressed" from="ScrollContainer/VBoxContainer/PanelBalanza/HBoxContainer/VBoxContainer2/BtnComprar" to="." method="_on_comprar_balanza_pressed"]
-[connection signal="pressed" from="ScrollContainer/VBoxContainer/PanelEnergizante/HBoxContainer/VBoxContainer2/BtnComprar" to="." method="_on_comprar_energizante_pressed"]
 [connection signal="pressed" from="Button" to="." method="_on_button_cerrar_pressed"]
