@@ -40,5 +40,10 @@ func _mostrar_resumen(stats: Dictionary) -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
 func _on_btn_siguiente_dia_pressed() -> void:
-	# Reinicia la escena actual para simular el siguiente día
+	#  avanza el día en el GameManager para que actualice la meta y el número de día
+	if GameManager:
+		GameManager.avanzar_siguiente_dia()
+	
+	# restaura el modo del mouse al juego y recargamos la escena
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED 
 	get_tree().reload_current_scene()
