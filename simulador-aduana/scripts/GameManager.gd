@@ -20,3 +20,7 @@ func avanzar_siguiente_dia() -> void:
 	dia_actual += 1
 	pedidos_realizados_hoy = 0
 	# la plata y mejoras se conservan automáticamente 
+
+func acumular_dinero(cantidad: float) -> void:
+	dinero_total += int(cantidad)
+	print("Dinero total acumulado: $", dinero_total)

@@ -8,6 +8,9 @@ extends CanvasLayer
 @onready var total: Label = $PanelContainer/VBoxContainer/Total
 @onready var siguiente_dia: Button = $PanelContainer/VBoxContainer/SiguienteDia
 
+# var para guardar el neto del día actual 
+var dinero_neto_actual: float = 0.0
+
 
 func _ready() -> void:
 	# Nos aseguramos de que inicie oculta
@@ -23,27 +26,28 @@ func _ready() -> void:
 		siguiente_dia.pressed.connect(_on_btn_siguiente_dia_pressed)
 
 func _mostrar_resumen(stats: Dictionary) -> void:
+	# save el neto en la variable de la clase 
+	dinero_neto_actual = stats.neto
+	
 	titulo.text = "RESUMEN DEL DÍA\nPedidos correctos: " + str(stats.correctos) + " / " + str(stats.total)
 	dinero_ganado.text = "Dinero obtenido: $" + str(stats.ganado)
 	dinero_descontado.text = "Dinero descontado: -$" + str(stats.descontado)
 	total.text = "Balance neto: $" + str(stats.neto)
-	
-	
-	
+
 	# Mostrar la ventana inmediatamente
 
 	show()
 	if panel_container:
 		panel_container.show()
-		
+
 	# Liberar el mouse para interactuar con el botón
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
 func _on_btn_siguiente_dia_pressed() -> void:
-	#  avanza el día en el GameManager para que actualice la meta y el número de día
+	# acumulamos la plata y avanzamos de día en el GM
 	if GameManager:
+		GameManager.acumular_dinero(dinero_neto_actual)
 		GameManager.avanzar_siguiente_dia()
-	
-	# restaura el modo del mouse al juego y recargamos la escena
-	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED 
+
+	# Reinicia la escena actual para simular el siguiente día
 	get_tree().reload_current_scene()
