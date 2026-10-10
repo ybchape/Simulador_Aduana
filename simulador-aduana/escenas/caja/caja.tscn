@@ -50,11 +50,12 @@ mesh = SubResource("SphereMesh_g4v7s")
 shape = SubResource("SphereShape3D_g4v7s")
 
 [node name="MeshInstance" type="MeshInstance3D" parent="caja_interactiva" unique_id=552378889]
-transform = Transform3D(0.99999976, 0, 0, 0, 0.021662593, -0.9997644, 0, 0.9997644, 0.021662593, -0.27144885, 0.3260276, 0.50744104)
+transform = Transform3D(2.9299235, 0, 0, 0, 0.025763253, -1.7712703, 0, 1.1890169, 0.03837936, 0.007838226, 0.20675123, 0.5080374)
 material_override = SubResource("StandardMaterial3D_4xr26")
 mesh = SubResource("PlaneMesh_aiqyg")
 
 [node name="SubViewport" type="SubViewport" parent="caja_interactiva/MeshInstance" unique_id=1472596428]
+size = Vector2i(1500, 1500)
 
 [node name="Ticket" parent="caja_interactiva/MeshInstance/SubViewport" unique_id=149076554 instance=ExtResource("3_qs45v")]
 

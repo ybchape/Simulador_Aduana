@@ -2,21 +2,28 @@
 
 [node name="Ticket" type="Control" unique_id=149076554]
 layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="Fondo" type="ColorRect" parent="." unique_id=531651730]
-layout_mode = 0
-offset_right = 914.0
-offset_bottom = 541.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 color = Color(1, 1, 0.68235296, 1)
 
 [node name="MarginContainer" type="MarginContainer" parent="Fondo" unique_id=1441799311]
-layout_mode = 0
-offset_top = 23.0
-offset_right = 500.0
-offset_bottom = 424.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Fondo/MarginContainer" unique_id=933903091]
 layout_mode = 2
@@ -24,23 +31,23 @@ layout_mode = 2
 [node name="LblTitulo" type="Label" parent="Fondo/MarginContainer/VBoxContainer" unique_id=215300767]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 55
-text = "          PEDIDO"
+theme_override_font_sizes/font_size = 250
+text = "     PEDIDO"
 
 [node name="LblProducto" type="Label" parent="Fondo/MarginContainer/VBoxContainer" unique_id=1373079057]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.0051989057, 0.005198906, 0.0051989057, 1)
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 150
 text = "Producto:"
 
 [node name="LblPeso" type="Label" parent="Fondo/MarginContainer/VBoxContainer" unique_id=643077020]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 150
 text = "Peso:"
 
 [node name="LblCodigo" type="Label" parent="Fondo/MarginContainer/VBoxContainer" unique_id=1581626986]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 150
 text = "Código:"
