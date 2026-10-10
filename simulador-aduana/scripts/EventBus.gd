@@ -8,6 +8,7 @@ signal decision_tomada(fue_permitido)
 #señales objetivo del dia
 signal progreso_dia_actualizado(pedidos_completados, meta_diaria)
 signal objetivo_dia_alcanzado(stats_turno)
+signal siguiente_pedido_solicitado
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
