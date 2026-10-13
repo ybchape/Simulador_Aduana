@@ -9,6 +9,10 @@ signal decision_tomada(fue_permitido)
 signal progreso_dia_actualizado(pedidos_completados, meta_diaria)
 signal objetivo_dia_alcanzado(stats_turno)
 
+signal energia_cambiada(nueva_energia: float)
+signal evento_cansancio_iniciado(duracion: float)
+signal evento_cansancio_finalizado()
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass # Replace with function body.
