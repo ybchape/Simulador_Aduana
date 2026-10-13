@@ -13,9 +13,13 @@ var dinero_descontado: float = 0.0
 var dia_terminado: bool = false
 
 func _ready() -> void:
+	# Toma el objetivo del día actual desde el GM
+	if GameManager:
+		meta_pedidos_dia = GameManager.obtener_objetivo_actual()
+
 	# suscribe a la señal cuando el jugador presiona un botón
 	EventBus.decision_tomada.connect(_on_decision_tomada)
-	
+
 	# Emite el progreso inicial en cuanto inicia la escena (0 / meta)
 	# call_deferred para asegurar que la UI ya esté cargada en escena
 	call_deferred("_notificar_progreso_inicial")
