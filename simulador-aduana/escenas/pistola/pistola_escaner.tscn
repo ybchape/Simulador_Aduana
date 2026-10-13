@@ -1,5 +1,7 @@
 [gd_scene format=3 uid="uid://bmcj7oox0fy2h"]
 
+[ext_resource type="PackedScene" uid="uid://ef3tds1fbknh" path="res://assets/escaner/pistol_scanner_godot.glb" id="1_hx2kx"]
+
 [sub_resource type="BoxMesh" id="BoxMesh_g4v7s"]
 size = Vector3(0.8652344, 1, 0.53878784)
 
@@ -7,9 +9,13 @@ size = Vector3(0.8652344, 1, 0.53878784)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=2130200977]
 transform = Transform3D(-4.3711385e-08, -0.26897675, 0, 0.99999994, -1.1757347e-08, 0, 0, 0, 0.46223405, -0.06738281, 0, 0.026188279)
+visible = false
 mesh = SubResource("BoxMesh_g4v7s")
 
 [node name="RayCast3D" type="RayCast3D" parent="." unique_id=1400223913]
 visible = false
 target_position = Vector3(0, 0, -5)
 collide_with_areas = true
+
+[node name="pistol_scanner_godot" parent="." unique_id=1748537211 instance=ExtResource("1_hx2kx")]
+transform = Transform3D(-0.29921398, -0.021674735, -0.0010979943, 0, -0.015177877, 0.29961583, -0.021702532, 0.2988308, 0.015138109, -0.045231164, -0.15239584, 0)
