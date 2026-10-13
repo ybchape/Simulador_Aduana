@@ -34,7 +34,7 @@
 [ext_resource type="PackedScene" uid="uid://tady738mrlvl" path="res://escenas/ventana_resumen/ventana_resumen.tscn" id="30_4bfgv"]
 [ext_resource type="PackedScene" uid="uid://dw4ht40cbfe8b" path="res://escenas/tienda/tienda.tscn" id="32_jn0hn"]
 [ext_resource type="PackedScene" uid="uid://d320lx1iqp05q" path="res://escenas/inventario/inventario.tscn" id="33_inventario"]
-[ext_resource type="Texture2D" uid="uid://k7gekfp0nc0j" path="res://assets/ui/barras/bar_round_large_yellow.png" id="35_lp32y"]
+[ext_resource type="Texture2D" uid="uid://dyigfm64w1ltt" path="res://assets/ui/barras/bar_round_large_blue.png" id="35_lp32y"]
 [ext_resource type="Script" uid="uid://bghk8y3q4kqiy" path="res://escenas/escena_principal/barra_energia.gd" id="36_2smbc"]
 
 [sub_resource type="Environment" id="Environment_g4v7s"]
