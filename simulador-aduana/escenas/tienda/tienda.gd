@@ -1,180 +1,144 @@
 extends Control
 
-# CORI CODE- saque la plata fija de $500 para usar el GM
+## Tienda conectada a la billetera persistente de GameManager.
+## Los identificadores de mejoras se comparten con el inventario y se conservan
+## al recargar la escena entre turnos.
 
-# Cambia "Label" por el nombre exacto que le pusiste a tu texto de dinero arriba
-@onready var texto_dinero = $Label
+const PRECIO_MEJORA_NIVEL_2: int = 300
+const PRECIO_COMPRA_BALANZA: int = 450
+const PRECIO_COMPRA_ENERGIZANTE: int = 150
+
+@onready var texto_dinero: Label = $Label
 @onready var btn_mejorar_escaner: Button = $ScrollContainer/VBoxContainer/PanelEscaner/HBoxContainer/VBoxContainer2/BtnMejorar
 @onready var btn_mejorar_cuter: Button = $ScrollContainer/VBoxContainer/PanelCuter/HBoxContainer/VBoxContainer2/BtnMejorar
-
 @onready var btn_comprar_energizante: Button = $ScrollContainer/VBoxContainer/PanelEnergizante/HBoxContainer/VBoxContainer2/BtnComprar
 @onready var btn_mejorar_energizante: Button = $ScrollContainer/VBoxContainer/PanelEnergizante/HBoxContainer/VBoxContainer2/BtnMejorar
-
-
 @onready var btn_comprar_balanza: Button = $ScrollContainer/VBoxContainer/PanelBalanza/HBoxContainer/VBoxContainer2/BtnComprar
 @onready var btn_mejorar_balanza: Button = $ScrollContainer/VBoxContainer/PanelBalanza/HBoxContainer/VBoxContainer2/BtnMejorar
-
 @onready var nivel_escaner: Label = $ScrollContainer/VBoxContainer/PanelEscaner/HBoxContainer/VBoxContainer/nivel_escaner
 @onready var nivel_cutar: Label = $ScrollContainer/VBoxContainer/PanelCuter/HBoxContainer/VBoxContainer/nivel_cutar
 @onready var nivel_balanza: Label = $ScrollContainer/VBoxContainer/PanelBalanza/HBoxContainer/VBoxContainer/nivel_balanza
 @onready var nivel_energizante: Label = $ScrollContainer/VBoxContainer/PanelEnergizante/HBoxContainer/VBoxContainer/Nivel_energizante
 
-func _ready():
-	_actualizar_pantalla()
-	_restaurar_estado_compras() # CORI CODE- load las mejoras ya compradas al iniciar
-	
-func _actualizar_pantalla():
-	# CAMBIO- Ahora lee directo del GM
-	if GameManager:
-		texto_dinero.text = "Dinero disponible: $" + str(GameManager.dinero_total)
+func _ready() -> void:
+	_conectar_botones()
+	if not GameManager.dinero_cambiado.is_connected(_on_dinero_cambiado):
+		GameManager.dinero_cambiado.connect(_on_dinero_cambiado)
+	_refrescar_tienda()
 
-# CORI CODE- restaura el estado de los botones si la mejora ya fue comprada 
+func _conectar_botones() -> void:
+	btn_mejorar_escaner.pressed.connect(_comprar_mejora_escaner)
+	btn_mejorar_cuter.pressed.connect(_comprar_mejora_cuter)
+	btn_comprar_balanza.pressed.connect(_comprar_balanza)
+	btn_mejorar_balanza.pressed.connect(_mejorar_balanza)
+	btn_comprar_energizante.pressed.connect(_comprar_energizante)
+	btn_mejorar_energizante.pressed.connect(_mejorar_energizante)
+
+func _on_dinero_cambiado(_nuevo_saldo: int) -> void:
+	_refrescar_tienda()
+
+func _refrescar_tienda() -> void:
+	texto_dinero.text = "Dinero disponible: $" + str(GameManager.dinero_total)
+	_restaurar_estado_compras()
+	_refrescar_estado_botones()
+
 func _restaurar_estado_compras() -> void:
-	if not GameManager:
-		return
+	var mejoras: Array[String] = GameManager.mejoras_compradas
 
-	if "escaner_lvl2" in GameManager.mejoras_compradas:
+	if mejoras.has("escaner_lvl2"):
 		btn_mejorar_escaner.text = "¡Adquirido!"
 		btn_mejorar_escaner.disabled = true
 		nivel_escaner.text = "Nivel 2"
+	else:
+		btn_mejorar_escaner.text = "Mejorar: $" + str(PRECIO_MEJORA_NIVEL_2)
+		nivel_escaner.text = "Nivel 1"
 
-	if "cuter_lvl2" in GameManager.mejoras_compradas:
+	if mejoras.has("cuter_lvl2"):
 		btn_mejorar_cuter.text = "¡Adquirido!"
 		btn_mejorar_cuter.disabled = true
 		nivel_cutar.text = "Nivel 2"
+	else:
+		btn_mejorar_cuter.text = "Mejorar: $" + str(PRECIO_MEJORA_NIVEL_2)
+		nivel_cutar.text = "Nivel 1"
 
-	if "balanza_obtenida" in GameManager.mejoras_compradas:
-		btn_comprar_balanza.text = "¡Adquirido!"
+	if mejoras.has("balanza_obtenida"):
+		btn_comprar_balanza.visible = false
 		btn_comprar_balanza.disabled = true
 		btn_mejorar_balanza.visible = true
-		nivel_balanza.text = "balanza obtenida"
+		nivel_balanza.text = "Nivel 1"
+	else:
+		btn_comprar_balanza.visible = true
+		btn_comprar_balanza.text = "Comprar: $" + str(PRECIO_COMPRA_BALANZA)
+		btn_mejorar_balanza.visible = false
+		nivel_balanza.text = "No adquirida"
 
-	if "energizante_obtenido" in GameManager.mejoras_compradas:
-		btn_comprar_energizante.text = "¡Adquirido!"
+	if mejoras.has("energizante_obtenido"):
+		btn_comprar_energizante.visible = false
 		btn_comprar_energizante.disabled = true
 		btn_mejorar_energizante.visible = true
-
-# botones del escaner
-func _on_btn_mejorar_pressed() -> void:
-	var precio_mejora_escaner = 300
-	
-	# CORI CODE- Compara y resta el dinero en el GM
-	if GameManager and GameManager.dinero_total >= precio_mejora_escaner:
-		GameManager.dinero_total -= precio_mejora_escaner
-		GameManager.mejoras_compradas.append("escaner_lvl2") 
-		_actualizar_pantalla()
-
-		btn_mejorar_escaner.text = "¡Adquirido!"
-		btn_mejorar_escaner.disabled = true
-
-		# ¡Aquí actualizamos el texto dinámicamente!
-		nivel_escaner.text = "Nivel 2"
+		nivel_energizante.text = "Nivel 1"
 	else:
-		btn_mejorar_escaner.text = "Dinero insuficiente"
-		await get_tree().create_timer(1.5).timeout
-		btn_mejorar_escaner.text = "Mejorar: $300"
+		btn_comprar_energizante.visible = true
+		btn_comprar_energizante.text = "Comprar: $" + str(PRECIO_COMPRA_ENERGIZANTE)
+		btn_mejorar_energizante.visible = false
+		nivel_energizante.text = "No adquirida"
 
-# cutter
-func _on_mejorar_cuter_pressed() -> void:
-	var precio = 300
-	
-	# CORI CODE- Compara y resta el dinero en el GM (lo mismo con todos los objetos)
-	if GameManager and GameManager.dinero_total >= precio:
-		GameManager.dinero_total -= precio
-		GameManager.mejoras_compradas.append("cuter_lvl2") 
-		_actualizar_pantalla()
-		
-		btn_mejorar_cuter.text = "¡Adquirido!"
-		btn_mejorar_cuter.disabled = true
+func _refrescar_estado_botones() -> void:
+	var saldo: int = GameManager.dinero_total
+	if not GameManager.mejoras_compradas.has("escaner_lvl2"):
+		btn_mejorar_escaner.disabled = saldo < PRECIO_MEJORA_NIVEL_2
+	if not GameManager.mejoras_compradas.has("cuter_lvl2"):
+		btn_mejorar_cuter.disabled = saldo < PRECIO_MEJORA_NIVEL_2
+	if not GameManager.mejoras_compradas.has("balanza_obtenida"):
+		btn_comprar_balanza.disabled = saldo < PRECIO_COMPRA_BALANZA
+	if not GameManager.mejoras_compradas.has("energizante_obtenido"):
+		btn_comprar_energizante.disabled = saldo < PRECIO_COMPRA_ENERGIZANTE
+	if GameManager.mejoras_compradas.has("balanza_obtenida"):
+		btn_mejorar_balanza.disabled = saldo < PRECIO_MEJORA_NIVEL_2
+	if GameManager.mejoras_compradas.has("energizante_obtenido"):
+		btn_mejorar_energizante.disabled = saldo < PRECIO_MEJORA_NIVEL_2
 
-		nivel_cutar.text = "Nivel 2"
-	else:
-		btn_mejorar_cuter.text = "Dinero insuficiente"
-		await get_tree().create_timer(1.5).timeout
-		btn_mejorar_cuter.text = "Mejorar: $300"
+func _comprar_mejora_escaner() -> void:
+	if _pagar(PRECIO_MEJORA_NIVEL_2):
+		GameManager.registrar_mejora("escaner_lvl2")
+		EventBus.herramienta_mejorada.emit("escaner", 2)
+		_refrescar_tienda()
 
-# balanza
-func _on_comprar_balanza_pressed() -> void:
-	var precio = 450
+func _comprar_mejora_cuter() -> void:
+	if _pagar(PRECIO_MEJORA_NIVEL_2):
+		GameManager.registrar_mejora("cuter_lvl2")
+		EventBus.herramienta_mejorada.emit("cuter", 2)
+		_refrescar_tienda()
 
-	if GameManager and GameManager.dinero_total >= precio:
-		GameManager.dinero_total -= precio
-		GameManager.mejoras_compradas.append("balanza_obtenida") 
-		_actualizar_pantalla()
+func _comprar_balanza() -> void:
+	if _pagar(PRECIO_COMPRA_BALANZA):
+		GameManager.registrar_mejora("balanza_obtenida")
+		EventBus.herramienta_desbloqueada.emit("balanza")
+		_refrescar_tienda()
 
-		btn_comprar_balanza.text = "¡Adquirido!"
-		btn_comprar_balanza.disabled = true
-		btn_mejorar_balanza.visible = true # Aparece la mejora
+func _mejorar_balanza() -> void:
+	if _pagar(PRECIO_MEJORA_NIVEL_2):
+		GameManager.registrar_mejora("balanza_lvl2")
+		EventBus.herramienta_mejorada.emit("balanza", 2)
+		_refrescar_tienda()
 
-		nivel_balanza.text = "balanza obtenida"
-	else:
-		btn_comprar_balanza.text = "Dinero insuficiente"
-		await get_tree().create_timer(1.5).timeout
-		btn_comprar_balanza.text = "Comprar: $450"
+func _comprar_energizante() -> void:
+	if _pagar(PRECIO_COMPRA_ENERGIZANTE):
+		GameManager.registrar_mejora("energizante_obtenido")
+		EventBus.herramienta_desbloqueada.emit("energizante")
+		_refrescar_tienda()
 
-# energizante
-func _on_comprar_energizante_pressed() -> void:
-	var precio = 150
+func _mejorar_energizante() -> void:
+	if _pagar(PRECIO_MEJORA_NIVEL_2):
+		GameManager.registrar_mejora("energizante_lvl2")
+		EventBus.herramienta_mejorada.emit("energizante", 2)
+		_refrescar_tienda()
 
-	if GameManager and GameManager.dinero_total >= precio:
-		GameManager.dinero_total -= precio
-		GameManager.mejoras_compradas.append("energizante_obtenido") 
-		_actualizar_pantalla()
-
-		btn_comprar_energizante.text = "¡Adquirido!"
-		btn_comprar_energizante.disabled = true
-
-		# lo vuelve a hacer visible al energizante
-		btn_mejorar_energizante.visible = true
-	else:
-		niveles[id] = nivel + 1
-		EventBus.herramienta_mejorada.emit(id, niveles[id])
-
-	_refrescar_todo()
-
-# --- Refresco de la interfaz -----------------------------------------------
-
-func _refrescar_todo() -> void:
-	texto_dinero.text = "Dinero disponible: $" + str(int(EventBus.billetera))
-	for id in CATALOGO:
-		_refrescar_producto(id)
-
-func _refrescar_producto(id: String) -> void:
-	var nivel: int = niveles[id]
-	var precio_compra: int = CATALOGO[id]["precio_compra"]
-	var precio_mejora: int = CATALOGO[id]["precio_mejora"]
-	var par: Dictionary = botones[id]
-	var btn_comprar: Button = par["comprar"]
-	var btn_mejorar: Button = par["mejorar"]
-	var label_nivel: Label = etiquetas[id]
-
-	if label_nivel:
-		label_nivel.text = "No adquirida" if nivel <= 0 else "Nivel " + str(nivel)
-
-	if nivel <= 0:
-		# No adquirida: se ofrece comprarla.
-		if btn_comprar:
-			btn_comprar.visible = true
-			btn_comprar.text = "Comprar: $" + str(precio_compra)
-			btn_comprar.disabled = EventBus.billetera < precio_compra
-		if btn_mejorar:
-			btn_mejorar.visible = false
-	elif nivel < NIVEL_MAXIMO:
-		# Adquirida, disponible para mejorar.
-		if btn_comprar:
-			btn_comprar.visible = false
-		if btn_mejorar:
-			btn_mejorar.visible = true
-			btn_mejorar.text = "Mejorar: $" + str(precio_mejora)
-			btn_mejorar.disabled = EventBus.billetera < precio_mejora
-	else:
-		# Nivel máximo alcanzado.
-		if btn_comprar:
-			btn_comprar.visible = false
-		if btn_mejorar:
-			btn_mejorar.visible = true
-			btn_mejorar.text = "Nivel máximo"
-			btn_mejorar.disabled = true
+func _pagar(precio: int) -> bool:
+	var pago_exitoso: bool = GameManager.gastar_dinero(precio)
+	if not pago_exitoso:
+		_refrescar_tienda()
+	return pago_exitoso
 
 func _on_button_cerrar_pressed() -> void:
 	hide()
