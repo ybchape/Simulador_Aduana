@@ -44,9 +44,9 @@ func _mostrar_resumen(stats: Dictionary) -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
 func _on_btn_siguiente_dia_pressed() -> void:
-	# acumulamos la plata y avanzamos de día en el GM
+	# El neto ya se acreditó al alcanzar la meta, antes de mostrar el resumen.
+	# Aquí solo avanzamos el día para evitar acreditar el turno dos veces.
 	if GameManager:
-		GameManager.acumular_dinero(dinero_neto_actual)
 		GameManager.avanzar_siguiente_dia()
 
 	# Reinicia la escena actual para simular el siguiente día

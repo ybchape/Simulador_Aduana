@@ -59,6 +59,18 @@ func _configurar_datos() -> void:
 	for id in herramientas:
 		herramientas[id]["desbloqueada"] = herramientas[id]["nivel"] > 0
 
+	# Reconstruir las herramientas compradas/mejoradas desde el estado persistente
+	# después de cambiar de día (la escena se vuelve a cargar).
+	for id in ORDEN:
+		var nivel_guardado: int = 1 if GameManager.mejoras_compradas.has(id + "_obtenido") else 0
+		if id in ["escaner", "cuter"]:
+			nivel_guardado = 1
+		if GameManager.mejoras_compradas.has(id + "_lvl2"):
+			nivel_guardado = 2
+		if nivel_guardado > 0:
+			herramientas[id]["nivel"] = nivel_guardado
+			herramientas[id]["desbloqueada"] = true
+
 func _conectar_slots() -> void:
 	for slot in hotbar.get_children():
 		if slot is Button:

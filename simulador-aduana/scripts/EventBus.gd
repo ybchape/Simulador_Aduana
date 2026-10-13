@@ -15,24 +15,23 @@ signal dinero_cambiado(nuevo_saldo: float)
 signal herramienta_desbloqueada(id: String)
 signal herramienta_mejorada(id: String, nivel: int)
 
-## Billetera compartida del jugador. Es la única fuente de verdad del saldo
-## que gasta la tienda.
-var billetera: float = 500.0
-
-## Descuenta un monto exacto de la billetera. Devuelve true si se pudo pagar.
-func gastar_dinero(monto: float) -> bool:
-	if monto <= 0.0 or billetera < monto:
-		return false
-	billetera -= monto
-	dinero_cambiado.emit(billetera)
-	return true
-
-## Suma un monto a la billetera (por ejemplo, la ganancia de un pedido).
+## El saldo se gestiona en GameManager.dinero_total para que la tienda y el
+## cierre de turno compartan una sola billetera. Esta función mantiene la API
+## usada por GestorDia para pagar el neto del turno.
 func agregar_dinero(monto: float) -> void:
-	if monto == 0.0:
+	if monto == 0.0 or not GameManager:
 		return
-	billetera += monto
-	dinero_cambiado.emit(billetera)
+	GameManager.acumular_dinero(monto)
+	dinero_cambiado.emit(GameManager.dinero_total)
+
+## Compatibilidad: las compras usan GameManager como fuente única del saldo.
+func gastar_dinero(monto: float) -> bool:
+	if not GameManager:
+		return false
+	var pudo_pagar: bool = GameManager.gastar_dinero(int(monto))
+	if pudo_pagar:
+		dinero_cambiado.emit(GameManager.dinero_total)
+	return pudo_pagar
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
