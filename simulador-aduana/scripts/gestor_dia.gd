@@ -57,5 +57,8 @@ func _on_decision_tomada(_fue_permitido: bool) -> void:
 			"descontado": dinero_descontado,
 			"neto": dinero_obtenido - dinero_descontado
 		}
-		
+
+		# PAGO AL FINAL DEL TURNO:
+		# Se deposita el balance neto una sola vez, justo antes de mostrar el resumen.
+		EventBus.agregar_dinero(stats_turno["neto"])
 		EventBus.objetivo_dia_alcanzado.emit(stats_turno)
