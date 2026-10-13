@@ -8,6 +8,7 @@ signal decision_tomada(fue_permitido)
 #señales objetivo del dia
 signal progreso_dia_actualizado(pedidos_completados, meta_diaria)
 signal objetivo_dia_alcanzado(stats_turno)
+signal siguiente_pedido_solicitado
 
 #señales de tienda / inventario
 signal dinero_cambiado(nuevo_saldo: float)

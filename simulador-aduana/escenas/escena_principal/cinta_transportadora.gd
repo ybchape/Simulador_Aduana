@@ -54,6 +54,9 @@ func _mover_entrada(delta: float) -> void:
 		if indice_punto_actual >= ruta_entrada.size():
 			estado = "INSPECCIONANDO"
 
+# ==========================================
+# NUEVO: Función para mover la caja hacia la salida
+# ==========================================
 func _mover_salida(delta: float) -> void:
 	if punto_salida_final == null:
 		return
@@ -61,12 +64,15 @@ func _mover_salida(delta: float) -> void:
 	var objetivo: Vector3 = punto_salida_final.global_position
 	caja_actual.global_position = caja_actual.global_position.move_toward(objetivo, velocidad * delta)
 
-	# Cuando toca el punto final metido en la pared derecha, se elimina
+	# Cuando llega al punto de salida final, se destruye la caja y se libera la variable
 	if caja_actual.global_position.distance_to(objetivo) < 0.1:
 		estado = "ESPERANDO"
 		if is_instance_valid(caja_actual):
 			caja_actual.queue_free()
 		caja_actual = null
+		
+		# Aquí dispararemos el siguiente pedido automáticamente
+		EventBus.emit_signal("siguiente_pedido_solicitado")
 
 func registrar_caja(nueva_caja: Node3D) -> void:
 	if nueva_caja == null or ruta_entrada.is_empty():
@@ -84,13 +90,10 @@ func _on_pedido_en_zona(hay_pedido: bool) -> void:
 		# Se frena justo frente al jugador cuando entra al Area3D
 		estado = "INSPECCIONANDO"
 
-func _on_decision_tomada(fue_permitido: bool) -> void:
+func _on_decision_tomada(_fue_permitido: bool) -> void:
 	if estado == "INSPECCIONANDO" and caja_actual != null:
-		if fue_permitido:
-			estado = "SALIENDO"
-		else:
-			estado = "ESPERANDO"
-			caja_actual = null
+		# MODIFICADO: Ahora, sin importar si se permite o deniega, pasa a estado SALIENDO
+		estado = "SALIENDO"
 
 func _on_objetivo_alcanzado(_stats: Dictionary = {}) -> void:
 	jornada_completada = true
