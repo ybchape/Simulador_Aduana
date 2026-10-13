@@ -127,9 +127,54 @@ func _on_comprar_energizante_pressed() -> void:
 		# lo vuelve a hacer visible al energizante
 		btn_mejorar_energizante.visible = true
 	else:
-		btn_comprar_energizante.text = "Dinero insuficiente"
-		await get_tree().create_timer(1.5).timeout
-		btn_comprar_energizante.text = "Comprar: $150"
+		niveles[id] = nivel + 1
+		EventBus.herramienta_mejorada.emit(id, niveles[id])
+
+	_refrescar_todo()
+
+# --- Refresco de la interfaz -----------------------------------------------
+
+func _refrescar_todo() -> void:
+	texto_dinero.text = "Dinero disponible: $" + str(int(EventBus.billetera))
+	for id in CATALOGO:
+		_refrescar_producto(id)
+
+func _refrescar_producto(id: String) -> void:
+	var nivel: int = niveles[id]
+	var precio_compra: int = CATALOGO[id]["precio_compra"]
+	var precio_mejora: int = CATALOGO[id]["precio_mejora"]
+	var par: Dictionary = botones[id]
+	var btn_comprar: Button = par["comprar"]
+	var btn_mejorar: Button = par["mejorar"]
+	var label_nivel: Label = etiquetas[id]
+
+	if label_nivel:
+		label_nivel.text = "No adquirida" if nivel <= 0 else "Nivel " + str(nivel)
+
+	if nivel <= 0:
+		# No adquirida: se ofrece comprarla.
+		if btn_comprar:
+			btn_comprar.visible = true
+			btn_comprar.text = "Comprar: $" + str(precio_compra)
+			btn_comprar.disabled = EventBus.billetera < precio_compra
+		if btn_mejorar:
+			btn_mejorar.visible = false
+	elif nivel < NIVEL_MAXIMO:
+		# Adquirida, disponible para mejorar.
+		if btn_comprar:
+			btn_comprar.visible = false
+		if btn_mejorar:
+			btn_mejorar.visible = true
+			btn_mejorar.text = "Mejorar: $" + str(precio_mejora)
+			btn_mejorar.disabled = EventBus.billetera < precio_mejora
+	else:
+		# Nivel máximo alcanzado.
+		if btn_comprar:
+			btn_comprar.visible = false
+		if btn_mejorar:
+			btn_mejorar.visible = true
+			btn_mejorar.text = "Nivel máximo"
+			btn_mejorar.disabled = true
 
 func _on_button_cerrar_pressed() -> void:
-	self.hide() # Esto oculta la ventana entera
+	hide()
