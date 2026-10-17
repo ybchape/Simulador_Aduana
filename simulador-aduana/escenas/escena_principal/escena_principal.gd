@@ -37,16 +37,18 @@ func _on_decision_tomada(fue_permitido: bool) -> void:
 func _on_siguiente_pedido_solicitado() -> void:
 	# instanciamos una nueva caja a partir de la escena precargada
 	var nueva_caja = CAJA_ESCENA.instantiate()
-
 	# add como hija dentro del nodo contenedor (Espacio_Trabajo)
 	$Espacio_Trabajo.add_child(nueva_caja)
-	
+
 	_generar_y_cargar_nuevo_pedido()
-	
+
+	# Si la caja tiene la función para inicializarse con el pedido, se la llama
+	if nueva_caja.has_method("inicializar_caja"):
+		nueva_caja.inicializar_caja(pedido_actual)
 	# registra la nueva caja en la cinta para que comience su recorrido de entrada
 	$Espacio_Trabajo/CintaTransportadora.registrar_caja(nueva_caja)
 
-# --- NUEVO: Generación de datos aleatorios para comparar Planilla vs Ticket ---
+# generación de datos aleatorios para comparar Planilla con ek Ticket 
 func _generar_y_cargar_nuevo_pedido() -> void:
 	pedido_actual = PedidoInfo.new()
 	var productos_posibles = ["Alfajor", "Cocaína", "BMO", "Copa", "Microondas"]

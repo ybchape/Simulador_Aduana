@@ -3,6 +3,7 @@ extends RigidBody3D
 # Aquí le decimos a la caja dónde escondimos el objeto.
 # Busca el nodo Marker3D y luego el dibujo de adentro.
 @onready var objeto_secreto = $puntoObjeto/MeshInstance3D
+var pedido_asociado: PedidoInfo
 
 func _ready():
 	# Le decimos a la caja que escuche el megáfono del EventBus
@@ -29,3 +30,12 @@ func _on_input_event(camera: Node, event: InputEvent, event_position: Vector3, n
 			
 			# 4. Llamamos al Bus de Eventos para que la pantalla aparezca
 			EventBus.escanear_objeto.emit(forma_secreta)
+
+# func para recibir los datos y enviárselos al ticket dentro del SubViewport
+func inicializar_caja(datos: PedidoInfo) -> void:
+	var nodo_ticket = $MeshInstance/SubViewport/Ticket
+	
+	if nodo_ticket and nodo_ticket.has_method("cargar_ticket"):
+		nodo_ticket.cargar_ticket(datos)
+	else:
+		print("Advertencia: No se encontró el nodo Ticket en la caja.")
