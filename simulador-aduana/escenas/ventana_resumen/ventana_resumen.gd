@@ -35,7 +35,6 @@ func _mostrar_resumen(stats: Dictionary) -> void:
 	total.text = "Balance neto: $" + str(stats.neto)
 
 	# Mostrar la ventana inmediatamente
-
 	show()
 	if panel_container:
 		panel_container.show()

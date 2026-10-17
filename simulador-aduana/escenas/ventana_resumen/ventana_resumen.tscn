@@ -6,7 +6,6 @@
 script = ExtResource("1_bsto0")
 
 [node name="PanelContainer" type="PanelContainer" parent="." unique_id=509755836]
-visible = false
 custom_minimum_size = Vector2(800, 700)
 anchors_preset = 8
 anchor_left = 0.5
