@@ -1,6 +1,7 @@
+class_name EscenaPrincipal
 extends Node3D
 
-# Ref a la instancia de la planilla dentro del CanvasLayer
+# Ref a la instancia de la planilla dentro del canvaslayer
 @onready var planilla_ui: Control = $UIPlanilla/PlanillaUI
 
 #  Precargamos la escena de la caja para poder instanciar news pedidos por código
@@ -21,6 +22,14 @@ func probar_carga_pedido() -> void:
 	pedido_test.peso_kg = 20.546
 	pedido_test.codigo_identificador = "RF-396 VY"
 	pedido_test.es_ilegal = false
+
+	# 1. Actualiza la planilla grande
+	if planilla_ui:
+		planilla_ui.cargar_pedido(pedido_test)
+
+	# 2. Actualiza la caja que ya está puesta en la escena al iniciar
+	if $Espacio_Trabajo/caja.has_method("configurar_caja"):
+		$Espacio_Trabajo/caja.configurar_caja(pedido_test)
 
 #lo envia a la planilla para que actualice sus datos
 	if planilla_ui:
@@ -55,6 +64,6 @@ func _on_siguiente_pedido_solicitado() -> void:
 	# UPDATE la planilla con los datos de esta nueva order
 	if planilla_ui:
 		planilla_ui.cargar_pedido(pedido_nuevo)
-	
+
 	# registra la nueva caja en la cinta para que comience su recorrido de entrada
 	$Espacio_Trabajo/CintaTransportadora.registrar_caja(nueva_caja)

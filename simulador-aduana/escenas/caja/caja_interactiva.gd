@@ -1,5 +1,8 @@
 extends RigidBody3D
 
+# Referencia al nodo del ticket dentro de la escena de la caja (según tu estructura visual)
+@onready var ticket_interno: Control = $MeshInstance/SubViewport/Ticket
+
 # Aquí le decimos a la caja dónde escondimos el objeto.
 # Busca el nodo Marker3D y luego el dibujo de adentro.
 @onready var objeto_secreto = $puntoObjeto/MeshInstance3D
@@ -8,6 +11,11 @@ func _ready():
 	# Le decimos a la caja que escuche el megáfono del EventBus
 	# para saber en qué momento tomaste la decisión
 	EventBus.decision_tomada.connect(_desaparecer_caja)
+
+# --- NUEVO: Función para configurar el ticket de esta caja específica ---
+func configurar_caja(datos_pedido: PedidoInfo) -> void:
+	if ticket_interno and datos_pedido:
+		ticket_interno.cargar_ticket(datos_pedido)
 
 func _desaparecer_caja(_fue_permitido: bool) -> void:
 	# Al presionar cualquier botón, espera 1 segundo y se destruye si fue denegada
