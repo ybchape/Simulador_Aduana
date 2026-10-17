@@ -25,14 +25,19 @@ func _ready() -> void:
 	if siguiente_dia:
 		siguiente_dia.pressed.connect(_on_btn_siguiente_dia_pressed)
 
-func _mostrar_resumen(stats: Dictionary) -> void:
+# --- NUEVO: Se asigna un valor por defecto al parámetro stats para poder tomarlo de GameManager si no se envía ---
+func _mostrar_resumen(stats: Dictionary = {}) -> void:
+	# --- NUEVO: Si no se enviaron stats desde EventBus, se consultan al GameManager ---
+	if stats.is_empty() and GameManager:
+		stats = GameManager.obtener_stats_resumen()
+
 	# save el neto en la variable de la clase 
-	dinero_neto_actual = stats.neto
+	dinero_neto_actual = stats.get("neto", 0.0)
 	
-	titulo.text = "RESUMEN DEL DÍA\nPedidos correctos: " + str(stats.correctos) + " / " + str(stats.total)
-	dinero_ganado.text = "Dinero obtenido: $" + str(stats.ganado)
-	dinero_descontado.text = "Dinero descontado: -$" + str(stats.descontado)
-	total.text = "Balance neto: $" + str(stats.neto)
+	titulo.text = "RESUMEN DEL DÍA\nPedidos correctos: " + str(stats.get("correctos", 0)) + " / " + str(stats.get("total", 0))
+	dinero_ganado.text = "Dinero obtenido: $" + str(stats.get("ganado", 0))
+	dinero_descontado.text = "Dinero descontado: -$" + str(stats.get("descontado", 0))
+	total.text = "Balance neto: $" + str(stats.get("neto", 0))
 
 	# Mostrar la ventana inmediatamente
 
