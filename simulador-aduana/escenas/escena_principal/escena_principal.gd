@@ -37,16 +37,28 @@ func _on_decision_tomada(fue_permitido: bool) -> void:
 func _on_siguiente_pedido_solicitado() -> void:
 	# instanciamos una nueva caja a partir de la escena precargada
 	var nueva_caja = CAJA_ESCENA.instantiate()
+
+	_generar_y_cargar_nuevo_pedido()
+
 	# add como hija dentro del nodo contenedor (Espacio_Trabajo)
 	$Espacio_Trabajo.add_child(nueva_caja)
 
 	_generar_y_cargar_nuevo_pedido()
 
-	# Si la caja tiene la función para inicializarse con el pedido, se la llama
-	if nueva_caja.has_method("inicializar_caja"):
-		nueva_caja.inicializar_caja(pedido_actual)
-	# registra la nueva caja en la cinta para que comience su recorrido de entrada
+	# Buscamos el nodo hijo 'caja_interactiva' que tiene el script
+	var script_caja = nueva_caja.get_node_or_null("caja_interactiva")
+	if script_caja and script_caja.has_method("inicializar_caja"):
+		script_caja.inicializar_caja(pedido_actual)
+	else:
+		print("Error: No se encontró el nodo caja_interactiva en la nueva caja.")
+
 	$Espacio_Trabajo/CintaTransportadora.registrar_caja(nueva_caja)
+
+	# Si la caja tiene la función para inicializarse con el pedido, se la llama
+	#if nueva_caja.has_method("inicializar_caja"):
+		#nueva_caja.inicializar_caja(pedido_actual)
+	# registra la nueva caja en la cinta para que comience su recorrido de entrada
+	#$Espacio_Trabajo/CintaTransportadora.registrar_caja(nueva_caja)#
 
 # generación de datos aleatorios para comparar Planilla con ek Ticket 
 func _generar_y_cargar_nuevo_pedido() -> void:
