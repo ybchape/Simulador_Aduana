@@ -8,7 +8,7 @@ var pedido_asociado: PedidoInfo = null
 func _ready():
 	EventBus.decision_tomada.connect(_desaparecer_caja)
 
-	# Si ya teníamos datos guardados antes de estar en el árbol, los aplicamos ahora
+	 #Si ya teníamos datos guardados antes de estar en el árbol, los aplicamos ahora
 	if pedido_asociado != null:
 		_aplicar_datos_al_ticket()
 
