@@ -10,3 +10,6 @@ extends Resource
 @export var ticket_producto: String = ""
 @export var ticket_peso_kg: float = 0.0
 @export var ticket_codigo_identificador: String = ""
+
+# --- CAMPO PARA LA MALLA 3D DEL ESCÁNER ---
+@export var objeto_escena: PackedScene

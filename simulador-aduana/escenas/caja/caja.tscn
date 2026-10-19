@@ -7,8 +7,6 @@
 [sub_resource type="BoxShape3D" id="BoxShape3D_g4v7s"]
 size = Vector3(1, 1.0352173, 1.0264893)
 
-[sub_resource type="SphereMesh" id="SphereMesh_g4v7s"]
-
 [sub_resource type="SphereShape3D" id="SphereShape3D_g4v7s"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_nvgnm"]
@@ -40,13 +38,10 @@ shape = SubResource("BoxShape3D_g4v7s")
 [node name="puntoObjeto" type="Marker3D" parent="caja_interactiva" unique_id=1532387342]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.03360164, 0, 0)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="caja_interactiva/puntoObjeto" unique_id=399833008]
-transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 0, 0, 0)
-mesh = SubResource("SphereMesh_g4v7s")
+[node name="Area3D" type="Area3D" parent="caja_interactiva/puntoObjeto" unique_id=1306459603]
+transform = Transform3D(0.59999996, 0, 0, 0, 0.59999996, 0, 0, 0, 0.59999996, 0, 0, 0)
 
-[node name="Area3D" type="Area3D" parent="caja_interactiva/puntoObjeto/MeshInstance3D" unique_id=1306459603]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="caja_interactiva/puntoObjeto/MeshInstance3D/Area3D" unique_id=2043082838]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="caja_interactiva/puntoObjeto/Area3D" unique_id=2043082838]
 shape = SubResource("SphereShape3D_g4v7s")
 
 [node name="MeshInstance" type="MeshInstance3D" parent="caja_interactiva" unique_id=552378889]

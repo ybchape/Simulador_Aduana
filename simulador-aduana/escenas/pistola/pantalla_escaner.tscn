@@ -7,6 +7,7 @@
 render_priority = 0
 shader = ExtResource("2_epjqv")
 shader_parameter/color_rayos_x = Color(0.2, 0.5, 1, 1)
+shader_parameter/opacidad_base = 0.35
 
 [node name="PantallaEscaner" type="Control" unique_id=1713069112]
 visible = false
@@ -62,3 +63,4 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3)
 material_override = SubResource("ShaderMaterial_epjqv")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="SubViewportContainer/SubViewport" unique_id=1654022739]
+light_energy = 1.5
