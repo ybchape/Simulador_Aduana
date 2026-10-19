@@ -6,18 +6,41 @@ extends Node3D
 #  Precargamos la escena de la caja para poder instanciar news pedidos por código
 const CAJA_ESCENA = preload("res://escenas/caja/caja.tscn")
 
-# Precaramos las mallas 3D de tus assets (ajustá las rutas a tus carpetas)
+# Precargamos las mallas 3D de los assets 
 var mallas_legales: Array[PackedScene] = [
 	preload("res://assets/muebles/gltf/cactus_medium_B.gltf"),
 	preload("res://assets/muebles/gltf/book_set.gltf"),
+	preload("res://assets/muebles/gltf/cabinet_small.gltf"),
+	preload("res://assets/muebles/gltf/chair_A.gltf"),
+	preload("res://assets/muebles/gltf/lamp_table.gltf"),
+	preload("res://assets/muebles/gltf/pictureframe_small_A.gltf"),
+	preload("res://assets/muebles/gltf/pillow_A.gltf"),
+	preload("res://assets/muebles/gltf/rug_oval_A.gltf"),
+	preload("res://assets/muebles/gltf/shelf_B_large.gltf"),
+	preload("res://assets/muebles/gltf/table_small.gltf"),
+	preload("res://assets/herramientas/gltf/lantern.gltf"),
+	preload("res://assets/herramientas/gltf/magnifying_glass.gltf"),
+	preload("res://assets/herramientas/gltf/pencil_B_long.gltf"),
+	preload("res://assets/herramientas/gltf/scissors.gltf"),
+	preload("res://assets/herramientas/gltf/shovel.gltf"),
 ]
-var nombres_legales: Array[String] = ["Planta Decorativa", "Libros"]
+var nombres_legales: Array[String] = ["Planta Decorativa", "Libros" , "Mesita de Luz" , "Sillita" ,
+ "Velador" , "Cuadro de Fotos" , "Almohada" , "Alfombra" , "Repisa" , "Mesita" , "Luz de Exterior" ,
+"Lupa" , "Lápiz" , "Tijeras" , "Pala"
+]
 
 var mallas_ilegales: Array[PackedScene] = [
 	preload("res://assets/armas/gltf/hammer_C.gltf"),
-	preload("res://assets/armas/gltf/sword_C.gltf")
+	preload("res://assets/armas/gltf/sword_C.gltf"),
+	preload("res://assets/armas/gltf/axe_B.gltf"),
+	preload("res://assets/armas/gltf/fistweapon_A_stacked.gltf"),
+	preload("res://assets/armas/gltf/hammer_B.gltf"),
+	preload("res://assets/armas/gltf/sword_E.gltf"),
+	preload("res://assets/herramientas/gltf/knife.gltf"),
+	preload("res://assets/herramientas/gltf/saw.gltf"),
 ]
-var nombres_ilegales: Array[String] = ["Maza con Pinches", "Daga"]
+var nombres_ilegales: Array[String] = ["Maza con Pinches", "Daga" , "Hacha" , "Manoplas" , "Martillo" ,
+ "Espada" , "Cuchillo" , "Serrucho" , ]
 
 
 func _ready() -> void:

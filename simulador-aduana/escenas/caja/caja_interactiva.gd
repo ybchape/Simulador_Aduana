@@ -16,7 +16,8 @@ func _ready():
 		# Instanciamos el asset dentro de puntoObjeto
 		var instancia_asset = info.objeto_escena.instantiate()
 		punto_objeto.add_child(instancia_asset)
-
+# Ajusta la escala del asset automáticamente para que no sobresalga de la caja
+		_ajustar_tamano_a_caja(instancia_asset, 0.4)
 
 func _desaparecer_caja(_fue_permitido: bool) -> void:
 	# Al presionar cualquier botón, espera 1 segundo y se destruye si fue denegada
@@ -42,4 +43,26 @@ func _obtener_mesh_del_asset(nodo: Node) -> Mesh:
 		var resultado_subnodo = _obtener_mesh_del_asset(child)
 		if resultado_subnodo != null:
 			return resultado_subnodo
+	return null
+
+# Calcula el tamaño 3D de la malla y reduce la escala si supera el límite de la caja
+func _ajustar_tamano_a_caja(nodo: Node, limite_maximo: float) -> void:
+	var mesh_inst: MeshInstance3D = _buscar_mesh_instance(nodo)
+	if mesh_inst and mesh_inst.mesh:
+		var aabb = mesh_inst.mesh.get_aabb()
+		var tamano_actual = max(aabb.size.x, max(aabb.size.y, aabb.size.z))
+		
+		if tamano_actual > limite_maximo:
+			var factor_escala = limite_maximo / tamano_actual
+			nodo.scale = Vector3(factor_escala, factor_escala, factor_escala)
+
+
+# Busca el nodo MeshInstance3D dentro del asset importado para calcular su caja delimitadora
+func _buscar_mesh_instance(nodo: Node) -> MeshInstance3D:
+	if nodo is MeshInstance3D:
+		return nodo
+	for child in nodo.get_children():
+		var res = _buscar_mesh_instance(child)
+		if res != null:
+			return res
 	return null
