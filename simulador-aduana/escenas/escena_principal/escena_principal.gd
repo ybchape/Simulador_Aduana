@@ -7,8 +7,8 @@ extends Node3D
 const CAJA_ESCENA = preload("res://escenas/caja/caja.tscn")
 
 # Listas de control de historial (para que no se repitan los pedidos)
-var indices_legales_disponibles: Array[int] = []
-var indices_ilegales_disponibles: Array[int] = []
+static var indices_legales_disponibles: Array[int] = []
+static var indices_ilegales_disponibles: Array[int] = []
 
 # Precargamos las mallas 3D de los assets 
 var mallas_legales: Array[PackedScene] = [
