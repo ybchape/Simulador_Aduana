@@ -4,20 +4,41 @@ extends RigidBody3D
 # Busca el nodo Marker3D y luego el dibujo de adentro.
 @onready var punto_objeto: Node3D = $puntoObjeto
 
-@export var info: PedidoInfo
+# Al usar set(val), ejecuta la carga del asset en cuanto la escena principal asigna la info
+@export var info: PedidoInfo:
+	set = _set_info
 
+func _set_info(val: PedidoInfo) -> void:
+	info = val
+	_actualizar_objeto_en_caja()
+			
 func _ready():
 	# Le decimos a la caja que escuche el megáfono del EventBus
 	# para saber en qué momento tomaste la decisión
 	EventBus.decision_tomada.connect(_desaparecer_caja)
 	
+	# Carga el asset 3D en caso de que la información ya estuviera asignada antes de _ready()
+	_actualizar_objeto_en_caja()
+
+# Centraliza la instanciación para que no se duplique entre _ready() y el set(val)
+func _actualizar_objeto_en_caja() -> void:
+	# Si el nodo punto_objeto todavía no entró al árbol, espera un milisegundo a que esté listo
+	if not is_node_ready():
+		await ready
+
 	# Si la caja recibió un PedidoInfo con un asset 3D asignado
-	if info and info.objeto_escena:
-		# Instanciamos el asset dentro de puntoObjeto
+	if info and info.objeto_escena and punto_objeto:
+		# Limpia cualquier asset anterior si existiera
+		for child in punto_objeto.get_children():
+			child.queue_free()
+			
+		# Instancia el asset dentro de puntoObjeto
 		var instancia_asset = info.objeto_escena.instantiate()
 		punto_objeto.add_child(instancia_asset)
-# Ajusta la escala del asset automáticamente para que no sobresalga de la caja
+		
+		# Ajusta la escala del asset automáticamente para que no sobresalga de la caja
 		_ajustar_tamano_a_caja(instancia_asset, 0.4)
+
 
 func _desaparecer_caja(_fue_permitido: bool) -> void:
 	# Al presionar cualquier botón, espera 1 segundo y se destruye si fue denegada

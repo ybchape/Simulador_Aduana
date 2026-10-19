@@ -6,6 +6,10 @@ extends Node3D
 #  Precargamos la escena de la caja para poder instanciar news pedidos por código
 const CAJA_ESCENA = preload("res://escenas/caja/caja.tscn")
 
+# Listas de control de historial (para que no se repitan los pedidos)
+var indices_legales_disponibles: Array[int] = []
+var indices_ilegales_disponibles: Array[int] = []
+
 # Precargamos las mallas 3D de los assets 
 var mallas_legales: Array[PackedScene] = [
 	preload("res://assets/muebles/gltf/cactus_medium_B.gltf"),
@@ -44,6 +48,7 @@ var nombres_ilegales: Array[String] = ["Maza con Pinches", "Daga" , "Hacha" , "M
 
 
 func _ready() -> void:
+	_reiniciar_bolsas_de_objetos()
 	probar_carga_pedido()
 	
 	$Espacio_Trabajo/CintaTransportadora.registrar_caja($Espacio_Trabajo/caja)
@@ -51,28 +56,58 @@ func _ready() -> void:
 	#  Conectamos la señal del EventBus para que al terminar de salir una caja, se pida la siguiente
 	EventBus.siguiente_pedido_solicitado.connect(_on_siguiente_pedido_solicitado)
 
+# Llena las bolsas de índices para elegir sin repetir
+func _reiniciar_bolsas_de_objetos() -> void:
+	indices_legales_disponibles.clear()
+	for i in range(mallas_legales.size()):
+		indices_legales_disponibles.append(i)
+	indices_legales_disponibles.shuffle()
+
+	indices_ilegales_disponibles.clear()
+	for i in range(mallas_ilegales.size()):
+		indices_ilegales_disponibles.append(i)
+	indices_ilegales_disponibles.shuffle()
+
+# Obtiene un índice sin repetir de la bolsa legal (Pedidoslegales)
+func _obtener_indice_legal_unico() -> int:
+	if indices_legales_disponibles.is_empty():
+		_reiniciar_bolsas_de_objetos()
+	return indices_legales_disponibles.pop_back()
+
+# Obtiene un índice sin repetir de la bolsa ilegal (Pedidos ilegales)
+func _obtener_indice_ilegal_unico() -> int:
+	if indices_ilegales_disponibles.is_empty():
+		_reiniciar_bolsas_de_objetos()
+	return indices_ilegales_disponibles.pop_back()
+
+
+
 func probar_carga_pedido() -> void:
-# crea un Pedidoinfo de prueba
+# Crea el primer PedidoInfo usando el sistema de bolsas sin repetición
 	var pedido_test = PedidoInfo.new()
-	pedido_test.nombre_producto = "Alfajor"
-	pedido_test.peso_kg = 20.546
+	pedido_test.es_ilegal = randf() < 0.3
+	
+	if pedido_test.es_ilegal:
+		var idx = _obtener_indice_ilegal_unico()
+		pedido_test.nombre_producto = nombres_ilegales[idx]
+		pedido_test.objeto_escena = mallas_ilegales[idx]
+	else:
+		var idx = _obtener_indice_legal_unico()
+		pedido_test.nombre_producto = nombres_legales[idx]
+		pedido_test.objeto_escena = mallas_legales[idx]
+		
+	pedido_test.peso_kg = snappedf(randf_range(10.0, 30.0), 0.001)
 	pedido_test.codigo_identificador = "RF-396 VY"
-	pedido_test.es_ilegal = false
-	if not mallas_legales.is_empty():
-		pedido_test.objeto_escena = mallas_legales[0]
-		
-		
-# Asignamos el recurso a la caja inicial
+
+	# Asignam el recurso a la caja inicial que ya está en la escena
 	if has_node("Espacio_Trabajo/caja/caja_interactiva"):
 		$Espacio_Trabajo/caja/caja_interactiva.info = pedido_test
 		
-#lo envia a la planilla para que actualice sus datos
+	# Lo envía a la planilla para que actualice sus datos
 	if planilla_ui:
 		planilla_ui.cargar_pedido(pedido_test)
 	else:
 		print("Error: No se encontró la PlanillaUI en la ruta especificada.")
-	$Espacio_Trabajo/CintaTransportadora.registrar_caja($Espacio_Trabajo/caja) 
-	
 func _on_boton_tienda_pressed() -> void:
 	$CanvasLayer/tienda.show()
 
@@ -85,11 +120,11 @@ func _on_siguiente_pedido_solicitado() -> void:
 	pedido_nuevo.es_ilegal = randf() < 0.3
 	
 	if pedido_nuevo.es_ilegal:
-		var idx = randi() % mallas_ilegales.size()
+		var idx = _obtener_indice_ilegal_unico()
 		pedido_nuevo.nombre_producto = nombres_ilegales[idx]
 		pedido_nuevo.objeto_escena = mallas_ilegales[idx]
 	else:
-		var idx = randi() % mallas_legales.size()
+		var idx = _obtener_indice_legal_unico()
 		pedido_nuevo.nombre_producto = nombres_legales[idx]
 		pedido_nuevo.objeto_escena = mallas_legales[idx]
 	
