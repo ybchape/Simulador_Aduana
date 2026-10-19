@@ -48,7 +48,8 @@ var nombres_ilegales: Array[String] = ["Maza con Pinches", "Daga" , "Hacha" , "M
 
 
 func _ready() -> void:
-	_reiniciar_bolsas_de_objetos()
+	if indices_legales_disponibles.is_empty() and indices_ilegales_disponibles.is_empty():
+		_reiniciar_bolsas_de_objetos() #si ya no hay mas objetos se reinician
 	probar_carga_pedido()
 	
 	$Espacio_Trabajo/CintaTransportadora.registrar_caja($Espacio_Trabajo/caja)
