@@ -6,8 +6,8 @@ func _ready() -> void:
 	confirmed.connect(_on_cartel_aceptado)
 
 func _on_evento_iniciado(_duracion: float) -> void:
-	dialog_text = "Las jornadas son muy largas y los días empiezan a pesar. Tu personaje está demasiado cansado y responderá más lento a las acciones."
-	title = "¡CANSANCIO EXTREMO!"
+	dialog_text = "Las jornadas son muy largas y los días empiezan a pesar. Tu personaje está demasiado cansado y sus reflejos se han vuelto lentos."
+	title = "¡AGOTAMIENTO LABORAL!"
 	popup_centered() # Muestra el cartel en el centro de la pantalla
 
 func _on_cartel_aceptado() -> void:
