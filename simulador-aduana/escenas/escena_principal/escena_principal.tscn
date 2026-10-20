@@ -34,6 +34,8 @@
 [ext_resource type="PackedScene" uid="uid://tady738mrlvl" path="res://escenas/ventana_resumen/ventana_resumen.tscn" id="30_4bfgv"]
 [ext_resource type="PackedScene" uid="uid://dw4ht40cbfe8b" path="res://escenas/tienda/tienda.tscn" id="32_jn0hn"]
 [ext_resource type="PackedScene" uid="uid://d320lx1iqp05q" path="res://escenas/inventario/inventario.tscn" id="33_inventario"]
+[ext_resource type="Script" uid="uid://cnr1ob03kgcbq" path="res://escenas/escena_principal/hud_energia.gd" id="35_lp32y"]
+[ext_resource type="Texture2D" uid="uid://ptv60x0lssvl" path="res://assets/ui/barras/bar_round_gloss_large.png" id="35_nutjc"]
 
 [sub_resource type="Environment" id="Environment_g4v7s"]
 ambient_light_source = 2
@@ -346,6 +348,34 @@ text = "Tienda"
 visible = false
 
 [node name="InventarioUI" parent="." unique_id=584886887 instance=ExtResource("33_inventario")]
+
+[node name="HUD_Energia" type="CanvasLayer" parent="." unique_id=869395294]
+script = ExtResource("35_lp32y")
+
+[node name="Label_Energia" type="Label" parent="HUD_Energia" unique_id=6996806]
+offset_left = 23.0
+offset_top = 935.0
+offset_right = 225.0
+offset_bottom = 984.0
+theme_override_font_sizes/font_size = 35
+text = "Energía"
+
+[node name="Barra_Energia" type="TextureProgressBar" parent="HUD_Energia" unique_id=2032082713]
+texture_filter = 2
+offset_left = 16.0
+offset_top = 1025.0
+offset_right = 55.00555
+offset_bottom = 1336.944
+rotation = -1.568121
+value = 100.0
+fill_mode = 2
+nine_patch_stretch = true
+stretch_margin_left = 10
+stretch_margin_top = 10
+stretch_margin_right = 10
+stretch_margin_bottom = 10
+texture_under = ExtResource("28_c4d37")
+texture_progress = ExtResource("35_nutjc")
 
 [connection signal="body_entered" from="ZonaInspeccion" to="ZonaInspeccion" method="_on_body_entered"]
 [connection signal="body_exited" from="ZonaInspeccion" to="ZonaInspeccion" method="_on_body_exited"]
