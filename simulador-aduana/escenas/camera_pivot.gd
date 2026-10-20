@@ -19,11 +19,19 @@ var yaw: float = 0.0   # Eje Y (Izquierda / Derecha)
 # Estado para saber si estamos arrastrando la vista
 var is_rotating: bool = false
 
+# --- VARIABLE Y CONEXIÓN DE CANSANCIO ---
+var esta_cansado: bool = false
+
+
 func _ready() -> void:
 # El cursor inicia visible para poder interactuar libremente
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	
 	camera.transform = Transform3D.IDENTITY
+
+# Escucha los eventos de cansancio del EventBus para actualizar la variable local
+	EventBus.evento_cansancio_iniciado.connect(func(_duracion): esta_cansado = true)
+	EventBus.evento_cansancio_finalizado.connect(func(): esta_cansado = false)
 
 func _unhandled_input(event: InputEvent) -> void:
 	# Detecta cuando se presiona o suelta el Clic Derecho (MOUSE_BUTTON_RIGHT)
@@ -37,8 +45,12 @@ func _unhandled_input(event: InputEvent) -> void:
 
 	# Rota la cámara ÚNICAMENTE si se está manteniendo presionado el clic derecho
 	if event is InputEventMouseMotion and is_rotating:
-		yaw -= event.relative.x * mouse_sensitivity
-		pitch -= event.relative.y * mouse_sensitivity
+		# Factor de lentitud por cansancio
+		var factor_velocidad: float = 0.35 if esta_cansado else 1.0
+		var sensibilidad_actual = mouse_sensitivity * factor_velocidad
+
+		yaw -= event.relative.x * sensibilidad_actual
+		pitch -= event.relative.y * sensibilidad_actual
 
 		# ángulos según los límites establecidos
 		yaw = clamp(yaw, deg_to_rad(min_yaw_deg), deg_to_rad(max_yaw_deg))
