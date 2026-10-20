@@ -14,8 +14,8 @@ var mejoras_compradas: Array[String] = []
 
 # var para penalizaciones y estadísticas del día 
 var errores_hoy: int = 0
-const MAX_ERRORES: int = 3
-const PENALIZACION_ERROR: int = 20
+const20 MAX_ERRORES: int = 3
+const PENALIZACION_ERROR: int = 
 
 var dinero_ganado_hoy: int = 0
 var dinero_descontado_hoy: int = 0
