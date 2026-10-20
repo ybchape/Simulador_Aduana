@@ -14,8 +14,8 @@ var mejoras_compradas: Array[String] = []
 
 # var para penalizaciones y estadísticas del día 
 var errores_hoy: int = 0
-const20 MAX_ERRORES: int = 3
-const PENALIZACION_ERROR: int = 
+const MAX_ERRORES: int = 3
+const PENALIZACION_ERROR: int = 20
 
 var dinero_ganado_hoy: int = 0
 var dinero_descontado_hoy: int = 0
@@ -65,7 +65,7 @@ func registrar_mejora(id: String) -> void:
 func procesar_aprobar_paquete(es_ilegal: bool) -> void:
 	pedidos_realizados_hoy += 1
 	if es_ilegal:
-		# Aprobar paquete con objetos ilegales descuenta $30
+		# Aprobar paquete con objetos ilegales descuenta $20
 		_aplicar_error("Aprobó un paquete ilegal")
 	else:
 		_registrar_acierto(50) # Recompensa por pedido correcto
@@ -74,7 +74,7 @@ func procesar_aprobar_paquete(es_ilegal: bool) -> void:
 func procesar_denegar_paquete(es_ilegal: bool) -> void:
 	pedidos_realizados_hoy += 1
 	if not es_ilegal:
-		# Denegar un paquete correcto descuenta $30
+		# Denegar un paquete correcto descuenta $20
 		_aplicar_error("Denegó un paquete correcto")
 	else:
 		_registrar_acierto(50) # Recompensa por rechazo correcto
