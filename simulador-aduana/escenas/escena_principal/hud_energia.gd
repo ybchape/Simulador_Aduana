@@ -6,15 +6,19 @@ extends CanvasLayer
 var energia_actual: float = 100.0
 
 func _ready() -> void:
-	# Se conecta a la señal del EventBus que salta cuando aprobás/rechazás un pedido
 	EventBus.decision_tomada.connect(_on_decision_tomada)
-	
-	# Reinicia la energía al 100% al cargar la escena (inicio de jornada)
+	# Escucha la confirmación del cartel para fijar la energía a la mitad
+	EventBus.cansancio_confirmado.connect(_on_cansancio_confirmado)
 	reiniciar_energia()
 
 # Reinicia la barra al 100%
 func reiniciar_energia() -> void:
 	energia_actual = 100.0
+	actualizar_interfaz()
+
+func _on_cansancio_confirmado() -> void:
+	# La energía baja a la mitad (50%) inmediatamente al arrancar la crisis
+	energia_actual = 50.0
 	actualizar_interfaz()
 
 # Cada vez que se procesa un pedido (decisión tomada), resta un 2%

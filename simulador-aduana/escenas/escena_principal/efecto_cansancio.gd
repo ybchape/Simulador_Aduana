@@ -5,7 +5,9 @@ var tiempo_parpadeo: float = 0.0
 
 func _ready() -> void:
 	color.a = 0.0 # Totalmente transparente al inicio
-	EventBus.evento_cansancio_iniciado.connect(_on_evento_iniciado)
+	
+	
+	EventBus.cansancio_confirmado.connect(func(): en_cansancio = true)
 	EventBus.evento_cansancio_finalizado.connect(_on_evento_finalizado)
 
 func _on_evento_iniciado(_duracion: float) -> void:

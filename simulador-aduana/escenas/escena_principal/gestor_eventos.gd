@@ -6,18 +6,31 @@ extends Node
 var esta_cansado: bool = false
 
 func _ready() -> void:
-	# Programa el evento aleatorio aproximadamente a mitad del día (prueba a los 15-20 segundos de iniciar)
-	var tiempo_espera_evento = randf_range(12.0, 25.0)
-	get_tree().create_timer(tiempo_espera_evento).timeout.connect(disparar_evento_cansancio)
+#  Si estamos en el Día 1, NUNCA se activa el evento de cansancio
+	if GameManager and GameManager.dia_actual <= 1:
+		print("Día 1: Evento de cansancio desactivado.")
+		return
+	
+	#  Probabilidad del 60% de que ocurra en los días 2 en adelante
+	if randf() < 0.6:
+		# Se dispara aleatoriamente entre el segundo 15 y el 45 del día
+		var tiempo_aleatorio = randf_range(15.0, 45.0)
+		get_tree().create_timer(tiempo_aleatorio).timeout.connect(disparar_evento_cansancio)
 
 func disparar_evento_cansancio() -> void:
-	esta_cansado = true
 	var duracion_evento = randf_range(tiempo_min_duracion, tiempo_max_duracion)
+	print("¡EVENTO DE CANSANCIO PROGRAMADO! Mostrando cartel...")
 	
-	print("¡EVENTO DE CANSANCIO INICIADO! Duración: ", duracion_evento, " segundos.")
+	# MUESTRA el cartel
 	EventBus.evento_cansancio_iniciado.emit(duracion_evento)
 	
-	# Timer para finalizar el evento automáticamente
+	# Espera a que el jugador cierre el cartel
+	await EventBus.cansancio_confirmado
+	
+	# Activar la lentitud y el parpadeo
+	esta_cansado = true
+	
+	# Timer para finalizar la crisis
 	await get_tree().create_timer(duracion_evento).timeout
 	
 	esta_cansado = false
