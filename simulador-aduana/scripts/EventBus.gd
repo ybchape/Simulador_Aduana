@@ -15,6 +15,11 @@ signal dinero_cambiado(nuevo_saldo: float)
 signal herramienta_desbloqueada(id: String)
 signal herramienta_mejorada(id: String, nivel: int)
 
+#Evento Cansancio
+signal evento_cansancio_iniciado(duracion: float)
+signal evento_cansancio_finalizado
+signal cansancio_confirmado # Salta cuando se cierra el cartel
+
 ## El saldo se gestiona en GameManager.dinero_total para que la tienda y el
 ## cierre de turno compartan una sola billetera. Esta función mantiene la API
 ## usada por GestorDia para pagar el neto del turno.

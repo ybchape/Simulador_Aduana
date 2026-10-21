@@ -6,9 +6,17 @@ extends Control
 # Creamos una variable para saber si estamos viendo la pantalla o no
 var estamos_viendo_pantalla = false
 
+# Estado local del cansancio recibido mediante EventBus
+var esta_cansado: bool = false
+
 func _ready():
 	# Nos conectamos al megáfono del Bus de Eventos
 	EventBus.escanear_objeto.connect(_mostrar_en_pantalla)
+
+# Conecta las señales para actualizar la variable esta_cansado automáticamente
+	EventBus.evento_cansancio_iniciado.connect(func(_duracion): esta_cansado = true)
+	EventBus.evento_cansancio_finalizado.connect(func(): esta_cansado = false)
+
 
 # Ajusta el ángulo de visión de la cámara para acercar el objeto
 	if camera_3d:
@@ -39,11 +47,12 @@ func _mostrar_en_pantalla(forma_recibida: Mesh) -> void:
 	# 2. Hacemos que la pantalla se vuelva VISIBLE
 	show()
 	
-	# 3. Le pedimos a Godot que espere un cuartito de segundo. 
-	# Esto es un truco para que el MISMO clic que usaste para escanear, 
-	# no cierre la pantalla por accidente de forma instantánea.
-	await get_tree().create_timer(1).timeout
+	#  Lentitud POR CANSANCIO EXTREMO 
+	# Si está cansado tarda 3.0s, si no, 1.0s normal
+	var tiempo_espera: float = 3.0 if esta_cansado else 1.0
+	await get_tree().create_timer(tiempo_espera).timeout
 	
+
 	# 4. Le avisamos al juego que ahora sí, la pantalla está activa
 	estamos_viendo_pantalla = true
 
