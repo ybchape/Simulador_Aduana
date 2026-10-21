@@ -53,6 +53,7 @@ func _mover_entrada(delta: float) -> void:
 		# Si llegó al último punto de entrada (zona de trabajo), se frena
 		if indice_punto_actual >= ruta_entrada.size():
 			estado = "INSPECCIONANDO"
+			EventBus.pedido_en_zona.emit(true)
 
 # ==========================================
 # NUEVO: Función para mover la caja hacia la salida
@@ -70,6 +71,7 @@ func _mover_salida(delta: float) -> void:
 		if is_instance_valid(caja_actual):
 			caja_actual.queue_free()
 		caja_actual = null
+		EventBus.pedido_en_zona.emit(false)
 		
 		# Aquí dispararemos el siguiente pedido automáticamente
 		EventBus.emit_signal("siguiente_pedido_solicitado")
@@ -87,8 +89,10 @@ func registrar_caja(nueva_caja: Node3D) -> void:
 
 func _on_pedido_en_zona(hay_pedido: bool) -> void:
 	if hay_pedido and estado == "AVANZANDO":
-		# Se frena justo frente al jugador cuando entra al Area3D
+		# Si el sensor informa que el paquete llegó, se detiene en el punto de inspección.
 		estado = "INSPECCIONANDO"
+	elif not hay_pedido and estado == "INSPECCIONANDO":
+		estado = "SALIENDO"
 
 func _on_decision_tomada(_fue_permitido: bool) -> void:
 	if estado == "INSPECCIONANDO" and caja_actual != null:
