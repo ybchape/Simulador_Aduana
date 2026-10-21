@@ -26,7 +26,6 @@ func _enter_tree() -> void:
 
 var herramientas: Dictionary = {}
 var herramienta_seleccionada: String = ""
-var pedido_en_zona: bool = false
 
 func _ready() -> void:
 	_configurar_datos()
@@ -39,14 +38,6 @@ func _ready() -> void:
 func _conectar_eventbus() -> void:
 	EventBus.herramienta_desbloqueada.connect(_on_herramienta_desbloqueada)
 	EventBus.herramienta_mejorada.connect(_on_herramienta_mejorada)
-	EventBus.pedido_en_zona.connect(_on_pedido_en_zona)
-
-func _on_pedido_en_zona(hay_pedido: bool) -> void:
-	pedido_en_zona = hay_pedido
-	if not hay_pedido and herramienta_seleccionada in ["escaner", "cuter"]:
-		_deseleccionar_herramienta()
-	elif hay_pedido and herramienta_seleccionada == "":
-		seleccionar(_primera_disponible())
 
 func _configurar_datos() -> void:
 	herramientas = {
@@ -107,8 +98,6 @@ func _refrescar_slot(id: String) -> void:
 
 # Marca como activa la herramienta adquirida y actualiza el estado visual de los slots.
 func seleccionar(id: String) -> void:
-	if id in ["escaner", "cuter"] and not pedido_en_zona:
-		return
 	if not herramientas.has(id) or not herramientas[id]["desbloqueada"]:
 		return
 	herramienta_seleccionada = id
@@ -116,10 +105,14 @@ func seleccionar(id: String) -> void:
 		if slot is Button:
 			slot.set_pressed_no_signal(slot.get_meta("herramienta_id", "") == id)
 
-# Evita cambiar herramientas mientras la caja está abierta con el Cúter.
+# Si se está usando el Cúter, evita cambiar de herramienta; pulsar su slot lo desactiva.
 func _on_slot_pressed(id: String) -> void:
 	var caja_abierta: Node = _obtener_caja_interactiva_abierta()
 	if caja_abierta != null:
+		seleccionar("cuter")
+		if id == "cuter" and caja_abierta.has_method("cerrar_caja"):
+			caja_abierta.cerrar_caja()
+			_deseleccionar_herramienta()
 		return
 	seleccionar(id)
 
@@ -158,9 +151,10 @@ func _deseleccionar_herramienta() -> void:
 	for slot in hotbar.get_children():
 		if slot is Button:
 			slot.set_pressed_no_signal(false)
-	var pantalla_escaner: PantallaEscaner = get_tree().current_scene.get_node_or_null("PantallaEscaner") as PantallaEscaner if get_tree().current_scene else null
+	var pantalla_escaner: Control = get_tree().current_scene.get_node_or_null("PantallaEscaner") as Control if get_tree().current_scene else null
 	if pantalla_escaner:
-		pantalla_escaner.ocultar()
+		pantalla_escaner.hide()
+		pantalla_escaner.set("estamos_viendo_pantalla", false)
 
 func _primera_disponible() -> String:
 	for id in ORDEN:

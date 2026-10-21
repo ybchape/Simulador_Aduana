@@ -62,9 +62,13 @@ func inicializar_caja(datos: PedidoInfo) -> void:
 
 # Abre la tapa, revela el objeto y acerca la cámara para inspeccionarlo con el Cúter.
 func abrir_caja() -> void:
-	if not _pedido_detenido_en_inspeccion() or caja_abierta or inspeccion_completada or info == null:
+	if caja_abierta or inspeccion_completada or info == null:
 		return
 	caja_abierta = true
+	var pantalla_escaner: Control = get_tree().current_scene.get_node_or_null("PantallaEscaner") as Control if get_tree().current_scene else null
+	if pantalla_escaner:
+		pantalla_escaner.hide()
+		pantalla_escaner.set("estamos_viendo_pantalla", false)
 	# Separa las caras superiores de la malla para animarlas como una tapa y dejar la base.
 	if malla_caja and malla_caja.mesh:
 		var mesh_tapa: ArrayMesh = _crear_malla_tapa(malla_caja.mesh)
@@ -181,38 +185,15 @@ func _input(event: InputEvent) -> void:
 		inventario.salir_del_cuter()
 	get_viewport().set_input_as_handled()
 
-# Comprueba que la cinta esté detenida en el punto de inspección.
-func _pedido_detenido_en_inspeccion() -> bool:
-	var escena_actual: Node = get_tree().current_scene
-	var cinta: CintaTransportadora = escena_actual.get_node_or_null("Espacio_Trabajo/CintaTransportadora") as CintaTransportadora if escena_actual else null
-	return cinta != null and cinta.estado == "INSPECCIONANDO" and cinta.caja_actual != null
-
-# Emite la malla del paquete para mostrarla en el visor mientras el pedido está detenido.
-func _escanear_contenido() -> void:
-	if not _pedido_detenido_en_inspeccion() or info == null or cortador_activo or punto_objeto == null or punto_objeto.get_child_count() == 0:
-		return
-	var malla_escaner: Mesh = _obtener_mesh_del_asset(punto_objeto)
-	if malla_escaner == null:
-		push_warning("El pedido actual no contiene una malla que el escáner pueda mostrar.")
-		return
-	EventBus.escanear_objeto.emit(malla_escaner)
-
 # El clic sobre la caja inicia la apertura únicamente cuando el Cúter está seleccionado.
 func _on_input_event(_camera: Node, event: InputEvent, _event_position: Vector3, _normal: Vector3, _shape_idx: int) -> void:
 	if not (event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed):
 		return
-	if not _pedido_detenido_en_inspeccion():
-		return
 	if caja_abierta:
 		return
 	var inventario: Inventario = get_tree().get_first_node_in_group("inventario") as Inventario
-	if inventario == null:
-		return
-	match inventario.get_herramienta_seleccionada():
-		"cuter":
-			abrir_caja()
-		"escaner":
-			_escanear_contenido()
+	if inventario and inventario.get_herramienta_seleccionada() == "cuter":
+		abrir_caja()
 
 
 # Conserva los triángulos que no pertenecen a la tapa.
@@ -304,8 +285,7 @@ func _crear_malla_filtrada(malla_original: Mesh, solo_tapa: bool) -> ArrayMesh:
 func _obtener_mesh_del_asset(nodo: Node) -> Mesh:
 	if nodo is MeshInstance3D:
 		var mesh_instancia: MeshInstance3D = nodo as MeshInstance3D
-		if mesh_instancia.mesh != null:
-			return mesh_instancia.mesh
+		return mesh_instancia.mesh
 	for hijo in nodo.get_children():
 		var resultado: Mesh = _obtener_mesh_del_asset(hijo)
 		if resultado != null:
