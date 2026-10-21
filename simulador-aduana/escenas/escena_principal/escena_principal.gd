@@ -52,12 +52,14 @@ var pedido_actual: PedidoInfo = null
 
 func _ready() -> void:
 	EventBus.decision_tomada.connect(_on_decision_tomada)
+	EventBus.siguiente_pedido_solicitado.connect(_on_siguiente_pedido_solicitado)
 	if indices_legales_disponibles.is_empty() and indices_ilegales_disponibles.is_empty():
 		_reiniciar_bolsas_de_objetos() #si ya no hay mas objetos se reinician
-	probar_carga_pedido()
+	#probar_carga_pedido()
 
 	# genera el pedido para la primera caja que ya está en la escena
-	#_generar_y_cargar_nuevo_pedido()
+	_generar_y_cargar_nuevo_pedido()
+	
 
 	# buscamos la caja inicial en el árbol y le pasamos los datos
 	var caja_inicial = $Espacio_Trabajo/caja 
@@ -69,7 +71,6 @@ func _ready() -> void:
 	# registra la caja inicial en la cinta transportadora
 	$Espacio_Trabajo/CintaTransportadora.registrar_caja(caja_inicial)
 
-	EventBus.siguiente_pedido_solicitado.connect(_on_siguiente_pedido_solicitado)
 
 	# Se conecta a decision_tomada para procesar aciertos/errores en GameManager 
 	#EventBus.decision_tomada.connect(_on_decision_tomada)
@@ -108,32 +109,32 @@ func _obtener_indice_ilegal_unico() -> int:
 	return indices_ilegales_disponibles.pop_back()
 
 
-func probar_carga_pedido() -> void:
+#func probar_carga_pedido() -> void:
 # Crea el primer PedidoInfo usando el sistema de bolsas sin repetición
-	var pedido_test = PedidoInfo.new()
-	pedido_test.es_ilegal = randf() < 0.3
+	#var pedido_test = PedidoInfo.new()
+	#pedido_test.es_ilegal = randf() < 0.3
 	
-	if pedido_test.es_ilegal:
-		var idx = _obtener_indice_ilegal_unico()
-		pedido_test.nombre_producto = nombres_ilegales[idx]
-		pedido_test.objeto_escena = mallas_ilegales[idx]
-	else:
-		var idx = _obtener_indice_legal_unico()
-		pedido_test.nombre_producto = nombres_legales[idx]
-		pedido_test.objeto_escena = mallas_legales[idx]
+	#if pedido_test.es_ilegal:
+		#var idx = _obtener_indice_ilegal_unico()
+		#pedido_test.nombre_producto = nombres_ilegales[idx]
+		#pedido_test.objeto_escena = mallas_ilegales[idx]
+	#else:
+		#var idx = _obtener_indice_legal_unico()
+		#pedido_test.nombre_producto = nombres_legales[idx]
+		#pedido_test.objeto_escena = mallas_legales[idx]
 		
-	pedido_test.peso_kg = snappedf(randf_range(10.0, 30.0), 0.001)
-	pedido_test.codigo_identificador = "RF-396 VY"
+	#pedido_test.peso_kg = snappedf(randf_range(10.0, 30.0), 0.001)
+	#pedido_test.codigo_identificador = "RF-396 VY"
 
 	# Asignam el recurso a la caja inicial que ya está en la escena
-	if has_node("Espacio_Trabajo/caja/caja_interactiva"):
-		$Espacio_Trabajo/caja/caja_interactiva.info = pedido_test
+	#if has_node("Espacio_Trabajo/caja/caja_interactiva"):
+		#$Espacio_Trabajo/caja/caja_interactiva.info = pedido_test
 		
 	# Lo envía a la planilla para que actualice sus datos
-	if planilla_ui:
-		planilla_ui.cargar_pedido(pedido_test)
-	else:
-		print("Error: No se encontró la PlanillaUI en la ruta especificada.")
+	#if planilla_ui:
+		#planilla_ui.cargar_pedido(pedido_test)
+	#else:
+		#print("Error: No se encontró la PlanillaUI en la ruta especificada.")
 
 func _on_boton_tienda_pressed() -> void:
 	$CanvasLayer/tienda.show()
@@ -150,15 +151,18 @@ func _on_decision_tomada(fue_permitido: bool) -> void:
 
 # Func que crea la siguiente caja y genera datos aleatorios
 func _on_siguiente_pedido_solicitado() -> void:
+	# Si ya completamos los pedidos del día, no instanciamos más cajas
+	if GameManager.pedidos_realizados_hoy >= GameManager.obtener_objetivo_actual():
+		return
 	var nueva_caja = CAJA_ESCENA.instantiate()
-	var pedido_nuevo = PedidoInfo.new()
+	#var pedido_nuevo = PedidoInfo.new()
 
 	_generar_y_cargar_nuevo_pedido()
 
 	# add como hija dentro del nodo contenedor (Espacio_Trabajo)
 	$Espacio_Trabajo.add_child(nueva_caja)
 
-	_generar_y_cargar_nuevo_pedido()
+
 
 	# Buscamos el nodo hijo 'caja_interactiva' que tiene el script
 	var script_caja = nueva_caja.get_node_or_null("caja_interactiva")
@@ -167,14 +171,14 @@ func _on_siguiente_pedido_solicitado() -> void:
 	else:
 		print("Error: No se encontró el nodo caja_interactiva en la nueva caja.")
 	
-	if pedido_nuevo.es_ilegal:
-		var idx = _obtener_indice_ilegal_unico()
-		pedido_nuevo.nombre_producto = nombres_ilegales[idx]
-		pedido_nuevo.objeto_escena = mallas_ilegales[idx]
-	else:
-		var idx = _obtener_indice_legal_unico()
-		pedido_nuevo.nombre_producto = nombres_legales[idx]
-		pedido_nuevo.objeto_escena = mallas_legales[idx]
+	#if pedido_nuevo.es_ilegal:
+		#var idx = _obtener_indice_ilegal_unico()
+		#pedido_nuevo.nombre_producto = nombres_ilegales[idx]
+		#pedido_nuevo.objeto_escena = mallas_ilegales[idx]
+	#else:
+		#var idx = _obtener_indice_legal_unico()
+		#pedido_nuevo.nombre_producto = nombres_legales[idx]
+		#pedido_nuevo.objeto_escena = mallas_legales[idx]
 
 	$Espacio_Trabajo/CintaTransportadora.registrar_caja(nueva_caja)
 
@@ -187,15 +191,26 @@ func _on_siguiente_pedido_solicitado() -> void:
 # generación de datos aleatorios para comparar Planilla con ek Ticket 
 func _generar_y_cargar_nuevo_pedido() -> void:
 	pedido_actual = PedidoInfo.new()
-	var productos_posibles = ["Alfajor", "Cocaína", "BMO", "Copa", "Microondas"]
+	#var productos_posibles = ["Alfajor", "Cocaína", "BMO", "Copa", "Microondas"]
+	# Determinar si el paquete será ilegal (30% de probabilidad)
+	pedido_actual.es_ilegal = randf() < 0.3
+	
+	# Asigna el modelo 3D y el nombre según el historial sin repetición
+	if pedido_actual.es_ilegal:
+		var idx = _obtener_indice_ilegal_unico()
+		pedido_actual.nombre_producto = nombres_ilegales[idx]
+		pedido_actual.objeto_escena = mallas_ilegales[idx]
+	else:
+		var idx = _obtener_indice_legal_unico()
+		pedido_actual.nombre_producto = nombres_legales[idx]
+		pedido_actual.objeto_escena = mallas_legales[idx]
 	
 	# Datos reales / Planilla
-	pedido_actual.nombre_producto = productos_posibles.pick_random()
+
 	pedido_actual.peso_kg = snappedf(randf_range(10.0, 30.0), 0.001)
 	pedido_actual.codigo_identificador = "RF-" + str(randi_range(100, 999)) + " VY"
 
-	# Determinar si el paquete será ilegal (30% de probabilidad)
-	pedido_actual.es_ilegal = randf() < 0.3
+
 
 	if pedido_actual.es_ilegal:
 		# Alterar alguno de los datos del Ticket para crear la discrepancia

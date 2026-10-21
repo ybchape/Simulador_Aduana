@@ -55,6 +55,7 @@ func _desaparecer_caja(_fue_permitido: bool) -> void:
 # Función que llama la escena principal
 func inicializar_caja(datos: PedidoInfo) -> void:
 	pedido_asociado = datos
+	self.info = datos # Carga el modelo 3D dinámico
 	_aplicar_datos_al_ticket()
 
 func _aplicar_datos_al_ticket() -> void:
