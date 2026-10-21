@@ -23,8 +23,11 @@ const ORDEN: Array[String] = ["escaner", "cuter", "balanza", "energizante"]
 
 var herramientas: Dictionary = {}
 var herramienta_seleccionada: String = ""
+var pedido_en_zona: bool = false
 
 func _ready() -> void:
+	# La caja localiza el inventario por grupo al recibir el clic 3D.
+	add_to_group("inventario")
 	_configurar_datos()
 	_conectar_slots()
 	_conectar_eventbus()
@@ -35,6 +38,12 @@ func _ready() -> void:
 func _conectar_eventbus() -> void:
 	EventBus.herramienta_desbloqueada.connect(_on_herramienta_desbloqueada)
 	EventBus.herramienta_mejorada.connect(_on_herramienta_mejorada)
+	EventBus.pedido_en_zona.connect(_on_pedido_en_zona)
+
+func _on_pedido_en_zona(hay_pedido: bool) -> void:
+	pedido_en_zona = hay_pedido
+	if not hay_pedido and herramienta_seleccionada in ["escaner", "cuter"]:
+		salir_del_cuter()
 
 func _configurar_datos() -> void:
 	herramientas = {
@@ -94,6 +103,10 @@ func _refrescar_slot(id: String) -> void:
 # --- Selección -------------------------------------------------------------
 
 func seleccionar(id: String) -> void:
+	if id in ["escaner", "cuter"] and not _esta_pedido_detenido():
+		return
+	if _obtener_caja_abierta() != null:
+		return
 	if not herramientas.has(id) or not herramientas[id]["desbloqueada"]:
 		return
 	herramienta_seleccionada = id
@@ -101,8 +114,55 @@ func seleccionar(id: String) -> void:
 		if slot is Button:
 			slot.set_pressed_no_signal(slot.get_meta("herramienta_id", "") == id)
 
+# Usa el estado real de la cinta y no el Area3D, que puede fallar o dispararse tarde.
+func _esta_pedido_detenido() -> bool:
+	var escena_actual: Node = get_tree().current_scene
+	var cinta: Node = escena_actual.get_node_or_null("Espacio_Trabajo/CintaTransportadora") if escena_actual else null
+	if cinta == null:
+		return false
+	var caja_actual: Node = cinta.get("caja_actual") as Node
+	var estado_cinta: String = cinta.get("estado") as String
+	return estado_cinta == "INSPECCIONANDO" and caja_actual != null
+
+func _obtener_caja_interactiva_actual() -> Node:
+	var escena_actual: Node = get_tree().current_scene
+	var cinta: Node = escena_actual.get_node_or_null("Espacio_Trabajo/CintaTransportadora") if escena_actual else null
+	if cinta == null:
+		return null
+	var caja: Node = cinta.get("caja_actual") as Node
+	if caja == null:
+		return null
+	return caja.get_node_or_null("caja_interactiva")
+
 func _on_slot_pressed(id: String) -> void:
+	var caja_abierta: Node = _obtener_caja_abierta()
+	if caja_abierta != null:
+		return
 	seleccionar(id)
+
+# Encuentra la caja del pedido vigente, haya o no entrado aún en inspección.
+func _obtener_caja_abierta() -> Node:
+	var interactiva: Node = _obtener_caja_interactiva_actual()
+	return interactiva if interactiva and interactiva.get("caja_abierta") else null
+
+# Escape también permite salir del modo de inspección.
+func _input(event: InputEvent) -> void:
+	if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_ESCAPE:
+		var caja_abierta: Node = _obtener_caja_abierta()
+		if caja_abierta != null:
+			caja_abierta.cerrar_caja()
+			salir_del_cuter()
+			get_viewport().set_input_as_handled()
+
+# Se invoca cuando la caja se cierra para quitar la selección del Cúter.
+func salir_del_cuter() -> void:
+	herramienta_seleccionada = ""
+	for slot in hotbar.get_children():
+		if slot is Button:
+			slot.set_pressed_no_signal(false)
+	var pantalla_escaner: Node = get_tree().current_scene.get_node_or_null("PantallaEscaner") if get_tree().current_scene else null
+	if pantalla_escaner and pantalla_escaner.has_method("ocultar"):
+		pantalla_escaner.ocultar()
 
 func _primera_disponible() -> String:
 	for id in ORDEN:
