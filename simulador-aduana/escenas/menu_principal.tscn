@@ -10,7 +10,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_37xja")
-primera_escena_path = "res://escenas/escena_principal.tscn"
+primera_escena_path = "uid://ci6pyufyjqgss"
 
 [node name="Fondo" type="ColorRect" parent="." unique_id=1212318103]
 layout_mode = 0
