@@ -52,12 +52,14 @@ var pedido_actual: PedidoInfo = null
 
 func _ready() -> void:
 	EventBus.decision_tomada.connect(_on_decision_tomada)
+	EventBus.siguiente_pedido_solicitado.connect(_on_siguiente_pedido_solicitado)
 	if indices_legales_disponibles.is_empty() and indices_ilegales_disponibles.is_empty():
 		_reiniciar_bolsas_de_objetos() #si ya no hay mas objetos se reinician
 	#probar_carga_pedido()
 
 	# genera el pedido para la primera caja que ya está en la escena
 	_generar_y_cargar_nuevo_pedido()
+	
 
 	# buscamos la caja inicial en el árbol y le pasamos los datos
 	var caja_inicial = $Espacio_Trabajo/caja 
@@ -69,7 +71,6 @@ func _ready() -> void:
 	# registra la caja inicial en la cinta transportadora
 	$Espacio_Trabajo/CintaTransportadora.registrar_caja(caja_inicial)
 
-	EventBus.siguiente_pedido_solicitado.connect(_on_siguiente_pedido_solicitado)
 
 	# Se conecta a decision_tomada para procesar aciertos/errores en GameManager 
 	#EventBus.decision_tomada.connect(_on_decision_tomada)
@@ -150,6 +151,9 @@ func _on_decision_tomada(fue_permitido: bool) -> void:
 
 # Func que crea la siguiente caja y genera datos aleatorios
 func _on_siguiente_pedido_solicitado() -> void:
+	# Si ya completamos los pedidos del día, no instanciamos más cajas
+	if GameManager.pedidos_realizados_hoy >= GameManager.obtener_objetivo_actual():
+		return
 	var nueva_caja = CAJA_ESCENA.instantiate()
 	#var pedido_nuevo = PedidoInfo.new()
 
@@ -158,7 +162,7 @@ func _on_siguiente_pedido_solicitado() -> void:
 	# add como hija dentro del nodo contenedor (Espacio_Trabajo)
 	$Espacio_Trabajo.add_child(nueva_caja)
 
-	_generar_y_cargar_nuevo_pedido()
+
 
 	# Buscamos el nodo hijo 'caja_interactiva' que tiene el script
 	var script_caja = nueva_caja.get_node_or_null("caja_interactiva")
