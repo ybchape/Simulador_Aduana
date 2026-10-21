@@ -9,7 +9,7 @@
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_slots"]
 
-[node name="Inventario" type="Control" unique_id=1104573485]
+[node name="Inventario" type="Control" unique_id=1104573485 groups=["inventario"]]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

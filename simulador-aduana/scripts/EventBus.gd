@@ -1,6 +1,8 @@
 extends Node
 #señal para detectar algo
 signal escanear_objeto(forma_del_objeto)
+signal inspeccion_visualizada(datos)
+signal inspeccion_completada(datos)
 
 signal pedido_en_zona(hay_pedido)
 signal decision_tomada(fue_permitido)

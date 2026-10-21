@@ -16,9 +16,9 @@ var caja_actual: Node3D = null
 var estado: String = "ESPERANDO" # ESPERANDO, AVANZANDO, INSPECCIONANDO, SALIENDO, DETENIDO
 var indice_punto_actual: int = 0
 var jornada_completada: bool = false
+var notificada_inspeccion: bool = false
 
 func _ready() -> void:
-	EventBus.pedido_en_zona.connect(_on_pedido_en_zona)
 	EventBus.decision_tomada.connect(_on_decision_tomada)
 	EventBus.objetivo_dia_alcanzado.connect(_on_objetivo_alcanzado)
 
@@ -50,9 +50,15 @@ func _mover_entrada(delta: float) -> void:
 	if caja_actual.global_position.distance_to(objetivo) < 0.1:
 		indice_punto_actual += 1
 		
-		# Si llegó al último punto de entrada (zona de trabajo), se frena
+		# Solo habilita botones y herramientas al llegar al último marcador y detenerse.
 		if indice_punto_actual >= ruta_entrada.size():
 			estado = "INSPECCIONANDO"
+			_notificar_inicio_inspeccion()
+
+func _notificar_inicio_inspeccion() -> void:
+	if not notificada_inspeccion:
+		notificada_inspeccion = true
+		EventBus.pedido_en_zona.emit(true)
 
 # ==========================================
 # NUEVO: Función para mover la caja hacia la salida
@@ -67,6 +73,8 @@ func _mover_salida(delta: float) -> void:
 	# Cuando llega al punto de salida final, se destruye la caja y se libera la variable
 	if caja_actual.global_position.distance_to(objetivo) < 0.1:
 		estado = "ESPERANDO"
+		notificada_inspeccion = false
+		EventBus.pedido_en_zona.emit(false)
 		if is_instance_valid(caja_actual):
 			caja_actual.queue_free()
 		caja_actual = null
@@ -75,6 +83,8 @@ func _mover_salida(delta: float) -> void:
 		EventBus.emit_signal("siguiente_pedido_solicitado")
 
 func registrar_caja(nueva_caja: Node3D) -> void:
+	notificada_inspeccion = false
+	EventBus.pedido_en_zona.emit(false)
 	if nueva_caja == null or ruta_entrada.is_empty():
 		print("Error: Falta la caja o la ruta de entrada está vacía.")
 		return
@@ -84,11 +94,6 @@ func registrar_caja(nueva_caja: Node3D) -> void:
 	# se teletransporta al primer punto (Persiana)
 	caja_actual.global_position = ruta_entrada[0].global_position
 	estado = "AVANZANDO"
-
-func _on_pedido_en_zona(hay_pedido: bool) -> void:
-	if hay_pedido and estado == "AVANZANDO":
-		# Se frena justo frente al jugador cuando entra al Area3D
-		estado = "INSPECCIONANDO"
 
 func _on_decision_tomada(_fue_permitido: bool) -> void:
 	if estado == "INSPECCIONANDO" and caja_actual != null:
