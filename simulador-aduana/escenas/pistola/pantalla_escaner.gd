@@ -22,7 +22,15 @@ func _ready():
 	if camera_3d:
 		camera_3d.fov = 30.0
 		
+# Recibe la malla escaneada, la centra en el visor y muestra la pantalla del dispositivo.
 func _mostrar_en_pantalla(forma_recibida: Mesh) -> void:
+	var herramienta_actual: String = ""
+	var inventario_actual: Inventario = get_tree().get_first_node_in_group("inventario") as Inventario
+	if inventario_actual:
+		herramienta_actual = inventario_actual.get_herramienta_seleccionada()
+	# La vista del escáner se ignora mientras el jugador inspecciona con el Cúter.
+	if herramienta_actual == "cuter":
+		return
 	if not forma_recibida or not modelo_3d:
 		return
 	

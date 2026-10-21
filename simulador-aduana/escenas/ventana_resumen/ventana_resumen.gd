@@ -25,8 +25,9 @@ func _ready() -> void:
 	if siguiente_dia:
 		siguiente_dia.pressed.connect(_on_btn_siguiente_dia_pressed)
 
+# Muestra las estadísticas del turno y libera el mouse para poder usar el botón de avance.
 func _mostrar_resumen(stats: Dictionary) -> void:
-	# save el neto en la variable de la clase 
+	# Guarda el neto en la variable de la clase. 
 	dinero_neto_actual = stats.neto
 	
 	titulo.text = "RESUMEN DEL DÍA\nPedidos correctos: " + str(stats.correctos) + " / " + str(stats.total)
@@ -42,6 +43,7 @@ func _mostrar_resumen(stats: Dictionary) -> void:
 	# Liberar el mouse para interactuar con el botón
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
+# Avanza el día y recarga la escena conservando el estado persistente de GameManager.
 func _on_btn_siguiente_dia_pressed() -> void:
 	# El neto ya se acreditó al alcanzar la meta, antes de mostrar el resumen.
 	# Aquí solo avanzamos el día para evitar acreditar el turno dos veces.

@@ -26,6 +26,7 @@ func _ready() -> void:
 		GameManager.dinero_cambiado.connect(_on_dinero_cambiado)
 	_refrescar_tienda()
 
+# Conecta cada botón con la compra o mejora específica de su herramienta.
 func _conectar_botones() -> void:
 	btn_mejorar_escaner.pressed.connect(_comprar_mejora_escaner)
 	btn_mejorar_cuter.pressed.connect(_comprar_mejora_cuter)
@@ -37,11 +38,13 @@ func _conectar_botones() -> void:
 func _on_dinero_cambiado(_nuevo_saldo: int) -> void:
 	_refrescar_tienda()
 
+# Actualiza saldo, niveles, disponibilidad y estados de compra de toda la tienda.
 func _refrescar_tienda() -> void:
 	texto_dinero.text = "Dinero disponible: $" + str(GameManager.dinero_total)
 	_restaurar_estado_compras()
 	_refrescar_estado_botones()
 
+# Refleja en los botones las mejoras que ya quedaron guardadas en GameManager.
 func _restaurar_estado_compras() -> void:
 	var mejoras: Array[String] = GameManager.mejoras_compradas
 
@@ -83,6 +86,7 @@ func _restaurar_estado_compras() -> void:
 		btn_mejorar_energizante.visible = false
 		nivel_energizante.text = "No adquirida"
 
+# Deshabilita compras cuyo precio supera el saldo actual y bloquea lo ya adquirido.
 func _refrescar_estado_botones() -> void:
 	var saldo: int = GameManager.dinero_total
 	if not GameManager.mejoras_compradas.has("escaner_lvl2"):
@@ -134,6 +138,7 @@ func _mejorar_energizante() -> void:
 		EventBus.herramienta_mejorada.emit("energizante", 2)
 		_refrescar_tienda()
 
+# Centraliza el pago de la tienda y actualiza la interfaz si no se pudo comprar.
 func _pagar(precio: int) -> bool:
 	var pago_exitoso: bool = GameManager.gastar_dinero(precio)
 	if not pago_exitoso:

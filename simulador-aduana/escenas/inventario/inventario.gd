@@ -21,6 +21,9 @@ const ORDEN: Array[String] = ["escaner", "cuter", "balanza", "energizante"]
 
 @onready var hotbar: HBoxContainer = $Hotbar
 
+func _enter_tree() -> void:
+	add_to_group("inventario")
+
 var herramientas: Dictionary = {}
 var herramienta_seleccionada: String = ""
 
@@ -93,6 +96,7 @@ func _refrescar_slot(id: String) -> void:
 
 # --- Selección -------------------------------------------------------------
 
+# Marca como activa la herramienta adquirida y actualiza el estado visual de los slots.
 func seleccionar(id: String) -> void:
 	if not herramientas.has(id) or not herramientas[id]["desbloqueada"]:
 		return
@@ -101,8 +105,56 @@ func seleccionar(id: String) -> void:
 		if slot is Button:
 			slot.set_pressed_no_signal(slot.get_meta("herramienta_id", "") == id)
 
+# Si se está usando el Cúter, evita cambiar de herramienta; pulsar su slot lo desactiva.
 func _on_slot_pressed(id: String) -> void:
+	var caja_abierta: Node = _obtener_caja_interactiva_abierta()
+	if caja_abierta != null:
+		seleccionar("cuter")
+		if id == "cuter" and caja_abierta.has_method("cerrar_caja"):
+			caja_abierta.cerrar_caja()
+			_deseleccionar_herramienta()
+		return
 	seleccionar(id)
+
+# Escape también permite salir de la inspección con el Cúter.
+func _input(event: InputEvent) -> void:
+	if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_ESCAPE:
+		var caja_abierta: Node = _obtener_caja_interactiva_abierta()
+		if caja_abierta != null and caja_abierta.has_method("cerrar_caja"):
+			caja_abierta.cerrar_caja()
+			_deseleccionar_herramienta()
+			get_viewport().set_input_as_handled()
+
+# Encuentra la caja activa de la cinta y devuelve su controlador solo si está abierta.
+func _obtener_caja_interactiva_abierta() -> Node:
+	var escena_actual: Node = get_tree().current_scene
+	if escena_actual == null:
+		return null
+	var cinta: Node = escena_actual.get_node_or_null("Espacio_Trabajo/CintaTransportadora")
+	if cinta == null:
+		return null
+	var caja_activa: Node = cinta.get("caja_actual") as Node
+	if caja_activa == null:
+		return null
+	var nodo_interactivo: Node = caja_activa.get_node_or_null("caja_interactiva")
+	if nodo_interactivo == null or not nodo_interactivo.get("caja_abierta"):
+		return null
+	return nodo_interactivo
+
+# API para que la caja desactive el Cúter al cerrarse con un clic global.
+func salir_del_cuter() -> void:
+	_deseleccionar_herramienta()
+
+# Desmarca todos los slots y apaga cualquier pantalla de escáner que siga visible.
+func _deseleccionar_herramienta() -> void:
+	herramienta_seleccionada = ""
+	for slot in hotbar.get_children():
+		if slot is Button:
+			slot.set_pressed_no_signal(false)
+	var pantalla_escaner: Control = get_tree().current_scene.get_node_or_null("PantallaEscaner") as Control if get_tree().current_scene else null
+	if pantalla_escaner:
+		pantalla_escaner.hide()
+		pantalla_escaner.set("estamos_viendo_pantalla", false)
 
 func _primera_disponible() -> String:
 	for id in ORDEN:

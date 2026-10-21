@@ -2,17 +2,17 @@ extends Node
 
 signal dinero_cambiado(nuevo_saldo: int)
 
-# signals para la gestión de errores y fin de juego 
+# Señales para informar errores y notificar el fin de la partida. 
 signal error_registrado(total_errores: int)
 signal game_over
 
 var dia_actual: int = 1
-# la billetera empieza vacía y es la fuente única de plata
+# La billetera empieza en cero y es la fuente única del saldo del juego.
 var dinero_total: int = 0
 var pedidos_realizados_hoy: int = 0
 var mejoras_compradas: Array[String] = []
 
-# var para penalizaciones y estadísticas del día 
+# Contadores y estadísticas que se reinician al comenzar un día nuevo. 
 var errores_hoy: int = 0
 const MAX_ERRORES: int = 3
 const PENALIZACION_ERROR: int = 20
@@ -29,9 +29,11 @@ const OBJETIVOS_POR_DIA: Dictionary = {
 	4: 15,
 }
 
+# Devuelve la cantidad de pedidos necesaria para completar el día actual.
 func obtener_objetivo_actual() -> int:
 	return OBJETIVOS_POR_DIA.get(dia_actual, 15)
 
+# Avanza el calendario y reinicia solo los contadores diarios; conserva saldo y compras.
 func avanzar_siguiente_dia() -> void:
 	dia_actual += 1
 	pedidos_realizados_hoy = 0
@@ -43,6 +45,7 @@ func avanzar_siguiente_dia() -> void:
 	dinero_descontado_hoy = 0
 	pedidos_correctos_hoy = 0
 
+# Descuenta una compra solo si el precio es positivo y alcanza el saldo disponible.
 func gastar_dinero(cantidad: int) -> bool:
 	if cantidad <= 0 or dinero_total < cantidad:
 		return false
@@ -50,12 +53,14 @@ func gastar_dinero(cantidad: int) -> bool:
 	dinero_cambiado.emit(dinero_total)
 	return true
 
+# Ajusta el saldo y notifica a las interfaces que muestran dinero.
 func acumular_dinero(cantidad: float) -> void:
 	# Acepta ganancias positivas y balances netos negativos.
 	dinero_total += int(cantidad)
 	dinero_cambiado.emit(dinero_total)
 	print("Dinero total acumulado: $", dinero_total)
 
+# Guarda una compra una sola vez para restaurarla cuando se recarga el día.
 func registrar_mejora(id: String) -> void:
 	if not mejoras_compradas.has(id):
 		mejoras_compradas.append(id)
@@ -79,6 +84,7 @@ func procesar_denegar_paquete(es_ilegal: bool) -> void:
 	else:
 		_registrar_acierto(50) # Recompensa por rechazo correcto
 
+# Registra un error, aplica la multa y activa el fin de partida al alcanzar el máximo.
 func _aplicar_error(motivo: String) -> void:
 	errores_hoy += 1
 	dinero_descontado_hoy += PENALIZACION_ERROR
@@ -92,13 +98,14 @@ func _aplicar_error(motivo: String) -> void:
 		game_over.emit()
 		print("Game Over: Se alcanzaron los 3 errores permitidos.")
 
+# Registra una respuesta correcta y suma su recompensa al saldo y a las estadísticas.
 func _registrar_acierto(recompensa: int) -> void:
 	pedidos_correctos_hoy += 1
 	dinero_ganado_hoy += recompensa
 	dinero_total += recompensa
 	dinero_cambiado.emit(dinero_total)
 
-# Retorna la estructura de datos que requiere la ventana de resumen
+# Prepara las estadísticas diarias con las claves que consume la ventana de resumen.
 func obtener_stats_resumen() -> Dictionary:
 	return {
 		"correctos": pedidos_correctos_hoy,
