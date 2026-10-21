@@ -2,6 +2,8 @@ extends RigidBody3D
 
 # Aquí le decimos a la caja dónde escondimos el objeto.
 # Busca el nodo Marker3D y luego el dibujo de adentro.
+@onready var objeto_secreto = $puntoObjeto/MeshInstance3D
+var pedido_asociado: PedidoInfo = null
 @onready var punto_objeto: Node3D = $puntoObjeto
 
 # Al usar set(val), ejecuta la carga del asset en cuanto la escena principal asigna la info
@@ -13,8 +15,6 @@ func _set_info(val: PedidoInfo) -> void:
 	_actualizar_objeto_en_caja()
 			
 func _ready():
-	# Le decimos a la caja que escuche el megáfono del EventBus
-	# para saber en qué momento tomaste la decisión
 	EventBus.decision_tomada.connect(_desaparecer_caja)
 	
 	# Carga el asset 3D en caso de que la información ya estuviera asignada antes de _ready()
@@ -40,16 +40,53 @@ func _actualizar_objeto_en_caja() -> void:
 		_ajustar_tamano_a_caja(instancia_asset, 0.4)
 
 
+	 #Si ya teníamos datos guardados antes de estar en el árbol, los aplicamos ahora
+	if pedido_asociado != null:
+		_aplicar_datos_al_ticket()
+
 func _desaparecer_caja(_fue_permitido: bool) -> void:
 	# Al presionar cualquier botón, espera 1 segundo y se destruye si fue denegada
 	await get_tree().create_timer(1.0).timeout
 	if is_instance_valid(self):
 		queue_free()
 	print("La caja fue destruida de la escena.")
+  
 
-# Esta función salta cuando haces clic en la caja de afuera
+# Función que llama la escena principal
+func inicializar_caja(datos: PedidoInfo) -> void:
+	pedido_asociado = datos
+	_aplicar_datos_al_ticket()
+
+func _aplicar_datos_al_ticket() -> void:
+	if pedido_asociado == null:
+		return
+	# Buscamos el nodo Ticket desde la raíz de la caja de forma automática
+	var nodo_raiz = get_parent()
+	var nodo_ticket = nodo_raiz.find_child("Ticket", true, false)
+	if nodo_ticket and nodo_ticket.has_method("cargar_ticket"):
+		nodo_ticket.cargar_ticket(pedido_asociado)
+		print("DATOS ENVIADOS AL TICKET")
+	else:
+		print("Advertencia: No se encontró el nodo Ticket.")
+	if nodo_ticket and nodo_ticket.has_method("cargar_ticket"):
+		nodo_ticket.cargar_ticket(pedido_asociado)
+		print("Ticket encontrado y actualizado ")
+	else:
+		print("No se pudo hallar el nodo Ticket en la caja.")
+
+# Función auxiliar para buscar el nodo sin importar la ruta exacta
+func _encontrar_nodo_por_nombre(raiz: Node, nombre: String) -> Node:
+	if raiz.name == nombre:
+		return raiz
+	for hijo in raiz.get_children():
+		var encontrado = _encontrar_nodo_por_nombre(hijo, nombre)
+		if encontrado:
+			return encontrado
+      
+	# Esta función salta cuando haces clic en la caja de afuera
 func _on_input_event(camera: Node, event: InputEvent, event_position: Vector3, normal: Vector3, shape_idx: int) -> void:
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+
+  if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 		# Buscamos la malla del asset instanciado para enviársela al escáner
 		var mesh_para_escanear: Mesh = _obtener_mesh_del_asset(punto_objeto)
 		
@@ -86,4 +123,5 @@ func _buscar_mesh_instance(nodo: Node) -> MeshInstance3D:
 		var res = _buscar_mesh_instance(child)
 		if res != null:
 			return res
+
 	return null

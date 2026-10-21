@@ -3,7 +3,7 @@ extends Node3D
 # Ref a la instancia de la planilla dentro del CanvasLayer
 @onready var planilla_ui: Control = $UIPlanilla/PlanillaUI
 
-#  Precargamos la escena de la caja para poder instanciar news pedidos por código
+# Precargamos la escena de la caja para poder instanciar news pedidos por código
 const CAJA_ESCENA = preload("res://escenas/caja/caja.tscn")
 
 # Listas de control de historial (para que no se repitan los pedidos)
@@ -47,15 +47,41 @@ var nombres_ilegales: Array[String] = ["Maza con Pinches", "Daga" , "Hacha" , "M
  "Espada" , "Cuchillo" , "Serrucho" , ]
 
 
+# save el pedido activo actual 
+var pedido_actual: PedidoInfo = null
+
 func _ready() -> void:
-	if indices_legales_disponibles.is_empty() and indices_ilegales_disponibles.is_empty():
+	EventBus.decision_tomada.connect(_on_decision_tomada)
+  	if indices_legales_disponibles.is_empty() and indices_ilegales_disponibles.is_empty():
 		_reiniciar_bolsas_de_objetos() #si ya no hay mas objetos se reinician
 	probar_carga_pedido()
-	
-	$Espacio_Trabajo/CintaTransportadora.registrar_caja($Espacio_Trabajo/caja)
-	
-	#  Conectamos la señal del EventBus para que al terminar de salir una caja, se pida la siguiente
+
+	# genera el pedido para la primera caja que ya está en la escena
+	#_generar_y_cargar_nuevo_pedido()
+
+	# buscamos la caja inicial en el árbol y le pasamos los datos
+	var caja_inicial = $Espacio_Trabajo/caja 
+	if caja_inicial:
+		var script_caja = caja_inicial.get_node_or_null("caja_interactiva")
+		if script_caja and script_caja.has_method("inicializar_caja"):
+			script_caja.inicializar_caja(pedido_actual)
+
+	# registra la caja inicial en la cinta transportadora
+	$Espacio_Trabajo/CintaTransportadora.registrar_caja(caja_inicial)
+
 	EventBus.siguiente_pedido_solicitado.connect(_on_siguiente_pedido_solicitado)
+
+	# Se conecta a decision_tomada para procesar aciertos/errores en GameManager 
+	#EventBus.decision_tomada.connect(_on_decision_tomada)
+	
+	#_generar_y_cargar_nuevo_pedido()
+	
+	#$Espacio_Trabajo/CintaTransportadora.registrar_caja($Espacio_Trabajo/caja)
+	
+	# Conectamos la señal del EventBus para que al terminar de salir una caja, se pida la siguiente
+	#EventBus.siguiente_pedido_solicitado.connect(_on_siguiente_pedido_solicitado)
+
+
 
 # Llena las bolsas de índices para elegir sin repetir
 func _reiniciar_bolsas_de_objetos() -> void:
@@ -80,7 +106,6 @@ func _obtener_indice_ilegal_unico() -> int:
 	if indices_ilegales_disponibles.is_empty():
 		_reiniciar_bolsas_de_objetos()
 	return indices_ilegales_disponibles.pop_back()
-
 
 
 func probar_carga_pedido() -> void:
@@ -109,18 +134,40 @@ func probar_carga_pedido() -> void:
 		planilla_ui.cargar_pedido(pedido_test)
 	else:
 		print("Error: No se encontró la PlanillaUI en la ruta especificada.")
+
 func _on_boton_tienda_pressed() -> void:
 	$CanvasLayer/tienda.show()
+
+# Procesa la aprobación o denegación cuando el jugador presiona un botón 
+func _on_decision_tomada(fue_permitido: bool) -> void:
+	if pedido_actual == null:
+		return
+
+	if fue_permitido:
+		GameManager.procesar_aprobar_paquete(pedido_actual.es_ilegal)
+	else:
+		GameManager.procesar_denegar_paquete(pedido_actual.es_ilegal)
 
 # Func que crea la siguiente caja y genera datos aleatorios
 func _on_siguiente_pedido_solicitado() -> void:
 	var nueva_caja = CAJA_ESCENA.instantiate()
-	var pedido_nuevo = PedidoInfo.new()
-	
-	# 30% de probabilidad de que sea un pedido ilegal
-	pedido_nuevo.es_ilegal = randf() < 0.3
-	
-	if pedido_nuevo.es_ilegal:
+var pedido_nuevo = PedidoInfo.new()
+
+	_generar_y_cargar_nuevo_pedido()
+
+	# add como hija dentro del nodo contenedor (Espacio_Trabajo)
+	$Espacio_Trabajo.add_child(nueva_caja)
+
+	_generar_y_cargar_nuevo_pedido()
+
+	# Buscamos el nodo hijo 'caja_interactiva' que tiene el script
+	var script_caja = nueva_caja.get_node_or_null("caja_interactiva")
+	if script_caja and script_caja.has_method("inicializar_caja"):
+		script_caja.inicializar_caja(pedido_actual)
+	else:
+		print("Error: No se encontró el nodo caja_interactiva en la nueva caja.")
+    
+    if pedido_nuevo.es_ilegal:
 		var idx = _obtener_indice_ilegal_unico()
 		pedido_nuevo.nombre_producto = nombres_ilegales[idx]
 		pedido_nuevo.objeto_escena = mallas_ilegales[idx]
@@ -128,18 +175,51 @@ func _on_siguiente_pedido_solicitado() -> void:
 		var idx = _obtener_indice_legal_unico()
 		pedido_nuevo.nombre_producto = nombres_legales[idx]
 		pedido_nuevo.objeto_escena = mallas_legales[idx]
-	
-	# Valores aleatorios de peso y código
-	pedido_nuevo.peso_kg = snappedf(randf_range(10.0, 30.0), 0.001)
-	pedido_nuevo.codigo_identificador = "RF-" + str(randi_range(100, 999)) + " VY"
-	
-	# Inyectamos el recurso PedidoInfo al nodo caja_interactiva
-	nueva_caja.get_node("caja_interactiva").info = pedido_nuevo
-	$Espacio_Trabajo.add_child(nueva_caja)
-	
-	# Actualizamos la planilla UI
-	if planilla_ui:
-		planilla_ui.cargar_pedido(pedido_nuevo)
-	
-	# Registramos la nueva caja en la cinta transportadora
+
 	$Espacio_Trabajo/CintaTransportadora.registrar_caja(nueva_caja)
+
+	# Si la caja tiene la función para inicializarse con el pedido, se la llama
+	#if nueva_caja.has_method("inicializar_caja"):
+		#nueva_caja.inicializar_caja(pedido_actual)
+	# registra la nueva caja en la cinta para que comience su recorrido de entrada
+	#$Espacio_Trabajo/CintaTransportadora.registrar_caja(nueva_caja)#
+
+# generación de datos aleatorios para comparar Planilla con ek Ticket 
+func _generar_y_cargar_nuevo_pedido() -> void:
+	pedido_actual = PedidoInfo.new()
+	var productos_posibles = ["Alfajor", "Cocaína", "BMO", "Copa", "Microondas"]
+	
+	# Datos reales / Planilla
+	pedido_actual.nombre_producto = productos_posibles.pick_random()
+	pedido_actual.peso_kg = snappedf(randf_range(10.0, 30.0), 0.001)
+	pedido_actual.codigo_identificador = "RF-" + str(randi_range(100, 999)) + " VY"
+
+	# Determinar si el paquete será ilegal (30% de probabilidad)
+	pedido_actual.es_ilegal = randf() < 0.3
+
+	if pedido_actual.es_ilegal:
+		# Alterar alguno de los datos del Ticket para crear la discrepancia
+		var tipo_error = randi() % 3
+		if tipo_error == 0:
+			pedido_actual.ticket_producto = "Producto Prohibido"
+			pedido_actual.ticket_peso_kg = pedido_actual.peso_kg
+			pedido_actual.ticket_codigo_identificador = pedido_actual.codigo_identificador
+		elif tipo_error == 1:
+			pedido_actual.ticket_producto = pedido_actual.nombre_producto
+			pedido_actual.ticket_peso_kg = pedido_actual.peso_kg + 5.0 # Peso falso
+			pedido_actual.ticket_codigo_identificador = pedido_actual.codigo_identificador
+		else:
+			pedido_actual.ticket_producto = pedido_actual.nombre_producto
+			pedido_actual.ticket_peso_kg = pedido_actual.peso_kg
+			pedido_actual.ticket_codigo_identificador = "RF-000 XX" # Código falso
+	else:
+		# Coinciden exactamente
+		pedido_actual.ticket_producto = pedido_actual.nombre_producto
+		pedido_actual.ticket_peso_kg = pedido_actual.peso_kg
+		pedido_actual.ticket_codigo_identificador = pedido_actual.codigo_identificador
+
+	# UPDATE la planilla con los datos de esta nueva order
+	if planilla_ui:
+		planilla_ui.cargar_pedido(pedido_actual)
+	
+	
