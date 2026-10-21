@@ -52,7 +52,7 @@ var pedido_actual: PedidoInfo = null
 
 func _ready() -> void:
 	EventBus.decision_tomada.connect(_on_decision_tomada)
-  	if indices_legales_disponibles.is_empty() and indices_ilegales_disponibles.is_empty():
+	if indices_legales_disponibles.is_empty() and indices_ilegales_disponibles.is_empty():
 		_reiniciar_bolsas_de_objetos() #si ya no hay mas objetos se reinician
 	probar_carga_pedido()
 
@@ -151,7 +151,7 @@ func _on_decision_tomada(fue_permitido: bool) -> void:
 # Func que crea la siguiente caja y genera datos aleatorios
 func _on_siguiente_pedido_solicitado() -> void:
 	var nueva_caja = CAJA_ESCENA.instantiate()
-var pedido_nuevo = PedidoInfo.new()
+	var pedido_nuevo = PedidoInfo.new()
 
 	_generar_y_cargar_nuevo_pedido()
 
@@ -166,8 +166,8 @@ var pedido_nuevo = PedidoInfo.new()
 		script_caja.inicializar_caja(pedido_actual)
 	else:
 		print("Error: No se encontró el nodo caja_interactiva en la nueva caja.")
-    
-    if pedido_nuevo.es_ilegal:
+	
+	if pedido_nuevo.es_ilegal:
 		var idx = _obtener_indice_ilegal_unico()
 		pedido_nuevo.nombre_producto = nombres_ilegales[idx]
 		pedido_nuevo.objeto_escena = mallas_ilegales[idx]

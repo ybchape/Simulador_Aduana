@@ -2,7 +2,7 @@ extends RigidBody3D
 
 # Aquí le decimos a la caja dónde escondimos el objeto.
 # Busca el nodo Marker3D y luego el dibujo de adentro.
-@onready var objeto_secreto = $puntoObjeto/MeshInstance3D
+
 var pedido_asociado: PedidoInfo = null
 @onready var punto_objeto: Node3D = $puntoObjeto
 
@@ -82,11 +82,11 @@ func _encontrar_nodo_por_nombre(raiz: Node, nombre: String) -> Node:
 		var encontrado = _encontrar_nodo_por_nombre(hijo, nombre)
 		if encontrado:
 			return encontrado
-      
+	return null
 	# Esta función salta cuando haces clic en la caja de afuera
 func _on_input_event(camera: Node, event: InputEvent, event_position: Vector3, normal: Vector3, shape_idx: int) -> void:
 
-  if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 		# Buscamos la malla del asset instanciado para enviársela al escáner
 		var mesh_para_escanear: Mesh = _obtener_mesh_del_asset(punto_objeto)
 		
