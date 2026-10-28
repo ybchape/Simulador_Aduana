@@ -46,39 +46,29 @@ func _on_pedido_en_zona(hay_pedido: bool) -> void:
 		salir_del_cuter()
 
 func _configurar_datos() -> void:
+	# Establecer estado inicial por defecto:
+	# - escaner y cuter: nivel 1 y desbloqueados desde el inicio
+	# - balanza y energizante: nivel 0 y bloqueados (hay que comprarlos)
 	herramientas = {
-		"escaner": {
-			"nombre": "Escáner",
-			"nivel": escaner_nivel,
-		},
-		"cuter": {
-			"nombre": "Cúter",
-			"nivel": cuter_nivel,
-		},
-		"balanza": {
-			"nombre": "Balanza",
-			"nivel": balanza_nivel,
-		},
-		"energizante": {
-			"nombre": "Energizante",
-			"nivel": energizante_nivel,
-		},
+		"escaner": {"nombre": "Escáner", "nivel": 1, "desbloqueada": true},
+		"cuter": {"nombre": "Cúter", "nivel": 1, "desbloqueada": true},
+		"balanza": {"nombre": "Balanza", "nivel": 0, "desbloqueada": false},
+		"energizante": {"nombre": "Energizante", "nivel": 0, "desbloqueada": false},
 	}
-	# Una herramienta está desbloqueada si ya se posee (nivel > 0).
-	for id in herramientas:
-		herramientas[id]["desbloqueada"] = herramientas[id]["nivel"] > 0
 
-	# Reconstruir las herramientas compradas/mejoradas desde el estado persistente
-	# después de cambiar de día (la escena se vuelve a cargar).
-	for id in ORDEN:
-		var nivel_guardado: int = 1 if GameManager.mejoras_compradas.has(id + "_obtenido") else 0
-		if id in ["escaner", "cuter"]:
-			nivel_guardado = 1
-		if GameManager.mejoras_compradas.has(id + "_lvl2"):
-			nivel_guardado = 2
-		if nivel_guardado > 0:
-			herramientas[id]["nivel"] = nivel_guardado
-			herramientas[id]["desbloqueada"] = true
+	# Verificar mejoras de nivel 2 (e scanner/cuter) usando claves de la tienda
+	if GameManager.mejoras_compradas.has("escaner_lvl2"):
+		herramientas["escaner"]["nivel"] = 2
+	if GameManager.mejoras_compradas.has("cuter_lvl2"):
+		herramientas["cuter"]["nivel"] = 2
+
+	# Verificar herramientas compradas usando claves de la tienda
+	if GameManager.mejoras_compradas.has("balanza_obtenida"):
+		herramientas["balanza"]["nivel"] = 1
+		herramientas["balanza"]["desbloqueada"] = true
+	if GameManager.mejoras_compradas.has("energizante_obtenido"):
+		herramientas["energizante"]["nivel"] = 1
+		herramientas["energizante"]["desbloqueada"] = true
 
 func _conectar_slots() -> void:
 	for slot in hotbar.get_children():
