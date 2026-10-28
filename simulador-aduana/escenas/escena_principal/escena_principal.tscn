@@ -41,6 +41,7 @@
 [ext_resource type="Texture2D" uid="uid://bpek4uhl86kl4" path="res://assets/ui/interfaz/shoppingCartWhite.png" id="37_2yig5"]
 [ext_resource type="Script" uid="uid://0faeo2app0yv" path="res://escenas/escena_principal/gestor_eventos.gd" id="38_0a0g7"]
 [ext_resource type="Script" uid="uid://bq5i1rmxvf3n4" path="res://escenas/escena_principal/cartel_cansancio.gd" id="39_mbhr4"]
+[ext_resource type="Texture2D" uid="uid://ldcrrqfpcnn5" path="res://assets/ui/interfaz/panel_grey_bolts_detail_a.png" id="41_ms636"]
 
 [sub_resource type="Environment" id="Environment_g4v7s"]
 ambient_light_source = 2
@@ -48,6 +49,17 @@ ambient_light_color = Color(0.8732984, 0.8732984, 0.8732984, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_g4v7s"]
 size = Vector3(0.5827637, 0.4290619, 0.5911865)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_2d3my"]
+content_margin_left = 12.0
+content_margin_top = 12.0
+content_margin_right = 12.0
+content_margin_bottom = 15.0
+texture = ExtResource("41_ms636")
+texture_margin_left = 24.0
+texture_margin_top = 24.0
+texture_margin_right = 24.0
+texture_margin_bottom = 24.0
 
 [node name="Node3D" type="Node3D" unique_id=363520377]
 script = ExtResource("1_1ijcn")
@@ -404,8 +416,14 @@ script = ExtResource("38_0a0g7")
 [node name="CartelesEventos" type="CanvasLayer" parent="." unique_id=1553171201]
 
 [node name="CartelCansancio" type="AcceptDialog" parent="CartelesEventos" unique_id=151470151]
+oversampling_override = 1.0
 title = "AGOTAMIENTO LABORAL"
-dialog_text = "Las jornadas son muy largas y los días empiezan a pesar. Tu personaje está demasiado cansado y sus reflejos se han vuelto lentos."
+position = Vector2i(0, 36)
+size = Vector2i(1060, 125)
+borderless = true
+theme_override_styles/panel = SubResource("StyleBoxTexture_2d3my")
+dialog_text = "                                                                                                  ¡AGOTAMIENTO LABORAL!
+Las jornadas son muy largas y los días empiezan a pesar. Tu personaje está demasiado cansado y sus reflejos se han vuelto lentos."
 script = ExtResource("39_mbhr4")
 
 [connection signal="body_entered" from="ZonaInspeccion" to="ZonaInspeccion" method="_on_body_entered"]
