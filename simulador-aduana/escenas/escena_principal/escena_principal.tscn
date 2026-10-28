@@ -38,6 +38,7 @@
 [ext_resource type="Script" uid="uid://cnr1ob03kgcbq" path="res://escenas/escena_principal/hud_energia.gd" id="35_lp32y"]
 [ext_resource type="Texture2D" uid="uid://ptv60x0lssvl" path="res://assets/ui/barras/bar_round_gloss_large.png" id="35_nutjc"]
 [ext_resource type="Script" uid="uid://dmc11jdajd88q" path="res://escenas/escena_principal/efecto_cansancio.gd" id="37_2smbc"]
+[ext_resource type="Texture2D" uid="uid://bpek4uhl86kl4" path="res://assets/ui/interfaz/shoppingCartWhite.png" id="37_2yig5"]
 [ext_resource type="Script" uid="uid://0faeo2app0yv" path="res://escenas/escena_principal/gestor_eventos.gd" id="38_0a0g7"]
 [ext_resource type="Script" uid="uid://bq5i1rmxvf3n4" path="res://escenas/escena_principal/cartel_cansancio.gd" id="39_mbhr4"]
 
@@ -373,13 +374,14 @@ texture_progress = ExtResource("35_nutjc")
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=91555021]
 
 [node name="boton_tienda" type="Button" parent="CanvasLayer" unique_id=1242565346]
-offset_left = 1589.0
-offset_top = 54.0
-offset_right = 1840.0
-offset_bottom = 160.0
-theme_override_colors/font_color = Color(0.05490196, 0.75686276, 0.101960786, 1)
+offset_left = 1590.0
+offset_top = 27.0
+offset_right = 1891.0
+offset_bottom = 135.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 58
 text = "Tienda"
+icon = ExtResource("37_2yig5")
 
 [node name="tienda" parent="CanvasLayer" unique_id=263551707 instance=ExtResource("32_jn0hn")]
 visible = false
