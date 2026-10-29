@@ -6,6 +6,9 @@ signal dinero_cambiado(nuevo_saldo: int)
 signal error_registrado(total_errores: int)
 signal game_over
 
+# Se emite cuando cambian los usos/estado de una herramienta (refresca la UI).
+signal herramienta_estado_cambiado(id: String, restantes: int, maximo: int)
+
 var dia_actual: int = 1
 # la billetera empieza vacía y es la fuente única de plata
 var dinero_total: int = 0
@@ -16,6 +19,23 @@ var mejoras_compradas: Array[String] = []
 var errores_hoy: int = 0
 const MAX_ERRORES: int = 3
 const PENALIZACION_ERROR: int = 20
+
+# --- Límites de uso de herramientas ---
+# Usos permitidos por día. -1 = sin límite.
+const USOS_BASE_HERRAMIENTA: Dictionary = {
+	"escaner": 2,
+	"cuter": 2,
+	"balanza": 2,
+	"energizante": -1,
+}
+# Cuántos usos extra aporta cada mejora de nivel 2 de la tienda.
+const USOS_EXTRA_POR_MEJORA: int = 2
+# Enfriamiento (segundos) tras cada uso antes de poder volver a usar la herramienta.
+const COOLDOWN_HERRAMIENTA: float = 10.0
+
+# Estado de uso de herramientas durante el día actual.
+var _usos_gastados: Dictionary = {}
+var _cooldown_restante: Dictionary = {}
 
 var dinero_ganado_hoy: int = 0
 var dinero_descontado_hoy: int = 0
@@ -28,6 +48,20 @@ const OBJETIVOS_POR_DIA: Dictionary = {
 	3: 10,
 	4: 15,
 }
+
+func _ready() -> void:
+	_reiniciar_usos_herramientas()
+
+func _process(delta: float) -> void:
+	# Avanza los enfriamientos activos; avisa solo cuando uno termina.
+	for id in _cooldown_restante.keys():
+		var restante: float = float(_cooldown_restante[id])
+		if restante <= 0.0:
+			continue
+		restante = maxf(0.0, restante - delta)
+		_cooldown_restante[id] = restante
+		if restante <= 0.0:
+			_emitir_estado_herramienta(id)
 
 func obtener_objetivo_actual() -> int:
 	return OBJETIVOS_POR_DIA.get(dia_actual, 15)
@@ -42,6 +76,64 @@ func avanzar_siguiente_dia() -> void:
 	dinero_ganado_hoy = 0
 	dinero_descontado_hoy = 0
 	pedidos_correctos_hoy = 0
+
+	# Reiniciar los usos de herramientas del nuevo día.
+	_reiniciar_usos_herramientas()
+
+# --- Gestión de uso de herramientas (límite diario + cooldown) ----------------
+
+# Reinicia los usos del día (al arrancar el juego y al avanzar de día).
+func _reiniciar_usos_herramientas() -> void:
+	_usos_gastados.clear()
+	_cooldown_restante.clear()
+	for id in USOS_BASE_HERRAMIENTA.keys():
+		_usos_gastados[id] = 0
+		_cooldown_restante[id] = 0.0
+	for id in USOS_BASE_HERRAMIENTA.keys():
+		_emitir_estado_herramienta(id)
+
+# Usos máximos por día (considera las mejoras de nivel 2). Devuelve -1 si es ilimitada.
+func obtener_max_usos(id: String) -> int:
+	if not USOS_BASE_HERRAMIENTA.has(id):
+		return 0
+	var maximo: int = int(USOS_BASE_HERRAMIENTA[id])
+	if maximo < 0:
+		return -1
+	if mejoras_compradas.has(id + "_lvl2"):
+		maximo += USOS_EXTRA_POR_MEJORA
+	return maximo
+
+# Usos restantes hoy. Devuelve -1 si la herramienta es ilimitada.
+func obtener_usos_restantes(id: String) -> int:
+	var maximo: int = obtener_max_usos(id)
+	if maximo < 0:
+		return -1
+	var gastados: int = int(_usos_gastados.get(id, 0))
+	return maxi(0, maximo - gastados)
+
+func obtener_cooldown_restante(id: String) -> float:
+	return float(_cooldown_restante.get(id, 0.0))
+
+# ¿Se puede usar la herramienta ahora? (le quedan usos y no está enfriando)
+func herramienta_disponible(id: String) -> bool:
+	if not USOS_BASE_HERRAMIENTA.has(id):
+		return false
+	if obtener_cooldown_restante(id) > 0.0:
+		return false
+	return obtener_usos_restantes(id) != 0
+
+# Registra un uso efectivo: descuenta un uso (si aplica) e inicia el enfriamiento.
+func consumir_uso_herramienta(id: String) -> bool:
+	if not herramienta_disponible(id):
+		return false
+	if obtener_usos_restantes(id) > 0:
+		_usos_gastados[id] = int(_usos_gastados.get(id, 0)) + 1
+	_cooldown_restante[id] = COOLDOWN_HERRAMIENTA
+	_emitir_estado_herramienta(id)
+	return true
+
+func _emitir_estado_herramienta(id: String) -> void:
+	herramienta_estado_cambiado.emit(id, obtener_usos_restantes(id), obtener_max_usos(id))
 
 func gastar_dinero(cantidad: int) -> bool:
 	if cantidad <= 0 or dinero_total < cantidad:
