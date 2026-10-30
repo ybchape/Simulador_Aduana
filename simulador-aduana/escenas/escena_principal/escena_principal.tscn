@@ -39,6 +39,8 @@
 [ext_resource type="Script" uid="uid://dmc11jdajd88q" path="res://escenas/escena_principal/efecto_cansancio.gd" id="37_2smbc"]
 [ext_resource type="Script" uid="uid://0faeo2app0yv" path="res://escenas/escena_principal/gestor_eventos.gd" id="38_0a0g7"]
 [ext_resource type="Script" uid="uid://bq5i1rmxvf3n4" path="res://escenas/escena_principal/cartel_cansancio.gd" id="39_mbhr4"]
+[ext_resource type="Script" path="res://escenas/escena_principal/herramienta_en_escena.gd" id="40_herram"]
+[ext_resource type="PackedScene" path="res://escenas/cuter/cuter.tscn" id="41_cuter"]
 
 [sub_resource type="Environment" id="Environment_g4v7s"]
 ambient_light_source = 2
@@ -281,8 +283,13 @@ transform = Transform3D(-0.50000006, 0, -0.8660254, 0, 1, 0, 0.8660254, 0, -0.50
 [node name="caja" parent="Espacio_Trabajo" unique_id=1000838108 instance=ExtResource("20_7y3nc")]
 transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 3.7861993, 0.7202196, -1.936955)
 
-[node name="PistolaEscaner" parent="." unique_id=322953484 instance=ExtResource("21_wqth3")]
+[node name="HerramientaEnEscena" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6779113, 0.92821264, 4.1574173)
+script = ExtResource("40_herram")
+modelos = {
+"escaner": ExtResource("21_wqth3"),
+"cuter": ExtResource("41_cuter")
+}
 
 [node name="ZonaInspeccion" type="Area3D" parent="." unique_id=1749358742]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 1.0262555, 0, 2.064836)
