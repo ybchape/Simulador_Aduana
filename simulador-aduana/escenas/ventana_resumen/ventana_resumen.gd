@@ -29,6 +29,10 @@ func _mostrar_resumen(stats: Dictionary) -> void:
 	# save el neto en la variable de la clase 
 	dinero_neto_actual = stats.neto
 	
+	# Liquidamos el neto de hoy en la billetera principal
+	if GameManager:
+		GameManager.liquidar_dia()
+	
 	titulo.text = "RESUMEN DEL DÍA\nPedidos correctos: " + str(stats.correctos) + " / " + str(stats.total)
 	dinero_ganado.text = "Dinero obtenido: $" + str(stats.ganado)
 	dinero_descontado.text = "Dinero descontado: -$" + str(stats.descontado)

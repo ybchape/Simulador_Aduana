@@ -174,9 +174,10 @@ func procesar_denegar_paquete(es_ilegal: bool) -> void:
 func _aplicar_error(motivo: String) -> void:
 	errores_hoy += 1
 	dinero_descontado_hoy += PENALIZACION_ERROR
-	dinero_total -= PENALIZACION_ERROR
 	
-	dinero_cambiado.emit(dinero_total)
+	#dinero_total -= PENALIZACION_ERROR
+	#dinero_cambiado.emit(dinero_total)
+	
 	error_registrado.emit(errores_hoy)
 	print("Error: ", motivo, " | Descuento: -$", PENALIZACION_ERROR)
 	
@@ -187,9 +188,15 @@ func _aplicar_error(motivo: String) -> void:
 func _registrar_acierto(recompensa: int) -> void:
 	pedidos_correctos_hoy += 1
 	dinero_ganado_hoy += recompensa
-	dinero_total += recompensa
-	dinero_cambiado.emit(dinero_total)
+	#dinero_total += recompensa
+	#dinero_cambiado.emit(dinero_total)
 
+# Método para liquidar el saldo del día en la billetera
+func liquidar_dia() -> void:
+	var balance_neto: int = dinero_ganado_hoy - dinero_descontado_hoy
+	dinero_total += balance_neto
+	dinero_cambiado.emit(dinero_total)
+	print("Día liquidado. Balance neto: $", balance_neto, " | Saldo total tienda: $", dinero_total)
 # Retorna la estructura de datos que requiere la ventana de resumen
 func obtener_stats_resumen() -> Dictionary:
 	return {
