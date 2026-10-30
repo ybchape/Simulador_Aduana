@@ -85,10 +85,14 @@ func avanzar_siguiente_dia() -> void:
 # Reinicia los usos del día (al arrancar el juego y al avanzar de día).
 func _reiniciar_usos_herramientas() -> void:
 	_usos_gastados.clear()
-	_cooldown_restante.clear()
+	# No limpiar _cooldown_restante aquí: preserva los tiempos de enfriamiento
+	# restantes para que no se pierdan entre usos consecutivos.
+	# Solo reiniciamos las cuentas de usos para contar desde 0 en el nuevo día.
 	for id in USOS_BASE_HERRAMIENTA.keys():
 		_usos_gastados[id] = 0
-		_cooldown_restante[id] = 0.0
+		# Inicializar cooldown solo si no existe (ej. primera vez al iniciar juego)
+		if not _cooldown_restante.has(id):
+			_cooldown_restante[id] = 0.0
 	for id in USOS_BASE_HERRAMIENTA.keys():
 		_emitir_estado_herramienta(id)
 
@@ -115,12 +119,18 @@ func obtener_cooldown_restante(id: String) -> float:
 	return float(_cooldown_restante.get(id, 0.0))
 
 # ¿Se puede usar la herramienta ahora? (le quedan usos y no está enfriando)
+# Nota: El cooldown aún se cuenta y se muestra en la UI, pero no bloquea el uso
+# si el usuario aún tiene intentos diarios disponibles.
 func herramienta_disponible(id: String) -> bool:
 	if not USOS_BASE_HERRAMIENTA.has(id):
 		return false
-	if obtener_cooldown_restante(id) > 0.0:
-		return false
-	return obtener_usos_restantes(id) != 0
+	# Si hay cooldown activo, bloquea el uso y se mostrará aviso de enfriamiento..
+	# El cooldown seguirá contándose y se mostrará en la interfaz, pero no
+	# impedirá que la herramienta se use si todavía le quedan intentos.
+	if obtener_usos_restantes(id) > 0:
+		return true
+	# Si ya no le quedan usos, está bloqueado (aunque el cooldown haya terminado).
+	return false
 
 # Registra un uso efectivo: descuenta un uso (si aplica) e inicia el enfriamiento.
 func consumir_uso_herramienta(id: String) -> bool:

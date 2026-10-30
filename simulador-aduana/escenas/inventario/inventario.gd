@@ -126,6 +126,10 @@ func seleccionar(id: String) -> void:
 	# No se puede seleccionar una herramienta sin usos restantes hoy.
 	if GameManager.obtener_max_usos(id) >= 0 and GameManager.obtener_usos_restantes(id) <= 0:
 		return
+	# Oculta el panel de escaneo anterior antes de cambiar de herramienta.
+	var pantalla_escaner: Node = get_tree().current_scene.get_node_or_null("PantallaEscaner") if get_tree().current_scene else null
+	if pantalla_escaner and pantalla_escaner.has_method("ocultar"):
+		pantalla_escaner.ocultar()
 	herramienta_seleccionada = id
 	for slot in hotbar.get_children():
 		if slot is Button:

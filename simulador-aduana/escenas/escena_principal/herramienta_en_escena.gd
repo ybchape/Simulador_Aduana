@@ -9,11 +9,11 @@ extends Node3D
 ## Se puede editar desde el inspector o desde código para **cambiar los assets en
 ## el futuro** sin tocar la lógica.
 
-## Si no hay herramienta seleccionada, se muestra `herramienta_por_defecto`
-## (para que el mostrador no quede vacío).
+## Si `herramienta_por_defecto` está vacío (lo normal), no se muestra nada hasta
+## que el jugador seleccione una herramienta, y se oculta al soltarla.
 
 @export var modelos: Dictionary = {}
-@export var herramienta_por_defecto: String = "escaner"
+@export var herramienta_por_defecto: String = ""
 
 # Guarda qué id se está mostrando y la instancia actual, para no reconstruir el
 # modelo si no cambió.
