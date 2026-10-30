@@ -13,7 +13,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_37xja")
-primera_escena_path = "uid://ci6pyufyjqgss"
+primera_escena_path = "uid://d4l6kbjiu46n3"
 
 [node name="Fondo_Aduana" type="TextureRect" parent="." unique_id=72715917]
 layout_mode = 0

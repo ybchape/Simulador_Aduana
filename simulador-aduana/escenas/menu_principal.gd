@@ -1,7 +1,7 @@
 extends Control
 
 # Ruta a la escena principal 
-@export_file("*.tscn") var primera_escena_path: String = "res://escenas/escena_principal/escena_principal.tscn"
+@export_file("*.tscn") var primera_escena_path: String = "res://escenas/tutorial/tutorial.tscn"
 
 # Busca el botón automáticamente 
 @onready var boton_jugar: Button = find_child("ButtonPlay", true, false)

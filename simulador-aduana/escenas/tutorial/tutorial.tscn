@@ -1,0 +1,98 @@
+[gd_scene format=3 uid="uid://d4l6kbjiu46n3"]
+
+[ext_resource type="Script" uid="uid://dqic3wkcanbv" path="res://escenas/tutorial/tutorial.gd" id="1_mbj4s"]
+[ext_resource type="Texture2D" uid="uid://bjceumlgihi80" path="res://assets/ui/interfaz/fondo_menu.png" id="2_a6e28"]
+[ext_resource type="Texture2D" uid="uid://brx6ndmwm3xej" path="res://assets/ui/interfaz/panel_grey.png" id="3_a6e28"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mbj4s"]
+texture = ExtResource("3_a6e28")
+texture_margin_left = 20.0
+texture_margin_top = 20.0
+texture_margin_right = 20.0
+texture_margin_bottom = 20.0
+
+[node name="Tutorial" type="Control" unique_id=1308651640]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_mbj4s")
+
+[node name="Fondo" type="TextureRect" parent="." unique_id=932515156]
+layout_mode = 0
+offset_right = 1916.0
+offset_bottom = 1082.0
+texture = ExtResource("2_a6e28")
+
+[node name="FondoNegro" type="ColorRect" parent="Fondo" unique_id=1081976691]
+layout_mode = 0
+offset_right = 1917.0
+offset_bottom = 1081.0
+color = Color(0, 0, 0, 0.8509804)
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=1569050977]
+custom_minimum_size = Vector2(1200, 700)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -18.5
+offset_top = -87.0
+offset_right = 18.5
+offset_bottom = 87.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_mbj4s")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer" unique_id=1985836578]
+custom_minimum_size = Vector2(600, 350)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="Titulo" type="Label" parent="PanelContainer/VBoxContainer" unique_id=815097813]
+layout_mode = 2
+theme_override_font_sizes/font_size = 34
+horizontal_alignment = 1
+
+[node name="TextoExplicativo" type="RichTextLabel" parent="PanelContainer/VBoxContainer" unique_id=999913997]
+custom_minimum_size = Vector2(0, 120)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/normal_font_size = 30
+bbcode_enabled = true
+fit_content = true
+horizontal_alignment = 1
+
+[node name="HBoxBotones" type="HBoxContainer" parent="PanelContainer/VBoxContainer" unique_id=611249434]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme_override_constants/separation = 20
+
+[node name="BotonAnterior" type="Button" parent="PanelContainer/VBoxContainer/HBoxBotones" unique_id=407750914]
+custom_minimum_size = Vector2(100, 40)
+layout_mode = 2
+text = "Anterior"
+
+[node name="IndicadorPaginas" type="Label" parent="PanelContainer/VBoxContainer/HBoxBotones" unique_id=1629966251]
+layout_mode = 2
+
+[node name="BotonSiguiente" type="Button" parent="PanelContainer/VBoxContainer/HBoxBotones" unique_id=119351408]
+custom_minimum_size = Vector2(120, 40)
+layout_mode = 2
+
+[node name="BotonOmitir" type="Button" parent="PanelContainer/VBoxContainer/HBoxBotones" unique_id=1163302605]
+custom_minimum_size = Vector2(100, 40)
+layout_mode = 2
+text = "Omitir"
+
+[connection signal="pressed" from="PanelContainer/VBoxContainer/HBoxBotones/BotonAnterior" to="." method="_on_boton_anterior_pressed"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/HBoxBotones/BotonSiguiente" to="." method="_on_boton_siguiente_pressed"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/HBoxBotones/BotonOmitir" to="." method="_on_boton_omitir_pressed"]
