@@ -4,6 +4,8 @@
 [ext_resource type="Texture2D" uid="uid://bjceumlgihi80" path="res://assets/ui/interfaz/fondo_menu.png" id="2_p8sbp"]
 [ext_resource type="Texture2D" uid="uid://kn25s6pd02lk" path="res://assets/ui/interfaz/right.png" id="3_olkao"]
 [ext_resource type="Texture2D" uid="uid://c2k6xermiygpy" path="res://assets/ui/interfaz/aduana_simulator_claro_transparente.png" id="4_bddn2"]
+[ext_resource type="Texture2D" uid="uid://dprhd1ey0yip1" path="res://assets/ui/interfaz/mouse.png" id="4_x5yya"]
+[ext_resource type="Texture2D" uid="uid://c7t7xpv410bxh" path="res://assets/ui/interfaz/exitLeft.png" id="5_v8ef6"]
 
 [node name="MenuPrincipal" type="Control" unique_id=1128587657]
 layout_mode = 3
@@ -28,19 +30,32 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -714.0
-offset_top = -66.00003
-offset_right = -293.0
-offset_bottom = 147.0
+offset_left = -886.0
+offset_top = -83.00003
+offset_right = -215.0
+offset_bottom = 536.0
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(1, 0.76)
+theme_override_constants/separation = 50
 
 [node name="ButtonPlay" type="Button" parent="Fondo_Aduana/VBoxContainer" unique_id=524770403]
 layout_mode = 2
 theme_override_font_sizes/font_size = 120
 text = "Jugar"
 icon = ExtResource("3_olkao")
+
+[node name="ButtonControles" type="Button" parent="Fondo_Aduana/VBoxContainer" unique_id=1394765264]
+layout_mode = 2
+theme_override_font_sizes/font_size = 120
+text = "Controles"
+icon = ExtResource("4_x5yya")
+
+[node name="ButtonSalir" type="Button" parent="Fondo_Aduana/VBoxContainer" unique_id=1150771847]
+layout_mode = 2
+theme_override_font_sizes/font_size = 120
+text = "Salir"
+icon = ExtResource("5_v8ef6")
 
 [node name="Fondo" type="ColorRect" parent="." unique_id=1212318103]
 visible = false
