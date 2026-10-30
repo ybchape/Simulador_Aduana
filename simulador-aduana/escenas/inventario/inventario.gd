@@ -130,6 +130,8 @@ func seleccionar(id: String) -> void:
 	for slot in hotbar.get_children():
 		if slot is Button:
 			slot.set_pressed_no_signal(slot.get_meta("herramienta_id", "") == id)
+	# Avisa a la escena principal para que muestre el modelo de esta herramienta.
+	EventBus.herramienta_seleccionada.emit(id)
 
 # Usa el estado real de la cinta y no el Area3D, que puede fallar o dispararse tarde.
 func _esta_pedido_detenido() -> bool:
@@ -177,6 +179,8 @@ func salir_del_cuter() -> void:
 	for slot in hotbar.get_children():
 		if slot is Button:
 			slot.set_pressed_no_signal(false)
+	# Avisa a la escena principal de que ya no hay herramienta activa.
+	EventBus.herramienta_seleccionada.emit("")
 	var pantalla_escaner: Node = get_tree().current_scene.get_node_or_null("PantallaEscaner") if get_tree().current_scene else null
 	if pantalla_escaner and pantalla_escaner.has_method("ocultar"):
 		pantalla_escaner.ocultar()
