@@ -232,20 +232,18 @@ func _on_input_event(_camera: Node, event: InputEvent, _event_position: Vector3,
 	if herramienta in herramientas_usadas_en_caja:
 		inventario.mostrar_aviso("Ya usaste %s en esta caja." % _nombre_herramienta(inventario, herramienta))
 		return
-	# --- NUEVA LÓGICA: Siempre ejecutar escanear_contenido para que el panel aparezca ---
-	# Luego validaremos si la herramienta realmente puede usarse y mostremos el aviso correspondiente.
+	# Regla: la herramienta debe estar disponible (le quedan usos y no está enfriando).
+	if not GameManager.herramienta_disponible(herramienta):
+		var nombre_h: String = _nombre_herramienta(inventario, herramienta)
+		if GameManager.obtener_cooldown_restante(herramienta) > 0.0:
+			inventario.mostrar_aviso("%s en enfriamiento (%.1fs)." % [nombre_h, GameManager.obtener_cooldown_restante(herramienta)])
+		else:
+			inventario.mostrar_aviso("%s: no te quedan usos por hoy." % nombre_h)
+		return
 	match herramienta:
 		"escaner":
 			if _puede_escanear():
 				escanear_contenido()
-				# Validar disponibilidad DESPUÉS de mostrar el panel.
-				if not GameManager.herramienta_disponible(herramienta):
-					var nombre_h: String = _nombre_herramienta(inventario, herramienta)
-					if GameManager.obtener_cooldown_restante(herramienta) > 0.0:
-						inventario.mostrar_aviso("%s en enfriamiento (%.1fs)." % [nombre_h, GameManager.obtener_cooldown_restante(herramienta)])
-					else:
-						inventario.mostrar_aviso("%s: no te quedan usos por hoy." % nombre_h)
-					return
 				_registrar_uso_herramienta(herramienta)
 		"cuter":
 			if _puede_iniciar_apertura():
@@ -279,13 +277,11 @@ func _puede_iniciar_apertura() -> bool:
 func escanear_contenido() -> void:
 	if not _pedido_detenido_en_inspeccion() or caja_abierta or punto_objeto.get_child_count() == 0:
 		return
-	# SIEMPRE emitimos la señal para que el panel aparezca,
-	# aunque después validemos la malla para mostrarla correctamente.
 	var mesh_paquete: Mesh = _obtener_mesh_del_asset(punto_objeto)
-	EventBus.escanear_objeto.emit(mesh_paquete)
-	# Validación posterior: si no hay malla, avisamos pero no bloqueamos.
 	if mesh_paquete == null:
 		push_warning("No se encontró una malla para mostrar en el escáner.")
+		return
+	EventBus.escanear_objeto.emit(mesh_paquete)
 
 # La caja GLB no tiene una tapa independiente, así que crea una placa temporal arriba.
 func _crear_malla_tapa(malla_original: Mesh) -> ArrayMesh:
