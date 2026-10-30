@@ -21,11 +21,6 @@ var dinero_ganado_hoy: int = 0
 var dinero_descontado_hoy: int = 0
 var pedidos_correctos_hoy: int = 0
 
-# Variables para Alta Demanda
-var esta_en_alta_demanda: bool = false
-var penalizaciones_acumuladas_demanda: int = 0
-const PENALIZACION_ACUMULACION: int = 15
-
 # Cantidad de pedidos por día laboral.
 const OBJETIVOS_POR_DIA: Dictionary = {
 	1: 3,
@@ -34,18 +29,8 @@ const OBJETIVOS_POR_DIA: Dictionary = {
 	4: 15,
 }
 
-func _ready() -> void:
-	if EventBus:
-		EventBus.evento_alta_demanda_iniciado.connect(_on_alta_demanda_iniciado)
-		EventBus.evento_alta_demanda_finalizado.connect(_on_alta_demanda_finalizado)
-
 func obtener_objetivo_actual() -> int:
-	var objetivo_base = OBJETIVOS_POR_DIA.get(dia_actual, 15)
-	
-	if esta_en_alta_demanda:
-		return int(objetivo_base * 1.5)
-		
-	return objetivo_base
+	return OBJETIVOS_POR_DIA.get(dia_actual, 15)
 
 func avanzar_siguiente_dia() -> void:
 	dia_actual += 1
@@ -57,8 +42,6 @@ func avanzar_siguiente_dia() -> void:
 	dinero_ganado_hoy = 0
 	dinero_descontado_hoy = 0
 	pedidos_correctos_hoy = 0
-	penalizaciones_acumuladas_demanda = 0
-	esta_en_alta_demanda = false
 
 func gastar_dinero(cantidad: int) -> bool:
 	if cantidad <= 0 or dinero_total < cantidad:
@@ -104,7 +87,7 @@ func _aplicar_error(motivo: String) -> void:
 	dinero_cambiado.emit(dinero_total)
 	error_registrado.emit(errores_hoy)
 	print("Error: ", motivo, " | Descuento: -$", PENALIZACION_ERROR)
-
+	
 	if errores_hoy >= MAX_ERRORES:
 		game_over.emit()
 		print("Game Over: Se alcanzaron los 3 errores permitidos.")
@@ -114,24 +97,6 @@ func _registrar_acierto(recompensa: int) -> void:
 	dinero_ganado_hoy += recompensa
 	dinero_total += recompensa
 	dinero_cambiado.emit(dinero_total)
-
-# Métodos de control para el evento de Alta Demanda
-func _on_alta_demanda_iniciado(_duracion: float) -> void:
-	esta_en_alta_demanda = true
-	print("GM: ¡Alta demanda activa! La cuota objetivo escalo.")
-
-func _on_alta_demanda_finalizado() -> void:
-	esta_en_alta_demanda = false
-	print("GM: Alta demanda finalizada.")
-
-# Llama a este método si los paquetes se acumulan superando el límite en la zona de espera
-func registrar_acumulacion_excesiva() -> void:
-	penalizaciones_acumuladas_demanda += 1
-	dinero_descontado_hoy += PENALIZACION_ACUMULACION
-	dinero_total -= PENALIZACION_ACUMULACION
-
-	dinero_cambiado.emit(dinero_total)
-	print("PENALIZACIÓN POR ACUMULACIÓN: Paquetes saturados en zona de espera. Descuento: -$", PENALIZACION_ACUMULACION)
 
 # Retorna la estructura de datos que requiere la ventana de resumen
 func obtener_stats_resumen() -> Dictionary:
