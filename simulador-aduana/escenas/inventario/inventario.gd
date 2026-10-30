@@ -2,17 +2,21 @@ class_name Inventario
 extends Control
 
 ## Inventario de herramientas de la escena principal.
-##
 ## Muestra las herramientas disponibles como slots seleccionables, con su
 ## representación visual y un texto corto (nombre + nivel) que aparece como
 ## tooltip al pasar el mouse por encima.
-##
+
 ## El inventario escucha al EventBus: cuando la tienda vende una herramienta
 ## (herramienta_desbloqueada) o una mejora (herramienta_mejorada), el slot se
 ## actualiza de inmediato. Las herramientas no adquiridas permanecen ocultas
 ## (nivel 0 = no adquirida).
 
+## También refleja el estado de uso de cada herramienta (usos restantes del día
+## y enfriamiento tras cada uso, gestionados en GameManager). Mientras una
+## herramienta está en enfriamiento o agotada, no se puede activar.
+
 const ORDEN: Array[String] = ["escaner", "cuter", "balanza", "energizante"]
+const DURACION_AVISO: float = 2.0
 
 @export var escaner_nivel: int = 1
 @export var cuter_nivel: int = 1
@@ -20,14 +24,18 @@ const ORDEN: Array[String] = ["escaner", "cuter", "balanza", "energizante"]
 @export var energizante_nivel: int = 0
 
 @onready var hotbar: HBoxContainer = $Hotbar
+@onready var aviso: Label = get_node_or_null("Aviso") as Label
 
 var herramientas: Dictionary = {}
 var herramienta_seleccionada: String = ""
 var pedido_en_zona: bool = false
+var _aviso_tiempo: float = 0.0
 
 func _ready() -> void:
 	# La caja localiza el inventario por grupo al recibir el clic 3D.
 	add_to_group("inventario")
+	if aviso:
+		aviso.visible = false
 	_configurar_datos()
 	_conectar_slots()
 	_conectar_eventbus()
@@ -35,10 +43,26 @@ func _ready() -> void:
 	# Por defecto arranca con la primera herramienta disponible seleccionada.
 	seleccionar(_primera_disponible())
 
+func _process(delta: float) -> void:
+	# Refresca los slots en enfriamiento para mostrar la cuenta atrás en vivo.
+	for slot in hotbar.get_children():
+		if slot is Button:
+			var id: String = slot.get_meta("herramienta_id", "")
+			if id != "" and herramientas.has(id) and GameManager.obtener_cooldown_restante(id) > 0.0:
+				_actualizar_slot(slot, id)
+
+	# Oculta el aviso cuando expira su tiempo.
+	if _aviso_tiempo > 0.0:
+		_aviso_tiempo -= delta
+		if _aviso_tiempo <= 0.0 and aviso:
+			aviso.visible = false
+
 func _conectar_eventbus() -> void:
 	EventBus.herramienta_desbloqueada.connect(_on_herramienta_desbloqueada)
 	EventBus.herramienta_mejorada.connect(_on_herramienta_mejorada)
 	EventBus.pedido_en_zona.connect(_on_pedido_en_zona)
+	if not GameManager.herramienta_estado_cambiado.is_connected(_on_herramienta_estado_cambiado):
+		GameManager.herramienta_estado_cambiado.connect(_on_herramienta_estado_cambiado)
 
 func _on_pedido_en_zona(hay_pedido: bool) -> void:
 	pedido_en_zona = hay_pedido
@@ -46,39 +70,29 @@ func _on_pedido_en_zona(hay_pedido: bool) -> void:
 		salir_del_cuter()
 
 func _configurar_datos() -> void:
+	# Establecer estado inicial por defecto:
+	# - escaner y cuter: nivel 1 y desbloqueados desde el inicio
+	# - balanza y energizante: nivel 0 y bloqueados (hay que comprarlos)
 	herramientas = {
-		"escaner": {
-			"nombre": "Escáner",
-			"nivel": escaner_nivel,
-		},
-		"cuter": {
-			"nombre": "Cúter",
-			"nivel": cuter_nivel,
-		},
-		"balanza": {
-			"nombre": "Balanza",
-			"nivel": balanza_nivel,
-		},
-		"energizante": {
-			"nombre": "Energizante",
-			"nivel": energizante_nivel,
-		},
+		"escaner": {"nombre": "Escáner", "nivel": 1, "desbloqueada": true},
+		"cuter": {"nombre": "Cúter", "nivel": 1, "desbloqueada": true},
+		"balanza": {"nombre": "Balanza", "nivel": 0, "desbloqueada": false},
+		"energizante": {"nombre": "Energizante", "nivel": 0, "desbloqueada": false},
 	}
-	# Una herramienta está desbloqueada si ya se posee (nivel > 0).
-	for id in herramientas:
-		herramientas[id]["desbloqueada"] = herramientas[id]["nivel"] > 0
 
-	# Reconstruir las herramientas compradas/mejoradas desde el estado persistente
-	# después de cambiar de día (la escena se vuelve a cargar).
-	for id in ORDEN:
-		var nivel_guardado: int = 1 if GameManager.mejoras_compradas.has(id + "_obtenido") else 0
-		if id in ["escaner", "cuter"]:
-			nivel_guardado = 1
-		if GameManager.mejoras_compradas.has(id + "_lvl2"):
-			nivel_guardado = 2
-		if nivel_guardado > 0:
-			herramientas[id]["nivel"] = nivel_guardado
-			herramientas[id]["desbloqueada"] = true
+	# Verificar mejoras de nivel 2 (e scanner/cuter) usando claves de la tienda
+	if GameManager.mejoras_compradas.has("escaner_lvl2"):
+		herramientas["escaner"]["nivel"] = 2
+	if GameManager.mejoras_compradas.has("cuter_lvl2"):
+		herramientas["cuter"]["nivel"] = 2
+
+	# Verificar herramientas compradas usando claves de la tienda
+	if GameManager.mejoras_compradas.has("balanza_obtenida"):
+		herramientas["balanza"]["nivel"] = 1
+		herramientas["balanza"]["desbloqueada"] = true
+	if GameManager.mejoras_compradas.has("energizante_obtenido"):
+		herramientas["energizante"]["nivel"] = 1
+		herramientas["energizante"]["desbloqueada"] = true
 
 func _conectar_slots() -> void:
 	for slot in hotbar.get_children():
@@ -108,6 +122,9 @@ func seleccionar(id: String) -> void:
 	if _obtener_caja_abierta() != null:
 		return
 	if not herramientas.has(id) or not herramientas[id]["desbloqueada"]:
+		return
+	# No se puede seleccionar una herramienta sin usos restantes hoy.
+	if GameManager.obtener_max_usos(id) >= 0 and GameManager.obtener_usos_restantes(id) <= 0:
 		return
 	herramienta_seleccionada = id
 	for slot in hotbar.get_children():
@@ -175,26 +192,69 @@ func _primera_disponible() -> String:
 func _actualizar_slot(slot: Button, id: String) -> void:
 	var datos: Dictionary = herramientas[id]
 	var desbloqueada: bool = datos["desbloqueada"]
-	# Las herramientas no adquiridas no se muestran en la hotbar.
-	slot.visible = desbloqueada
-	slot.disabled = not desbloqueada
-
 	var badge: Label = slot.get_node_or_null("Badge")
+
+	# Las herramientas no adquiridas no se muestran en la hotbar.
 	if not desbloqueada:
+		slot.visible = false
+		slot.disabled = true
+		slot.modulate = Color(1, 1, 1, 1)
 		if badge:
 			badge.visible = false
-		slot.tooltip_text = datos["nombre"] + " (no adquirida)"
+		slot.tooltip_text = str(datos["nombre"]) + " (no adquirida)"
 		return
+	slot.visible = true
 
+	var nombre: String = datos["nombre"]
 	var nivel: int = datos["nivel"]
-	var nivel_texto: String = _texto_nivel(nivel)
-	if badge:
-		badge.text = nivel_texto
-	# Texto corto que aparece al pasar el mouse sobre la herramienta.
-	slot.tooltip_text = datos["nombre"] + " (" + nivel_texto + ")"
+	var maximo: int = GameManager.obtener_max_usos(id)
+	var restantes: int = GameManager.obtener_usos_restantes(id)
+	var cooldown: float = GameManager.obtener_cooldown_restante(id)
+	var sin_usos: bool = maximo >= 0 and restantes <= 0
 
-func _texto_nivel(nivel: int) -> String:
-	return "Nivel " + str(nivel)
+	# Estado de uso en el badge: "r/max", "∞" o la cuenta atrás del enfriamiento.
+	if badge:
+		badge.visible = true
+		if sin_usos:
+			badge.text = "0/" + str(maximo)
+			badge.modulate = Color(1.0, 0.45, 0.45, 1.0) # rojo = agotada
+		elif cooldown > 0.0:
+			badge.text = "%.1fs" % cooldown
+			badge.modulate = Color(1.0, 0.85, 0.4, 1.0) # ámbar = enfriando
+		elif maximo < 0:
+			badge.text = "∞"
+			badge.modulate = Color(1, 1, 1, 1)
+		else:
+			badge.text = str(restantes) + "/" + str(maximo)
+			badge.modulate = Color(1, 1, 1, 1)
+
+	# Se atenúa mientras enfría; se deshabilita solo cuando no quedan usos hoy.
+	slot.disabled = sin_usos
+	slot.modulate = Color(1, 1, 1, 0.45) if cooldown > 0.0 else Color(1, 1, 1, 1)
+
+	# Tooltip con nombre, nivel y estado de uso.
+	var usos_texto: String = "∞" if maximo < 0 else (str(restantes) + "/" + str(maximo))
+	var estado_texto: String = ""
+	if sin_usos:
+		estado_texto = " — Sin usos hoy"
+	elif cooldown > 0.0:
+		estado_texto = " — Enfriando %.1fs" % cooldown
+	slot.tooltip_text = "%s (Nivel %d) — Usos: %s%s" % [nombre, nivel, usos_texto, estado_texto]
+
+	# Si se agotó estando seleccionada, se quita la selección.
+	if sin_usos and herramienta_seleccionada == id:
+		salir_del_cuter()
+
+# Muestra un mensaje breve centrado sobre la hotbar.
+func mostrar_aviso(texto: String) -> void:
+	if aviso == null:
+		return
+	aviso.text = texto
+	aviso.visible = true
+	_aviso_tiempo = DURACION_AVISO
+
+func _on_herramienta_estado_cambiado(id: String, _restantes: int, _maximo: int) -> void:
+	_refrescar_slot(id)
 
 # --- API pública (conectada a la tienda vía EventBus) ----------------------
 
