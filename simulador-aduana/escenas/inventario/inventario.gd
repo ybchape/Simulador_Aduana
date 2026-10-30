@@ -181,9 +181,9 @@ func salir_del_cuter() -> void:
 			slot.set_pressed_no_signal(false)
 	# Avisa a la escena principal de que ya no hay herramienta activa.
 	EventBus.herramienta_seleccionada.emit("")
-	var pantalla_escaner: Node = get_tree().current_scene.get_node_or_null("PantallaEscaner") if get_tree().current_scene else null
-	if pantalla_escaner and pantalla_escaner.has_method("ocultar"):
-		pantalla_escaner.ocultar()
+	#var pantalla_escaner: Node = get_tree().current_scene.get_node_or_null("PantallaEscaner") if get_tree().current_scene else null
+	#if pantalla_escaner and pantalla_escaner.has_method("ocultar"):
+	#	pantalla_escaner.ocultar()
 
 func _primera_disponible() -> String:
 	for id in ORDEN:
@@ -247,7 +247,10 @@ func _actualizar_slot(slot: Button, id: String) -> void:
 
 	# Si se agotó estando seleccionada, se quita la selección.
 	if sin_usos and herramienta_seleccionada == id:
-		salir_del_cuter()
+		#salir_del_cuter()
+		herramienta_seleccionada = ""
+		slot.set_pressed_no_signal(false)
+		EventBus.herramienta_seleccionada.emit("")
 
 # Muestra un mensaje breve centrado sobre la hotbar.
 func mostrar_aviso(texto: String) -> void:
