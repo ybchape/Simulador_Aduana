@@ -40,8 +40,7 @@ func _ready() -> void:
 	_conectar_slots()
 	_conectar_eventbus()
 	_actualizar_todos_los_slots()
-	# Por defecto arranca con la primera herramienta disponible seleccionada.
-	seleccionar(_primera_disponible())
+
 
 func _process(delta: float) -> void:
 	# Refresca los slots en enfriamiento para mostrar la cuenta atrás en vivo.

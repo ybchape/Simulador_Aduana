@@ -1,40 +1,38 @@
 class_name HerramientaEnEscena
 extends Node3D
 
-## Muestra en la escena principal el modelo 3D de la herramienta que el jugador
-## tiene seleccionada en el inventario (por ejemplo, la pistola escáner o el cúter).
-
-## `modelos` mapea el id de la herramienta (el mismo id de inventario.gd:
-## "escaner", "cuter", ...) a la escena (.tscn o .glb) que se muestra en la escena.
-## Se puede editar desde el inspector o desde código para **cambiar los assets en
-## el futuro** sin tocar la lógica.
-
-## Si no hay herramienta seleccionada, se muestra `herramienta_por_defecto`
-## (para que el mostrador no quede vacío).
-
 @export var modelos: Dictionary = {}
-@export var herramienta_por_defecto: String = "escaner"
+# Podés dejarlo vacío para que arranque sin ninguna en mano:
+@export var herramienta_por_defecto: String = ""
 
-# Guarda qué id se está mostrando y la instancia actual, para no reconstruir el
-# modelo si no cambió.
 var _id_mostrado: String = ""
 var _instancia: Node3D = null
 
 func _ready() -> void:
 	if not EventBus.herramienta_seleccionada.is_connected(_on_herramienta_seleccionada):
 		EventBus.herramienta_seleccionada.connect(_on_herramienta_seleccionada)
-	_mostrar(herramienta_por_defecto)
+	# Si querés que empiece sin nada en mano:
+	if not herramienta_por_defecto.is_empty():
+		_mostrar(herramienta_por_defecto)
+	else:
+		_limpiar_instancia()
 
 func _on_herramienta_seleccionada(id: String) -> void:
-	_mostrar(id if not id.is_empty() else herramienta_por_defecto)
+	if id.is_empty():
+		_limpiar_instancia()
+	else:
+		_mostrar(id)
 
-# Cambia el modelo mostrado por el de la herramienta indicada.
-func _mostrar(id: String) -> void:
-	if id == _id_mostrado and is_instance_valid(_instancia):
-		return
+func _limpiar_instancia() -> void:
+	_id_mostrado = ""
 	if is_instance_valid(_instancia):
 		_instancia.queue_free()
 		_instancia = null
+
+func _mostrar(id: String) -> void:
+	if id == _id_mostrado and is_instance_valid(_instancia):
+		return
+	_limpiar_instancia()
 	_id_mostrado = id
 	var escena: PackedScene = modelos.get(id, null) as PackedScene
 	if escena == null:
