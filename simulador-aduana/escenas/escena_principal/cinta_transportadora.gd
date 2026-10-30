@@ -12,6 +12,8 @@ extends Node3D
 @export var punto_salida_final: Marker3D 
 #var par guardar las veloc base cuando finaliza la alta demanda
 @export var velocidad_base: float = 2.0
+# Segundos máximos antes de penalizar por acumulación
+@export var limite_tiempo_espera: float = 8.0 
 var velocidad_animacion_base: float = 0.5
 
 var caja_actual: Node3D = null
@@ -19,6 +21,8 @@ var estado: String = "ESPERANDO" # ESPERANDO, AVANZANDO, INSPECCIONANDO, SALIEND
 var indice_punto_actual: int = 0
 var jornada_completada: bool = false
 var notificada_inspeccion: bool = false
+#var para control de alta demanda
+var tiempo_acumulado_espera : float = 0.0
 
 func _ready() -> void:
 	# save veloc base al iniciar
@@ -35,6 +39,18 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if jornada_completada:
 		return
+
+# Control de acumulación / demora durante la inspección de alta demanda
+	var gestor_eventos = get_node_or_null("res://escenas/escena_principal/gestor_eventos.gd") 
+	if estado == "INSPECCIONANDO":
+		# Si el GameManager sabe que estamos en alta demanda + tiempo de demora
+		if GameManager and GameManager.esta_en_alta_demanda:
+			tiempo_acumulado_espera += delta
+			if tiempo_acumulado_espera >= limite_tiempo_espera:
+				GameManager.registrar_acumulacion_excesiva()
+				tiempo_acumulado_espera = 0.0 # Reiniciamos para evitar penalización por cada frame
+	else:
+		tiempo_acumulado_espera = 0.0
 
 	# ANIMACIÓN VISUAL: Desplazamos la textura solo cuando la caja se mueve
 	if estado in ["AVANZANDO", "SALIENDO"] and material_cinta != null:
