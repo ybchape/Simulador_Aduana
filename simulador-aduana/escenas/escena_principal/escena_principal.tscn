@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://n6buwvwr57gi" path="res://assets/GLB format/cover-window.glb" id="9_0a0g7"]
 [ext_resource type="PackedScene" uid="uid://cvtj015yomjft" path="res://assets/GLB format/cover-top.glb" id="10_mbhr4"]
 [ext_resource type="PackedScene" uid="uid://yojfo3gtv2fj" path="res://assets/GLB format/conveyor-bars-high.glb" id="12_2yig5"]
+[ext_resource type="PackedScene" uid="uid://binsoxk0y0vxh" path="res://assets/GLB format/top-large.glb" id="12_cr0xl"]
 [ext_resource type="Script" uid="uid://c7rx0xvft02di" path="res://escenas/escena_principal/cinta_transportadora.gd" id="12_jn0hn"]
 [ext_resource type="PackedScene" uid="uid://blds6omlj1kni" path="res://assets/GLB format/box-small.glb" id="13_ms636"]
 [ext_resource type="PackedScene" uid="uid://b8x6t4n0f8x1k" path="res://assets/GLB format/conveyor-bars-fence.glb" id="14_ctsim"]
@@ -37,8 +38,10 @@
 [ext_resource type="Script" uid="uid://cnr1ob03kgcbq" path="res://escenas/escena_principal/hud_energia.gd" id="35_lp32y"]
 [ext_resource type="Texture2D" uid="uid://ptv60x0lssvl" path="res://assets/ui/barras/bar_round_gloss_large.png" id="35_nutjc"]
 [ext_resource type="Script" uid="uid://dmc11jdajd88q" path="res://escenas/escena_principal/efecto_cansancio.gd" id="37_2smbc"]
+[ext_resource type="Texture2D" uid="uid://bpek4uhl86kl4" path="res://assets/ui/interfaz/shoppingCartWhite.png" id="37_2yig5"]
 [ext_resource type="Script" uid="uid://0faeo2app0yv" path="res://escenas/escena_principal/gestor_eventos.gd" id="38_0a0g7"]
 [ext_resource type="Script" uid="uid://bq5i1rmxvf3n4" path="res://escenas/escena_principal/cartel_cansancio.gd" id="39_mbhr4"]
+[ext_resource type="Texture2D" uid="uid://ldcrrqfpcnn5" path="res://assets/ui/interfaz/panel_grey_bolts_detail_a.png" id="41_ms636"]
 
 [sub_resource type="Environment" id="Environment_g4v7s"]
 ambient_light_source = 2
@@ -46,6 +49,17 @@ ambient_light_color = Color(0.8732984, 0.8732984, 0.8732984, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_g4v7s"]
 size = Vector3(0.5827637, 0.4290619, 0.5911865)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_2d3my"]
+content_margin_left = 12.0
+content_margin_top = 12.0
+content_margin_right = 12.0
+content_margin_bottom = 15.0
+texture = ExtResource("41_ms636")
+texture_margin_left = 24.0
+texture_margin_top = 24.0
+texture_margin_right = 24.0
+texture_margin_bottom = 24.0
 
 [node name="Node3D" type="Node3D" unique_id=363520377]
 script = ExtResource("1_1ijcn")
@@ -82,16 +96,16 @@ transform = Transform3D(3.5, 0, 0, 0, 3.5, 0, 0, 0, 3.5, 3, 0, 1)
 transform = Transform3D(3.5, 0, 0, 0, 3.5, 0, 0, 0, 3.5, 3, 0, 4)
 
 [node name="structure-wall2" parent="Estructura_Habitacion" unique_id=264759821 instance=ExtResource("3_1ijcn")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.5)
+transform = Transform3D(-0.06760822, 0, -0.99771196, 0, 1, 0, 0.99771196, 0, -0.06760822, 5.9684176, 0, 5.5243845)
 
 [node name="structure-wall3" parent="Estructura_Habitacion" unique_id=1880313193 instance=ExtResource("3_1ijcn")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -2.5)
+transform = Transform3D(-0.00411466, 0, -0.99999154, 0, 1, 0, 0.99999154, 0, -0.00411466, 5.943233, -0.01296711, 6.374947)
 
 [node name="structure-wall4" parent="Estructura_Habitacion" unique_id=1122577589 instance=ExtResource("3_1ijcn")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -2.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.009237, 0, -2.5)
 
 [node name="structure-wall5" parent="Estructura_Habitacion" unique_id=1862027777 instance=ExtResource("3_1ijcn")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, -2.5)
+transform = Transform3D(0.013161593, 0, 0.9999134, 0, 1, 0, -0.9999134, 0, 0.013161593, -4.9373393, 0, 6.926443)
 
 [node name="structure-wall6" parent="Estructura_Habitacion" unique_id=1019367119 instance=ExtResource("3_1ijcn")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 6, 0, -0.5)
@@ -112,58 +126,61 @@ transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 6, 0
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 6, 0, 4.5)
 
 [node name="structure-wall9" parent="Estructura_Habitacion" unique_id=1677949611 instance=ExtResource("3_1ijcn")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -5, 0, -0.5)
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -4.9500446, 0, -0.6233218)
 
 [node name="structure-wall10" parent="Estructura_Habitacion" unique_id=1349266665 instance=ExtResource("3_1ijcn")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -5, 0, 0.5)
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -4.9525685, 0, 0.34765387)
 
 [node name="structure-wall11" parent="Estructura_Habitacion" unique_id=484990338 instance=ExtResource("3_1ijcn")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -5, 0, 1.5)
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -4.9542522, 0, 1.323101)
 
 [node name="structure-wall19" parent="Estructura_Habitacion" unique_id=169831905 instance=ExtResource("3_1ijcn")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -5, 0, 2.5)
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -4.957288, 0, 2.2919626)
 
 [node name="structure-wall20" parent="Estructura_Habitacion" unique_id=1702218140 instance=ExtResource("3_1ijcn")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -5, 0, 3.5)
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -4.948973, 0, 3.2772307)
 
 [node name="structure-wall21" parent="Estructura_Habitacion" unique_id=1380682591 instance=ExtResource("3_1ijcn")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -5, 0, 4.5)
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -4.94669, 0, 4.256695)
 
 [node name="structure-wall12" parent="Estructura_Habitacion" unique_id=1228250867 instance=ExtResource("3_1ijcn")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -2.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.97417235, 0, -2.4986014)
 
 [node name="structure-wall13" parent="Estructura_Habitacion" unique_id=1321569069 instance=ExtResource("3_1ijcn")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -2.5)
+transform = Transform3D(-0.007774438, 0, 0.9999698, 0, 1, 0, -0.9999698, 0, -0.007774438, -4.9244757, 0, 5.9919376)
 
 [node name="structure-wall14" parent="Estructura_Habitacion" unique_id=1460173800 instance=ExtResource("3_1ijcn")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -2.5)
+transform = Transform3D(-0.016490828, 0, 0.99986404, 0, 1, 0, -0.99986404, 0, -0.016490828, -4.9328523, 0, 5.1700425)
 
 [node name="structure-wall15" parent="Estructura_Habitacion" unique_id=1020386738 instance=ExtResource("3_1ijcn")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -2.5)
 
 [node name="structure-corner-outer2" parent="Estructura_Habitacion" unique_id=979076254 instance=ExtResource("4_jn0hn")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, -2.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.9111366, 0, -2.4700963)
 
 [node name="structure-corner-outer3" parent="Estructura_Habitacion" unique_id=1786773491 instance=ExtResource("4_jn0hn")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 6, 0, -2.5)
 
 [node name="structure-doorway-wide2" parent="Estructura_Habitacion" unique_id=1299083817 instance=ExtResource("5_4gqqi")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -3)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.4667351, -0.0019581318, -2.5212922)
 
 [node name="door-wide-closed2" parent="Estructura_Habitacion" unique_id=1022741957 instance=ExtResource("6_nutjc")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -2)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.462253, -0.0036895275, -1.4110914)
 
 [node name="structure-window-wide2" parent="Estructura_Habitacion" unique_id=330151241 instance=ExtResource("7_lp32y")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5138109, 0, -2.503672)
 
 [node name="structure-window2" parent="Estructura_Habitacion" unique_id=1534418273 instance=ExtResource("8_2smbc")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, -2.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.0077136, 0, -2.4975863)
 
 [node name="cover-window2" parent="Estructura_Habitacion" unique_id=1506162853 instance=ExtResource("9_0a0g7")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 0)
 
 [node name="cover-top2" parent="Estructura_Habitacion" unique_id=66108538 instance=ExtResource("10_mbhr4")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 3)
+
+[node name="top-large2" parent="Estructura_Habitacion" unique_id=1577202387 instance=ExtResource("12_cr0xl")]
+transform = Transform3D(4.7, 0, 0, 0, 4.7, 0, 0, 0, 4.7, 0.39131773, 2.9798727, 2.4731913)
 
 [node name="Espacio_Trabajo" type="Node3D" parent="." unique_id=1448636977]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
@@ -178,62 +195,62 @@ punto_salida_final = NodePath("PuntoSalidaPermitido")
 [node name="conveyor-bars-stripe-high" parent="Espacio_Trabajo/CintaTransportadora" unique_id=95368184 instance=ExtResource("15_1n332")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 1)
 
-[node name="Group2" parent="Espacio_Trabajo/CintaTransportadora/conveyor-bars-stripe-high" index="1" unique_id=1096717645]
+[node name="Group2" parent="Espacio_Trabajo/CintaTransportadora/conveyor-bars-stripe-high" index="1" unique_id=1532166238]
 surface_material_override/0 = ExtResource("14_jn0hn")
 
 [node name="conveyor-bars-high2" parent="Espacio_Trabajo/CintaTransportadora" unique_id=1350425050 instance=ExtResource("12_2yig5")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1)
 
-[node name="Group2" parent="Espacio_Trabajo/CintaTransportadora/conveyor-bars-high2" index="1" unique_id=1357423876]
+[node name="Group2" parent="Espacio_Trabajo/CintaTransportadora/conveyor-bars-high2" index="1" unique_id=728779835]
 surface_material_override/0 = ExtResource("14_jn0hn")
 
 [node name="conveyor-bars-high4" parent="Espacio_Trabajo/CintaTransportadora" unique_id=410575823 instance=ExtResource("12_2yig5")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 1)
 
-[node name="Group2" parent="Espacio_Trabajo/CintaTransportadora/conveyor-bars-high4" index="1" unique_id=1357423876]
+[node name="Group2" parent="Espacio_Trabajo/CintaTransportadora/conveyor-bars-high4" index="1" unique_id=728779835]
 surface_material_override/0 = ExtResource("14_jn0hn")
 
 [node name="conveyor-bars-high7" parent="Espacio_Trabajo/CintaTransportadora" unique_id=1423438143 instance=ExtResource("12_2yig5")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 0, 1)
 
-[node name="Group2" parent="Espacio_Trabajo/CintaTransportadora/conveyor-bars-high7" index="1" unique_id=1357423876]
+[node name="Group2" parent="Espacio_Trabajo/CintaTransportadora/conveyor-bars-high7" index="1" unique_id=728779835]
 surface_material_override/0 = ExtResource("14_jn0hn")
 
 [node name="conveyor-bars-high6" parent="Espacio_Trabajo/CintaTransportadora" unique_id=590919902 instance=ExtResource("12_2yig5")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 1)
 
-[node name="Group2" parent="Espacio_Trabajo/CintaTransportadora/conveyor-bars-high6" index="1" unique_id=1357423876]
+[node name="Group2" parent="Espacio_Trabajo/CintaTransportadora/conveyor-bars-high6" index="1" unique_id=728779835]
 surface_material_override/0 = ExtResource("14_jn0hn")
 
 [node name="conveyor-bars-high5" parent="Espacio_Trabajo/CintaTransportadora" unique_id=1162198474 instance=ExtResource("12_2yig5")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 1)
 
-[node name="Group2" parent="Espacio_Trabajo/CintaTransportadora/conveyor-bars-high5" index="1" unique_id=1357423876]
+[node name="Group2" parent="Espacio_Trabajo/CintaTransportadora/conveyor-bars-high5" index="1" unique_id=728779835]
 surface_material_override/0 = ExtResource("14_jn0hn")
 
 [node name="conveyor-bars-fence" parent="Espacio_Trabajo/CintaTransportadora" unique_id=1811184886 instance=ExtResource("14_ctsim")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, 0, -2)
 
-[node name="Group3" parent="Espacio_Trabajo/CintaTransportadora/conveyor-bars-fence" index="2" unique_id=478420928]
+[node name="Group3" parent="Espacio_Trabajo/CintaTransportadora/conveyor-bars-fence" index="2" unique_id=151369446]
 transform = Transform3D(-0.99640954, 0, 0.08466443, 0, 1, 0, -0.08466443, 0, -0.99640954, 0, 0.1, -1.1241278e-08)
 surface_material_override/0 = ExtResource("14_jn0hn")
 
 [node name="conveyor-bars-stripe-high2" parent="Espacio_Trabajo/CintaTransportadora" unique_id=1311597311 instance=ExtResource("15_1n332")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 1)
 
-[node name="Group2" parent="Espacio_Trabajo/CintaTransportadora/conveyor-bars-stripe-high2" index="1" unique_id=1096717645]
+[node name="Group2" parent="Espacio_Trabajo/CintaTransportadora/conveyor-bars-stripe-high2" index="1" unique_id=1532166238]
 surface_material_override/0 = ExtResource("14_jn0hn")
 
 [node name="conveyor-bars-stripe-high3" parent="Espacio_Trabajo/CintaTransportadora" unique_id=1412000741 instance=ExtResource("15_1n332")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
 
-[node name="Group2" parent="Espacio_Trabajo/CintaTransportadora/conveyor-bars-stripe-high3" index="1" unique_id=1096717645]
+[node name="Group2" parent="Espacio_Trabajo/CintaTransportadora/conveyor-bars-stripe-high3" index="1" unique_id=1532166238]
 surface_material_override/0 = ExtResource("14_jn0hn")
 
 [node name="conveyor-bars-stripe-high4" parent="Espacio_Trabajo/CintaTransportadora" unique_id=1480245603 instance=ExtResource("15_1n332")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 1)
 
-[node name="Group2" parent="Espacio_Trabajo/CintaTransportadora/conveyor-bars-stripe-high4" index="1" unique_id=1096717645]
+[node name="Group2" parent="Espacio_Trabajo/CintaTransportadora/conveyor-bars-stripe-high4" index="1" unique_id=1532166238]
 surface_material_override/0 = ExtResource("14_jn0hn")
 
 [node name="conveyor-long-stripe-sides" parent="Espacio_Trabajo/CintaTransportadora" unique_id=1674979397 instance=ExtResource("16_f67lk")]
@@ -273,7 +290,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.7135154, 1.1893673)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.41, 0.714, 0.95000005)
 
 [node name="box-small2" parent="Espacio_Trabajo" unique_id=393881187 instance=ExtResource("13_ms636")]
-transform = Transform3D(0.8660254, 0, -0.5, 0, 1, 0, 0.5, 0, 0.8660254, -3.847359, 0.5, 3.1916018)
+transform = Transform3D(0.8660254, 0, -0.5, 0, 1, 0, 0.5, 0, 0.8660254, -3.847359, 0.059744358, 3.1916018)
 
 [node name="box-wide2" parent="Espacio_Trabajo" unique_id=823513548 instance=ExtResource("19_0p0dg")]
 transform = Transform3D(-0.50000006, 0, -0.8660254, 0, 1, 0, 0.8660254, 0, -0.50000006, 3, 0, -3)
@@ -369,13 +386,14 @@ texture_progress = ExtResource("35_nutjc")
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=91555021]
 
 [node name="boton_tienda" type="Button" parent="CanvasLayer" unique_id=1242565346]
-offset_left = 1589.0
-offset_top = 54.0
-offset_right = 1840.0
-offset_bottom = 160.0
-theme_override_colors/font_color = Color(0.05490196, 0.75686276, 0.101960786, 1)
+offset_left = 1590.0
+offset_top = 27.0
+offset_right = 1891.0
+offset_bottom = 135.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 58
 text = "Tienda"
+icon = ExtResource("37_2yig5")
 
 [node name="tienda" parent="CanvasLayer" unique_id=263551707 instance=ExtResource("32_jn0hn")]
 visible = false
@@ -398,8 +416,14 @@ script = ExtResource("38_0a0g7")
 [node name="CartelesEventos" type="CanvasLayer" parent="." unique_id=1553171201]
 
 [node name="CartelCansancio" type="AcceptDialog" parent="CartelesEventos" unique_id=151470151]
+oversampling_override = 1.0
 title = "AGOTAMIENTO LABORAL"
-dialog_text = "Las jornadas son muy largas y los días empiezan a pesar. Tu personaje está demasiado cansado y sus reflejos se han vuelto lentos."
+position = Vector2i(0, 36)
+size = Vector2i(1060, 125)
+borderless = true
+theme_override_styles/panel = SubResource("StyleBoxTexture_2d3my")
+dialog_text = "                                                                                                  ¡AGOTAMIENTO LABORAL!
+Las jornadas son muy largas y los días empiezan a pesar. Tu personaje está demasiado cansado y sus reflejos se han vuelto lentos."
 script = ExtResource("39_mbhr4")
 
 [connection signal="body_entered" from="ZonaInspeccion" to="ZonaInspeccion" method="_on_body_entered"]

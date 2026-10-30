@@ -1,6 +1,28 @@
 [gd_scene format=3 uid="uid://tady738mrlvl"]
 
 [ext_resource type="Script" uid="uid://cv3bibf37ttx7" path="res://escenas/ventana_resumen/ventana_resumen.gd" id="1_bsto0"]
+[ext_resource type="Texture2D" uid="uid://cdd2ki6eai5s3" path="res://assets/ui/interfaz/panel_brown_corners_a.png" id="2_aw1sv"]
+[ext_resource type="Texture2D" uid="uid://brik0rphxh8if" path="res://assets/ui/interfaz/button_brown.png" id="3_ymhqy"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ms636"]
+content_margin_left = 24.0
+content_margin_top = 40.0
+content_margin_right = 24.0
+content_margin_bottom = 24.0
+texture = ExtResource("2_aw1sv")
+texture_margin_left = 48.0
+texture_margin_top = 48.0
+texture_margin_right = 48.0
+texture_margin_bottom = 48.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_g4v7s"]
+texture = ExtResource("3_ymhqy")
+texture_margin_left = 6.0
+texture_margin_top = 6.0
+texture_margin_right = 6.0
+texture_margin_bottom = 6.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
 
 [node name="VentanaResumen" type="CanvasLayer" unique_id=1341823846]
 script = ExtResource("1_bsto0")
@@ -18,6 +40,7 @@ offset_right = 70.5
 offset_bottom = 69.5
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_ms636")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer" unique_id=98312909]
 layout_mode = 2
@@ -25,23 +48,30 @@ theme_override_constants/separation = 94
 
 [node name="Titulo" type="Label" parent="PanelContainer/VBoxContainer" unique_id=1241275252]
 layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.12887746, 0.12962645, 1)
 theme_override_font_sizes/font_size = 35
 text = "RESUMEN DEL DÍA"
 horizontal_alignment = 1
 
 [node name="DineroGanado" type="Label" parent="PanelContainer/VBoxContainer" unique_id=1568426980]
 layout_mode = 2
+theme_override_colors/font_color = Color(2.1658838e-07, 0.18263617, 0.18263614, 1)
 theme_override_font_sizes/font_size = 30
 
 [node name="DineroDescontado" type="Label" parent="PanelContainer/VBoxContainer" unique_id=1054573853]
 layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.18431373, 0.18431373, 1)
 theme_override_font_sizes/font_size = 30
 
 [node name="Total" type="Label" parent="PanelContainer/VBoxContainer" unique_id=208988045]
 layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.18431373, 0.18431373, 1)
 theme_override_font_sizes/font_size = 30
 
 [node name="SiguienteDia" type="Button" parent="PanelContainer/VBoxContainer" unique_id=98662962]
 layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0, 0.12941177, 0.12941177, 1)
 theme_override_font_sizes/font_size = 35
+theme_override_styles/normal = SubResource("StyleBoxTexture_g4v7s")
 text = "SIGUIENTE DÍA"
