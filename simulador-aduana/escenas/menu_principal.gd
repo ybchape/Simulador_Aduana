@@ -20,3 +20,7 @@ func _on_boton_jugar_pressed() -> void:
 		print("Resultado del cambio de escena (0 es ok): ", resultado)
 	else:
 		print("No seconfiguro la ruta a la escena principal.")
+
+
+func _on_button_salir_pressed() -> void:
+	get_tree().quit()
