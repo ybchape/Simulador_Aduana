@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://bkvutkqxtx7rm"]
+
+[ext_resource type="PackedScene" uid="uid://b64wrlo5s2yt8" path="res://assets/cuter/boxcutter.obj.glb" id="1_cuter"]
+
+[node name="Cuter" type="Node3D" unique_id=638710089]
+transform = Transform3D(0.052335974, -0.9986295, 0, 0.9986295, 0.052335974, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="boxcutter" parent="." unique_id=1900128632 instance=ExtResource("1_cuter")]
+transform = Transform3D(0, 0, 0.03, 0.03, 0, 0, 0, 0.03, 0, 0.228512, 0.073772, 0.022737)

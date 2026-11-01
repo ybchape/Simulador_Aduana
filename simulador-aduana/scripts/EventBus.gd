@@ -17,6 +17,9 @@ signal dinero_cambiado(nuevo_saldo: float)
 signal herramienta_desbloqueada(id: String)
 signal herramienta_mejorada(id: String, nivel: int)
 
+# Se emite cuando el jugador elige (o suelta) una herramienta activa. "" = ninguna.
+signal herramienta_seleccionada(id: String)
+
 #Evento Cansancio
 signal evento_cansancio_iniciado(duracion: float)
 signal evento_cansancio_finalizado

@@ -20,6 +20,9 @@ var escala_camara_original: float = 75.0
 var visibilidad_malla_original: bool = true
 var inspeccion_en_proceso: bool = false
 
+# Herramientas ya usadas sobre ESTA caja (regla: 1 uso por herramienta por caja).
+var herramientas_usadas_en_caja: Array[String] = []
+
 @onready var punto_objeto: Node3D = $puntoObjeto
 @onready var modelo_caja: Node3D = get_node_or_null("box-small2")
 @onready var malla_caja: MeshInstance3D = _buscar_mesh_instance(modelo_caja) if modelo_caja else null
@@ -222,11 +225,53 @@ func _on_input_event(_camera: Node, event: InputEvent, _event_position: Vector3,
 	if inventario == null:
 		push_warning("No se encontró el inventario para usar la herramienta seleccionada.")
 		return
-	match inventario.get_herramienta_seleccionada():
+	var herramienta: String = inventario.get_herramienta_seleccionada()
+	if herramienta == "":
+		return
+	# Regla: una herramienta solo se puede usar una vez por caja.
+	if herramienta in herramientas_usadas_en_caja:
+		inventario.mostrar_aviso("Ya usaste %s en esta caja." % _nombre_herramienta(inventario, herramienta))
+		return
+	# Regla: la herramienta debe estar disponible (le quedan usos y no está enfriando).
+	if not GameManager.herramienta_disponible(herramienta):
+		var nombre_h: String = _nombre_herramienta(inventario, herramienta)
+		if GameManager.obtener_cooldown_restante(herramienta) > 0.0:
+			inventario.mostrar_aviso("%s en enfriamiento (%.1fs)." % [nombre_h, GameManager.obtener_cooldown_restante(herramienta)])
+		else:
+			inventario.mostrar_aviso("%s: no te quedan usos por hoy." % nombre_h)
+		return
+	match herramienta:
 		"escaner":
-			escanear_contenido()
+			if _puede_escanear():
+				escanear_contenido()
+				_registrar_uso_herramienta(herramienta)
 		"cuter":
-			abrir_caja()
+			if _puede_iniciar_apertura():
+				abrir_caja()
+				_registrar_uso_herramienta(herramienta)
+
+# Registra el uso efectivo: marca la caja y descuenta el uso del día.
+func _registrar_uso_herramienta(id: String) -> void:
+	herramientas_usadas_en_caja.append(id)
+	GameManager.consumir_uso_herramienta(id)
+
+func _nombre_herramienta(inventario: Inventario, id: String) -> String:
+	var datos: Dictionary = inventario.herramientas.get(id, {})
+	return str(datos.get("nombre", id))
+
+# Condiciones para poder escanear el contenido de esta caja.
+func _puede_escanear() -> bool:
+	if not _pedido_detenido_en_inspeccion() or caja_abierta:
+		return false
+	if punto_objeto == null or punto_objeto.get_child_count() == 0:
+		return false
+	return _obtener_mesh_del_asset(punto_objeto) != null
+
+# Condiciones para poder abrir la caja con el cúter.
+func _puede_iniciar_apertura() -> bool:
+	if not _pedido_detenido_en_inspeccion() or caja_abierta or inspeccion_en_proceso or info == null:
+		return false
+	return malla_caja != null and malla_caja.mesh != null
 
 # Envía la malla del contenido al EventBus; no abre ni decide el pedido.
 func escanear_contenido() -> void:
