@@ -40,6 +40,7 @@
 [ext_resource type="Script" uid="uid://0faeo2app0yv" path="res://escenas/escena_principal/gestor_eventos.gd" id="38_0a0g7"]
 [ext_resource type="Script" uid="uid://bq5i1rmxvf3n4" path="res://escenas/escena_principal/cartel_cansancio.gd" id="39_mbhr4"]
 [ext_resource type="Script" uid="uid://bfl2ylkyagrsx" path="res://escenas/escena_principal/cartel_alta_demanda.gd" id="40_cr0xl"]
+[ext_resource type="AudioStream" uid="uid://cp1sgs37jgevb" path="res://sounds/alarm_alta_demanda.mp3" id="41_2yig5"]
 
 [sub_resource type="Environment" id="Environment_g4v7s"]
 ambient_light_source = 2
@@ -412,6 +413,9 @@ position = Vector2i(0, 36)
 size = Vector2i(1021, 100)
 dialog_text = "Las jornadas son muy largas y los días empiezan a pesar. Tu personaje está demasiado cansado y sus reflejos se han vuelto lentos."
 script = ExtResource("40_cr0xl")
+
+[node name="SoundChicharra" type="AudioStreamPlayer3D" parent="CartelesEventos/CartelAltaDemanda" unique_id=1410437403]
+stream = ExtResource("41_2yig5")
 
 [connection signal="body_entered" from="ZonaInspeccion" to="ZonaInspeccion" method="_on_body_entered"]
 [connection signal="body_exited" from="ZonaInspeccion" to="ZonaInspeccion" method="_on_body_exited"]

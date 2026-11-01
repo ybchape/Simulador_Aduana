@@ -24,7 +24,7 @@ func _ready() -> void:
 	else:
 			# Probability 50% a partir del dia 2 de que se ejecute evento de alta demanda
 			if randf() < 0.5:
-				var tiempo_aleatorio_demanda = randf_range(20.0, 60.0)
+				var tiempo_aleatorio_demanda = randf_range(10.0, 40.0)
 				var timer_demanda = get_tree().create_timer(tiempo_aleatorio_demanda)
 				timer_demanda.timeout.connect(disparar_alta_demanda)
 
@@ -51,10 +51,24 @@ func disparar_evento_cansancio() -> void:
 func disparar_alta_demanda() -> void:
 	var duracion_demanda = randf_range(tiempo_min_duracion, tiempo_max_duracion)
 	print ("Evento ALTA DEMANDA activado. Aumenta el flujo de pedidos")
+# Muestra el cartel emitiendo la señal de inicio
+	EventBus.evento_alta_demanda_iniciado.emit(duracion_demanda)
+
+	# wait a que se cierre el cartel  en OK
+	await EventBus.alta_demanda_confirmada
 
 	esta_alta_demanda = true
+	print("Evento ALTA DEMANDA activado. Aumenta el flujo de pedidos")
+	EventBus.evento_alta_demanda_iniciado.emit(duracion_demanda) 
 
-	# emite señal para que el spawner aclere y se muestra indicador visual o sonoro
+	# timer de la duración del evento
+	await get_tree().create_timer(duracion_demanda).timeout
+
+	esta_alta_demanda = false
+	print("El evento de ALTA DEMANDA finalizó.")
+	EventBus.evento_alta_demanda_finalizado.emit()
+
+	# emite señal para que el spawner aclere y se muestra indicador visual y sonoro
 	EventBus.evento_alta_demanda_iniciado.emit(duracion_demanda)
 
 	# timer
