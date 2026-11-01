@@ -10,7 +10,9 @@ extends Node3D
 
 # Puntos del recorrido de SALIDA PERMITIDO (desde la inspección hacia la salida)
 @export var punto_salida_final: Marker3D 
-
+#var par guardar las veloc base cuando finaliza la alta demanda
+@export var velocidad_base: float = 2.0
+var velocidad_animacion_base: float = 0.5
 
 var caja_actual: Node3D = null
 var estado: String = "ESPERANDO" # ESPERANDO, AVANZANDO, INSPECCIONANDO, SALIENDO, DETENIDO
@@ -19,8 +21,16 @@ var jornada_completada: bool = false
 var notificada_inspeccion: bool = false
 
 func _ready() -> void:
+	# save veloc base al iniciar
+	velocidad_base = velocidad
+	velocidad_animacion_base = velocidad_animacion_cinta
 	EventBus.decision_tomada.connect(_on_decision_tomada)
 	EventBus.objetivo_dia_alcanzado.connect(_on_objetivo_alcanzado)
+
+	#concexiones evento alta demanda
+	EventBus.evento_alta_demanda_iniciado.connect(_on_alta_demanda_iniciado)
+	EventBus.evento_alta_demanda_finalizado.connect(_on_alta_demanda_finalizado)
+	
 
 func _process(delta: float) -> void:
 	if jornada_completada:
@@ -103,3 +113,14 @@ func _on_decision_tomada(_fue_permitido: bool) -> void:
 func _on_objetivo_alcanzado(_stats: Dictionary = {}) -> void:
 	jornada_completada = true
 	estado = "DETENIDO"
+
+func _on_alta_demanda_iniciado(_duracion:float) -> void:
+		print ("Acelareción de la cinta: ALTA DEMANDA")
+		# multiplicamos por 1.8 para que la cinta corra mas rapido (ajustar veloc)
+		velocidad = velocidad_base * 2.3
+		velocidad_animacion_cinta = velocidad_animacion_base * 2.3
+
+func _on_alta_demanda_finalizado() -> void:
+		print ("Alta demanda FINALIZADA. Velocidad de la cinta normal.")
+		velocidad = velocidad_base
+		velocidad_animacion_cinta = velocidad_animacion_base

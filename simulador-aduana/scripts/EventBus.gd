@@ -24,6 +24,9 @@ signal herramienta_seleccionada(id: String)
 signal evento_cansancio_iniciado(duracion: float)
 signal evento_cansancio_finalizado
 signal cansancio_confirmado # Salta cuando se cierra el cartel
+signal evento_alta_demanda_iniciado(duracion: float)
+signal evento_alta_demanda_finalizado
+signal alta_demanda_confirmada
 
 ## El saldo se gestiona en GameManager.dinero_total para que la tienda y el
 ## cierre de turno compartan una sola billetera. Esta función mantiene la API
