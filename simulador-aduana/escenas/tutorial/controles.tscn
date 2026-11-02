@@ -1,0 +1,82 @@
+[gd_scene format=3 uid="uid://misvkiv8r8fj"]
+
+[ext_resource type="Texture2D" uid="uid://bjceumlgihi80" path="res://assets/ui/interfaz/fondo_menu.png" id="1_o0v6m"]
+[ext_resource type="Script" uid="uid://21toi36lq15a" path="res://escenas/tutorial/controles.gd" id="1_vbtcc"]
+[ext_resource type="Texture2D" uid="uid://brx6ndmwm3xej" path="res://assets/ui/interfaz/panel_grey.png" id="2_vbtcc"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_g4v7s"]
+texture = ExtResource("2_vbtcc")
+texture_margin_left = 20.0
+texture_margin_top = 20.0
+texture_margin_right = 20.0
+texture_margin_bottom = 20.0
+
+[node name="Controles" type="Control" unique_id=769046042]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_vbtcc")
+
+[node name="Fondo" type="TextureRect" parent="." unique_id=254742281]
+layout_mode = 0
+offset_right = 1917.0
+offset_bottom = 1081.0
+texture = ExtResource("1_o0v6m")
+
+[node name="ColorRect" type="ColorRect" parent="Fondo" unique_id=119987597]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.8509804)
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=793224148]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -398.0
+offset_top = -268.0
+offset_right = 443.0
+offset_bottom = 274.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_g4v7s")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer" unique_id=511533911]
+layout_mode = 2
+theme_override_constants/separation = 31
+
+[node name="Titulo" type="Label" parent="PanelContainer/VBoxContainer" unique_id=1455442263]
+layout_mode = 2
+theme_override_font_sizes/font_size = 34
+text = "CONTROLES"
+horizontal_alignment = 1
+
+[node name="TextoExplicativo" type="RichTextLabel" parent="PanelContainer/VBoxContainer" unique_id=1112255648]
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 30
+bbcode_enabled = true
+text = "
+Click izquierdo para seleccionar herramientas y utilizarlas.
+
+
+Click derecho para utilizar la cámara.
+
+
+"
+fit_content = true
+
+[node name="Volver" type="Button" parent="PanelContainer/VBoxContainer" unique_id=587325074]
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "Volver al menú principal"
+
+[connection signal="pressed" from="PanelContainer/VBoxContainer/Volver" to="." method="_on_volver_pressed"]

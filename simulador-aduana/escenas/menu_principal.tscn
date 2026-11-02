@@ -73,4 +73,5 @@ offset_bottom = 429.0
 texture = ExtResource("4_bddn2")
 expand_mode = 1
 
+[connection signal="pressed" from="Fondo_Aduana/VBoxContainer/ButtonControles" to="." method="_on_button_controles_pressed"]
 [connection signal="pressed" from="Fondo_Aduana/VBoxContainer/ButtonSalir" to="." method="_on_button_salir_pressed"]
