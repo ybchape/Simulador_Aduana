@@ -72,11 +72,17 @@ func _restaurar_estado_compras() -> void:
 		btn_mejorar_balanza.visible = false
 		nivel_balanza.text = "No adquirida"
 
-	if mejoras.has("energizante_obtenido"):
+	# --- Estado Energizante ---
+	if mejoras.has("energizante_lvl2"):
 		btn_comprar_energizante.visible = false
-		btn_comprar_energizante.disabled = true
 		btn_mejorar_energizante.visible = true
-		nivel_energizante.text = "Nivel 1"
+		btn_mejorar_energizante.text = "¡Adquirido!"
+		nivel_energizante.text = "Nivel 2 (+20%)"
+	elif mejoras.has("energizante_obtenido"):
+		btn_comprar_energizante.visible = false
+		btn_mejorar_energizante.visible = true
+		btn_mejorar_energizante.text = "Mejorar a Niv. 2: $" + str(PRECIO_MEJORA_NIVEL_2)
+		nivel_energizante.text = "Nivel 1 (+10%)"
 	else:
 		btn_comprar_energizante.visible = true
 		btn_comprar_energizante.text = "Comprar: $" + str(PRECIO_COMPRA_ENERGIZANTE)
