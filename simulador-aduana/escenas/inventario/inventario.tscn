@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://c4o6l012b5ecv" path="res://assets/generated/icono_escaner.png" id="2_escaner"]
 [ext_resource type="Texture2D" uid="uid://hbwdtus08uk7" path="res://assets/generated/icono_cuter.png" id="3_cuter"]
 [ext_resource type="Texture2D" uid="uid://xvp7ip1gomm5" path="res://assets/generated/icono_balanza.png" id="4_balanza"]
-[ext_resource type="Texture2D" uid="uid://dwmfhvm0mqbcr" path="res://assets/generated/icono_energizante.png" id="5_energizante"]
+[ext_resource type="Texture2D" uid="uid://dhypb87udi4bf" path="res://assets/generated/soda-can.png" id="6_4qjcr"]
 [ext_resource type="Theme" uid="uid://baadnr8nrfsbk" path="res://recursos/tema_botones.tres" id="6_tema"]
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_slots"]
@@ -121,12 +121,13 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="SlotEnergizante" type="Button" parent="Hotbar" unique_id=535141954]
+texture_filter = 1
 custom_minimum_size = Vector2(140, 130)
 layout_mode = 2
 tooltip_text = "Energizante (Nivel 1)"
 toggle_mode = true
 button_group = SubResource("ButtonGroup_slots")
-icon = ExtResource("5_energizante")
+icon = ExtResource("6_4qjcr")
 expand_icon = true
 metadata/herramienta_id = "energizante"
 

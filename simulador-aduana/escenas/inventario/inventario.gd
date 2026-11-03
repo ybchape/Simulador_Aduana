@@ -97,7 +97,9 @@ func _configurar_datos() -> void:
 	if GameManager.mejoras_compradas.has("energizante_obtenido"):
 		herramientas["energizante"]["nivel"] = 1
 		herramientas["energizante"]["desbloqueada"] = true
-
+	if GameManager.mejoras_compradas.has("energizante_lvl2"):
+		herramientas["energizante"]["nivel"] = 2
+		
 func _conectar_slots() -> void:
 	for slot in hotbar.get_children():
 		if slot is Button:
