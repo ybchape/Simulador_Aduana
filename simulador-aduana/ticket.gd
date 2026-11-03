@@ -7,8 +7,17 @@ extends Control
 var datos_pendientes: PedidoInfo = null
 
 func _ready() -> void:
+	# Asegura que los textos hagan salto de línea automático si son muy largos
+	_configurar_autowrap()
+	
 	if datos_pendientes != null:
 		cargar_ticket(datos_pendientes)
+
+func _configurar_autowrap() -> void:
+	for label in [lbl_producto, lbl_peso, lbl_codigo]:
+		if label:
+			label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+
 
 func cargar_ticket(datos: PedidoInfo) -> void:
 	if datos == null:
