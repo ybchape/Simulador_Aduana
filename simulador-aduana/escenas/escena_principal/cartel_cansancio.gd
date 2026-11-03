@@ -8,6 +8,8 @@ func _ready() -> void:
 func _on_evento_iniciado(_duracion: float) -> void:
 	dialog_text = "Las jornadas son muy largas y los días empiezan a pesar. Tu personaje está demasiado cansado y sus reflejos se han vuelto lentos."
 	title = "¡AGOTAMIENTO LABORAL!"
+	# LIBERA EL MOUSE para que puedas hacer clic libremente
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	popup_centered() # Muestra el cartel en el centro de la pantalla
 
 func _on_cartel_aceptado() -> void:

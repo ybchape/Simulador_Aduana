@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://c625miyri4onl" path="res://escenas/escena_principal/escena_principal.gd" id="1_1ijcn"]
 [ext_resource type="Script" uid="uid://gtti5ymac8xy" path="res://escenas/camera_pivot.gd" id="1_q3xw2"]
+[ext_resource type="Script" uid="uid://dwtiipj6bvlfb" path="res://escenas/escena_principal/environment.gd" id="2_0p0dg"]
 [ext_resource type="PackedScene" uid="uid://b2jtkujpef1e" path="res://assets/GLB format/floor-large.glb" id="2_p60ft"]
 [ext_resource type="PackedScene" uid="uid://cscfx13ldscq2" path="res://assets/GLB format/structure-wall.glb" id="3_1ijcn"]
 [ext_resource type="PackedScene" uid="uid://cfjv2w3qqwe8c" path="res://assets/GLB format/structure-corner-outer.glb" id="4_jn0hn"]
@@ -70,6 +71,7 @@ texture_margin_bottom = 24.0
 script = ExtResource("1_1ijcn")
 
 [node name="Environment" type="Node3D" parent="." unique_id=743419106]
+script = ExtResource("2_0p0dg")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="Environment" unique_id=2090558405]
 environment = SubResource("Environment_g4v7s")

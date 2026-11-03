@@ -11,10 +11,16 @@ func _ready() -> void:
 
 func _on_evento_iniciado(duracion: float, costo: float) -> void:
 	title = "¡APAGÓN EN LA ADUANA!"
-	dialog_text = "Se cortó la luz en el puesto de trabajo. El escáner quedó inhabilitado por falta de energía.\n\n¿Querés pagar $%d para reparar la luz de inmediato o preferís esperar %.0f segundos?" % [costo, duracion]
+	dialog_text = "Se cortó la luz en el puesto de trabajo. El escáner quedó inhabilitado por falta de energía.\n\n¿Querés pagar para reparar la luz de inmediato o preferís esperar?" 
 	
 	ok_button_text = "Pagar Reparación ($" + str(int(costo)) + ")"
-	cancel_button_text = "Entendido / Esperar"
+	cancel_button_text = "Esperar"
+	
+	# Espera 1 segundo mientras la luz se apaga en la escena 3D
+	await get_tree().create_timer(1.0).timeout
+	
+	# LIBERA EL MOUSE para que puedas hacer clic libremente
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	
 	popup_centered() # Muestra el cartel centrado
 

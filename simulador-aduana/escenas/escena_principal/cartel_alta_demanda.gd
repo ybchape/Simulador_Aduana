@@ -13,6 +13,9 @@ func _ready() -> void:
 func _on_evento_iniciado(_duracion: float) -> void:
 	dialog_text = "¡ALTA DEMANDA! El flujo de paquetes aumentó significativamente. ¡A trabajar!"
 	title = "TURNO DE ALTA DEMANDA"
+	
+	# LIBERA EL MOUSE para que puedas hacer clic libremente
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	popup_centered() # Muestra el cartel en el centro de la pantalla
 
 	# Reproduce la chicharra e al aparecer el cartel 
