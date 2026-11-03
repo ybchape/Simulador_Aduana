@@ -83,6 +83,7 @@ shadow_enabled = true
 [node name="CameraPivot" type="Node3D" parent="." unique_id=887759548]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 2, 6)
 script = ExtResource("1_q3xw2")
+fov_zoom = 50.0
 
 [node name="Camera3D" type="Camera3D" parent="CameraPivot" unique_id=1842094814]
 transform = Transform3D(0.25881907, 0, -0.9659258, 0, 1, 0, 0.9659258, 0, 0.25881907, 0, 0, 0)

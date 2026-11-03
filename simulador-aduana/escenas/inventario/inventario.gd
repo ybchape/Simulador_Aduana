@@ -97,7 +97,9 @@ func _configurar_datos() -> void:
 	if GameManager.mejoras_compradas.has("energizante_obtenido"):
 		herramientas["energizante"]["nivel"] = 1
 		herramientas["energizante"]["desbloqueada"] = true
-
+	if GameManager.mejoras_compradas.has("energizante_lvl2"):
+		herramientas["energizante"]["nivel"] = 2
+		
 func _conectar_slots() -> void:
 	for slot in hotbar.get_children():
 		if slot is Button:
@@ -121,6 +123,23 @@ func _refrescar_slot(id: String) -> void:
 # --- Selección -------------------------------------------------------------
 
 func seleccionar(id: String) -> void:
+	#Lógica especial para Consumibles (Energizante / Café) ---
+	if id in ["energizante", "cafe"]:
+		# Verifica si la herramienta está desbloqueada
+		if not herramientas.has(id) or not herramientas[id]["desbloqueada"]:
+			return
+			
+		# Verifica que le queden usos hoy y que no esté en cooldown
+		if not GameManager.herramienta_disponible(id):
+			return
+			
+		# Consume el uso diario e inicia el cooldown en el GameManager
+		if GameManager.consumir_uso_herramienta(id):
+			var nivel_actual: int = herramientas[id]["nivel"]
+			# Emite el consumo hacia la barra de energía
+			EventBus.consumible_usado.emit(id, nivel_actual)
+		return
+	
 	#Bloquea el uso del escáner durante el corte de luz ---
 	if id == "escaner" and corte_luz_activo:
 		mostrar_aviso("¡Sin energía! El escáner no funciona.")

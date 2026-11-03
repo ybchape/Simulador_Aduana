@@ -1,11 +1,11 @@
-[gd_scene load_steps=13 format=3 uid="uid://dw4ht40cbfe8b"]
+[gd_scene format=3 uid="uid://dw4ht40cbfe8b"]
 
 [ext_resource type="Script" uid="uid://blftq8tmy4v2w" path="res://escenas/tienda/tienda.gd" id="1_g62me"]
 [ext_resource type="Theme" uid="uid://baadnr8nrfsbk" path="res://recursos/tema_botones.tres" id="4_tema"]
 [ext_resource type="Texture2D" uid="uid://c4o6l012b5ecv" path="res://assets/generated/icono_escaner.png" id="6_escaner"]
+[ext_resource type="Texture2D" uid="uid://dhypb87udi4bf" path="res://assets/generated/soda-can.png" id="6_ibfep"]
 [ext_resource type="Texture2D" uid="uid://hbwdtus08uk7" path="res://assets/generated/icono_cuter.png" id="7_cuter"]
 [ext_resource type="Texture2D" uid="uid://xvp7ip1gomm5" path="res://assets/generated/icono_balanza.png" id="8_balanza"]
-[ext_resource type="Texture2D" uid="uid://dwmfhvm0mqbcr" path="res://assets/generated/icono_energizante.png" id="9_energizante"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bvjvf"]
 content_margin_left = 5.0
@@ -22,39 +22,33 @@ corner_radius_top_left = 8
 corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
-shadow_color = Color(0, 0, 0, 0.28)
-shadow_size = 8
 expand_margin_left = 5.0
 expand_margin_top = 5.0
 expand_margin_right = 5.0
 expand_margin_bottom = 5.0
+shadow_color = Color(0, 0, 0, 0.28)
+shadow_size = 8
 
 [sub_resource type="Theme" id="Theme_bvjvf"]
 default_font_size = 35
 PanelContainer/styles/panel = SubResource("StyleBoxFlat_bvjvf")
 
-[sub_resource type="FontVariation" id="FontVariation_d0u6y"]
-
 [sub_resource type="StyleBoxFlat" id="HeaderStyle"]
-bg_color = Color(0.80, 0.81, 0.80, 1)
-border_width_left = 0
-border_width_top = 0
-border_width_right = 0
-border_width_bottom = 2
-border_color = Color(0.42, 0.44, 0.45, 1)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 0
-corner_radius_bottom_left = 0
 content_margin_left = 28.0
 content_margin_top = 16.0
 content_margin_right = 90.0
 content_margin_bottom = 12.0
-
-[sub_resource type="StyleBoxFlat" id="SeparatorStyle"]
-bg_color = Color(0.18, 0.62, 0.68, 0.62)
+bg_color = Color(0.8, 0.81, 0.8, 1)
+border_width_bottom = 2
+border_color = Color(0.42, 0.44, 0.45, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
 
 [sub_resource type="StyleBoxFlat" id="CardStyle"]
+content_margin_left = 22.0
+content_margin_top = 8.0
+content_margin_right = 22.0
+content_margin_bottom = 8.0
 bg_color = Color(0.95, 0.94, 0.89, 0.96)
 border_width_left = 4
 border_width_top = 1
@@ -65,10 +59,6 @@ corner_radius_top_left = 7
 corner_radius_top_right = 7
 corner_radius_bottom_right = 7
 corner_radius_bottom_left = 7
-content_margin_left = 22.0
-content_margin_top = 8.0
-content_margin_right = 22.0
-content_margin_bottom = 8.0
 
 [node name="tienda" type="Control" unique_id=263551707]
 layout_mode = 3
@@ -88,25 +78,29 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-color = Color(0.28, 0.30, 0.34, 1)
+color = Color(0.28, 0.3, 0.34, 1)
 
 [node name="SombraPanel" type="ColorRect" parent="." unique_id=1371914715]
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_left = 0.055
 anchor_top = 0.045
 anchor_right = 0.945
 anchor_bottom = 0.96
+grow_horizontal = 2
+grow_vertical = 2
 mouse_filter = 2
-color = Color(0.08, 0.09, 0.10, 0.56)
+color = Color(0.08, 0.09, 0.1, 0.56)
 
-[node name="MarcoPanel" type="Panel" parent="."]
+[node name="MarcoPanel" type="Panel" parent="." unique_id=612055148]
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_left = 0.055
 anchor_top = 0.045
 anchor_right = 0.945
 anchor_bottom = 0.96
+grow_horizontal = 2
+grow_vertical = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_bvjvf")
 
@@ -123,7 +117,7 @@ grow_horizontal = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("HeaderStyle")
 
-[node name="Label" type="Label" parent="."]
+[node name="Label" type="Label" parent="." unique_id=2070667264]
 layout_mode = 0
 offset_left = 125.0
 offset_top = 62.0
@@ -144,7 +138,6 @@ offset_right = -150.0
 offset_bottom = -70.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer" unique_id=233262483]
 custom_minimum_size = Vector2(1000, 900)
@@ -156,8 +149,8 @@ theme_override_constants/separation = 14
 [node name="PanelEscaner" type="PanelContainer" parent="ScrollContainer/VBoxContainer" unique_id=410841702]
 custom_minimum_size = Vector2(0, 150)
 layout_mode = 2
-theme_override_styles/panel = SubResource("CardStyle")
 tooltip_text = "Dispositivo de inspección por rayos X."
+theme_override_styles/panel = SubResource("CardStyle")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/PanelEscaner" unique_id=331814163]
 layout_mode = 2
@@ -191,20 +184,20 @@ text = "Nivel 1"
 layout_mode = 2
 
 [node name="BtnComprar" type="Button" parent="ScrollContainer/VBoxContainer/PanelEscaner/HBoxContainer/VBoxContainer2" unique_id=346275700]
-theme = ExtResource("4_tema")
 visible = false
 layout_mode = 2
+theme = ExtResource("4_tema")
 theme_override_font_sizes/font_size = 25
 text = "Comprar: $450"
 
 [node name="BtnMejorar" type="Button" parent="ScrollContainer/VBoxContainer/PanelEscaner/HBoxContainer/VBoxContainer2" unique_id=1969260091]
-theme = ExtResource("4_tema")
 custom_minimum_size = Vector2(280, 78)
 layout_mode = 2
+theme = ExtResource("4_tema")
 theme_override_font_sizes/font_size = 30
 text = "Mejorar: $300"
 
-[node name="SeparadorEscanerCuter" type="ColorRect" parent="ScrollContainer/VBoxContainer"]
+[node name="SeparadorEscanerCuter" type="ColorRect" parent="ScrollContainer/VBoxContainer" unique_id=59862260]
 custom_minimum_size = Vector2(0, 3)
 layout_mode = 2
 mouse_filter = 2
@@ -213,8 +206,8 @@ color = Color(0.12, 0.67, 0.74, 0.7)
 [node name="PanelCuter" type="PanelContainer" parent="ScrollContainer/VBoxContainer" unique_id=1314061528]
 custom_minimum_size = Vector2(0, 150)
 layout_mode = 2
-theme_override_styles/panel = SubResource("CardStyle")
 tooltip_text = "Permite abrir paquetes para realizar una inspección directa."
+theme_override_styles/panel = SubResource("CardStyle")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/PanelCuter" unique_id=1444364840]
 layout_mode = 2
@@ -248,20 +241,20 @@ text = "Nivel 1"
 layout_mode = 2
 
 [node name="BtnComprar" type="Button" parent="ScrollContainer/VBoxContainer/PanelCuter/HBoxContainer/VBoxContainer2" unique_id=326487509]
-theme = ExtResource("4_tema")
 visible = false
 layout_mode = 2
+theme = ExtResource("4_tema")
 theme_override_font_sizes/font_size = 25
 text = "Comprar: $450"
 
 [node name="BtnMejorar" type="Button" parent="ScrollContainer/VBoxContainer/PanelCuter/HBoxContainer/VBoxContainer2" unique_id=1045881014]
-theme = ExtResource("4_tema")
 custom_minimum_size = Vector2(280, 78)
 layout_mode = 2
+theme = ExtResource("4_tema")
 theme_override_font_sizes/font_size = 30
 text = "Mejorar: $300"
 
-[node name="SeparadorCuterBalanza" type="ColorRect" parent="ScrollContainer/VBoxContainer"]
+[node name="SeparadorCuterBalanza" type="ColorRect" parent="ScrollContainer/VBoxContainer" unique_id=1014705139]
 custom_minimum_size = Vector2(0, 3)
 layout_mode = 2
 mouse_filter = 2
@@ -270,8 +263,8 @@ color = Color(0.12, 0.67, 0.74, 0.7)
 [node name="PanelBalanza" type="PanelContainer" parent="ScrollContainer/VBoxContainer" unique_id=1897959223]
 custom_minimum_size = Vector2(0, 150)
 layout_mode = 2
-theme_override_styles/panel = SubResource("CardStyle")
 tooltip_text = "Pesa los paquetes en tiempo real para contrastar su peso real con la planilla."
+theme_override_styles/panel = SubResource("CardStyle")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/PanelBalanza" unique_id=466126006]
 layout_mode = 2
@@ -305,21 +298,21 @@ text = "Nivel 1"
 layout_mode = 2
 
 [node name="BtnComprar" type="Button" parent="ScrollContainer/VBoxContainer/PanelBalanza/HBoxContainer/VBoxContainer2" unique_id=1732416498]
-theme = ExtResource("4_tema")
 custom_minimum_size = Vector2(280, 78)
 layout_mode = 2
+theme = ExtResource("4_tema")
 theme_override_font_sizes/font_size = 30
 text = "Comprar: $450"
 
 [node name="BtnMejorar" type="Button" parent="ScrollContainer/VBoxContainer/PanelBalanza/HBoxContainer/VBoxContainer2" unique_id=1046322141]
-theme = ExtResource("4_tema")
-custom_minimum_size = Vector2(280, 78)
 visible = false
+custom_minimum_size = Vector2(280, 78)
 layout_mode = 2
+theme = ExtResource("4_tema")
 theme_override_font_sizes/font_size = 30
 text = "Mejorar: $300"
 
-[node name="SeparadorBalanzaEnergizante" type="ColorRect" parent="ScrollContainer/VBoxContainer"]
+[node name="SeparadorBalanzaEnergizante" type="ColorRect" parent="ScrollContainer/VBoxContainer" unique_id=402221459]
 custom_minimum_size = Vector2(0, 3)
 layout_mode = 2
 mouse_filter = 2
@@ -328,8 +321,8 @@ color = Color(0.12, 0.67, 0.74, 0.7)
 [node name="PanelEnergizante" type="PanelContainer" parent="ScrollContainer/VBoxContainer" unique_id=883922817]
 custom_minimum_size = Vector2(0, 150)
 layout_mode = 2
-theme_override_styles/panel = SubResource("CardStyle")
 tooltip_text = "Bebida de recuperación rápida."
+theme_override_styles/panel = SubResource("CardStyle")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/PanelEnergizante" unique_id=1264198097]
 layout_mode = 2
@@ -339,7 +332,7 @@ theme_override_constants/separation = 28
 custom_minimum_size = Vector2(120, 120)
 layout_mode = 2
 mouse_filter = 2
-texture = ExtResource("9_energizante")
+texture = ExtResource("6_ibfep")
 expand_mode = 1
 stretch_mode = 5
 
@@ -363,24 +356,22 @@ text = "Nivel 1"
 layout_mode = 2
 
 [node name="BtnComprar" type="Button" parent="ScrollContainer/VBoxContainer/PanelEnergizante/HBoxContainer/VBoxContainer2" unique_id=1118372325]
-theme = ExtResource("4_tema")
 custom_minimum_size = Vector2(280, 78)
 layout_mode = 2
+theme = ExtResource("4_tema")
 theme_override_font_sizes/font_size = 30
 text = "Comprar: $150."
 
 [node name="BtnMejorar" type="Button" parent="ScrollContainer/VBoxContainer/PanelEnergizante/HBoxContainer/VBoxContainer2" unique_id=509926794]
-theme = ExtResource("4_tema")
-custom_minimum_size = Vector2(280, 78)
 visible = false
+custom_minimum_size = Vector2(280, 78)
 layout_mode = 2
+theme = ExtResource("4_tema")
 theme_override_font_sizes/font_size = 30
 text = "Mejorar: $300"
 
 [node name="Button" type="Button" parent="." unique_id=2135883990]
-theme = ExtResource("4_tema")
 layout_mode = 0
-anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
 offset_left = -102.0
@@ -388,9 +379,10 @@ offset_top = 44.0
 offset_right = -34.0
 offset_bottom = 112.0
 grow_horizontal = 0
+tooltip_text = "Cerrar tienda"
+theme = ExtResource("4_tema")
 theme_override_colors/font_color = Color(0.85, 0.97, 1, 1)
 theme_override_font_sizes/font_size = 32
 text = "×"
-tooltip_text = "Cerrar tienda"
 
 [connection signal="pressed" from="Button" to="." method="_on_button_cerrar_pressed"]
