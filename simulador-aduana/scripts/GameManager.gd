@@ -15,6 +15,9 @@ var dinero_total: int = 0
 var pedidos_realizados_hoy: int = 0
 var mejoras_compradas: Array[String] = []
 
+#  Control de eventos aleatorios por partida ---
+var eventos_usados: Array[String] = []
+
 # var para penalizaciones y estadísticas del día 
 var errores_hoy: int = 0
 const MAX_ERRORES: int = 3
@@ -62,6 +65,22 @@ func _process(delta: float) -> void:
 		_cooldown_restante[id] = restante
 		if restante <= 0.0:
 			_emitir_estado_herramienta(id)
+
+# Reinicia completamente la partida al perder o volver al menú principal ---
+func reiniciar_partida() -> void:
+	dia_actual = 1
+	dinero_total = 0
+	pedidos_realizados_hoy = 0
+	errores_hoy = 0
+	dinero_ganado_hoy = 0
+	dinero_descontado_hoy = 0
+	pedidos_correctos_hoy = 0
+	
+	mejoras_compradas.clear()
+	eventos_usados.clear()
+	_reiniciar_usos_herramientas()
+	dinero_cambiado.emit(dinero_total)
+
 
 func obtener_objetivo_actual() -> int:
 	return OBJETIVOS_POR_DIA.get(dia_actual, 15)
