@@ -29,6 +29,7 @@ const DURACION_AVISO: float = 2.0
 var herramientas: Dictionary = {}
 var herramienta_seleccionada: String = ""
 var pedido_en_zona: bool = false
+var corte_luz_activo: bool = false # Controla si el escáner está inhabilitado 
 var _aviso_tiempo: float = 0.0
 
 func _ready() -> void:
@@ -60,6 +61,10 @@ func _conectar_eventbus() -> void:
 	EventBus.herramienta_desbloqueada.connect(_on_herramienta_desbloqueada)
 	EventBus.herramienta_mejorada.connect(_on_herramienta_mejorada)
 	EventBus.pedido_en_zona.connect(_on_pedido_en_zona)
+	#  Escucha el evento de corte de luz 
+	EventBus.evento_corte_luz_iniciado.connect(_on_corte_luz_iniciado)
+	EventBus.evento_corte_luz_finalizado.connect(_on_corte_luz_finalizado)
+	
 	if not GameManager.herramienta_estado_cambiado.is_connected(_on_herramienta_estado_cambiado):
 		GameManager.herramienta_estado_cambiado.connect(_on_herramienta_estado_cambiado)
 
@@ -116,6 +121,11 @@ func _refrescar_slot(id: String) -> void:
 # --- Selección -------------------------------------------------------------
 
 func seleccionar(id: String) -> void:
+	#Bloquea el uso del escáner durante el corte de luz ---
+	if id == "escaner" and corte_luz_activo:
+		mostrar_aviso("¡Sin energía! El escáner no funciona.")
+		return
+	
 	if id in ["escaner", "cuter"] and not _esta_pedido_detenido():
 		return
 	if _obtener_caja_abierta() != null:
@@ -214,11 +224,17 @@ func _actualizar_slot(slot: Button, id: String) -> void:
 	var restantes: int = GameManager.obtener_usos_restantes(id)
 	var cooldown: float = GameManager.obtener_cooldown_restante(id)
 	var sin_usos: bool = maximo >= 0 and restantes <= 0
+	
+	# Estado de falla eléctrica en el escáner ---
+	var sin_energia: bool = (id == "escaner" and corte_luz_activo)
 
 	# Estado de uso en el badge: "r/max", "∞" o la cuenta atrás del enfriamiento.
 	if badge:
 		badge.visible = true
-		if sin_usos:
+		if sin_energia:
+			badge.text = "SIN LUZ"
+			badge.modulate = Color(1.0, 0.3, 0.3, 1.0) # rojo = corte de luz
+		elif sin_usos:
 			badge.text = "0/" + str(maximo)
 			badge.modulate = Color(1.0, 0.45, 0.45, 1.0) # rojo = agotada
 		elif cooldown > 0.0:
@@ -238,14 +254,16 @@ func _actualizar_slot(slot: Button, id: String) -> void:
 	# Tooltip con nombre, nivel y estado de uso.
 	var usos_texto: String = "∞" if maximo < 0 else (str(restantes) + "/" + str(maximo))
 	var estado_texto: String = ""
-	if sin_usos:
+	if sin_energia:
+		estado_texto = " — ¡Inhabilitado por falta de energía!"
+	elif sin_usos:
 		estado_texto = " — Sin usos hoy"
 	elif cooldown > 0.0:
 		estado_texto = " — Enfriando %.1fs" % cooldown
 	slot.tooltip_text = "%s (Nivel %d) — Usos: %s%s" % [nombre, nivel, usos_texto, estado_texto]
 
 	# Si se agotó estando seleccionada, se quita la selección.
-	if sin_usos and herramienta_seleccionada == id:
+	if (sin_usos or sin_energia) and herramienta_seleccionada == id:
 		#salir_del_cuter()
 		herramienta_seleccionada = ""
 		slot.set_pressed_no_signal(false)
@@ -261,6 +279,17 @@ func mostrar_aviso(texto: String) -> void:
 
 func _on_herramienta_estado_cambiado(id: String, _restantes: int, _maximo: int) -> void:
 	_refrescar_slot(id)
+
+# --- Handlers del Evento Corte de Luz ---
+func _on_corte_luz_iniciado(_duracion: float, _costo: float) -> void:
+	corte_luz_activo = true
+	_refrescar_slot("escaner")
+
+func _on_corte_luz_finalizado() -> void:
+	corte_luz_activo = false
+	_refrescar_slot("escaner")
+
+
 
 # --- API pública (conectada a la tienda vía EventBus) ----------------------
 

@@ -28,6 +28,14 @@ signal evento_alta_demanda_iniciado(duracion: float)
 signal evento_alta_demanda_finalizado
 signal alta_demanda_confirmada
 
+#  Evento Corte de Luz 
+signal evento_corte_luz_iniciado(duracion: float, costo_reparacion: float)
+signal evento_corte_luz_finalizado
+signal corte_luz_confirmado
+signal pagar_reparacion_corte_luz
+
+
+
 ## El saldo se gestiona en GameManager.dinero_total para que la tienda y el
 ## cierre de turno compartan una sola billetera. Esta función mantiene la API
 ## usada por GestorDia para pagar el neto del turno.
