@@ -2,38 +2,61 @@ extends CanvasLayer
 
 @onready var barra_energia: TextureProgressBar = $Barra_Energia
 
+# --- Configuración del desgaste pasivo ---
+@export var velocidad_desgaste_base: float = 0.8 # Porcentaje de energía que baja por segundo
+var multiplicador_desgaste: float = 1.0
+
 # La energía siempre arranca en 100
 var energia_actual: float = 100.0
 var esta_en_crisis_cansancio: bool = false # Controla la restricción del evento
+var turno_activo: bool = true
 
 
 func _ready() -> void:
-	EventBus.decision_tomada.connect(_on_decision_tomada)
-	# Escucha la confirmación del cartel para fijar la energía a la mitad
-	EventBus.cansancio_confirmado.connect(_on_cansancio_confirmado)
-	EventBus.evento_cansancio_finalizado.connect(_on_cansancio_finalizado)
-	# Escucha cuando el jugador usa un consumible desde la hotbar/inventario
+# Escucha los consumibles y eventos del juego
 	EventBus.consumible_usado.connect(_on_consumible_usado)
+	EventBus.cansancio_confirmado.connect(_on_cansancio_iniciado)
+	EventBus.evento_cansancio_finalizado.connect(_on_cansancio_finalizado)
+	EventBus.alta_demanda_confirmada.connect(_on_alta_demanda_iniciada)
+	EventBus.evento_alta_demanda_finalizado.connect(_on_alta_demanda_finalizada)
 	reiniciar_energia()
+
+func _process(delta: float) -> void:
+	if not turno_activo:
+		return
+		
+	# Desgaste continuo y natural por segundo
+	if energia_actual > 0.0:
+		var desgaste = velocidad_desgaste_base * multiplicador_desgaste * delta
+		energia_actual = maxf(0.0, energia_actual - desgaste)
+		actualizar_interfaz()
+
 
 # Reinicia la barra al 100%
 func reiniciar_energia() -> void:
 	energia_actual = 100.0
+	multiplicador_desgaste = 1.0
+	esta_en_crisis_cansancio = false
+	turno_activo = true
 	actualizar_interfaz()
 
-func _on_cansancio_confirmado() -> void:
+# --- Handlers de Eventos ---
+func _on_cansancio_iniciado() -> void:
 	esta_en_crisis_cansancio = true
-	# La energía baja a la mitad (50%) inmediatamente al arrancar la crisis
-	energia_actual = 50.0
-	actualizar_interfaz()
+	# Durante la crisis de cansancio la energía se consume el doble de rápido
+	multiplicador_desgaste = 2.0
+
 
 func _on_cansancio_finalizado() -> void:
 	esta_en_crisis_cansancio = false
+	multiplicador_desgaste = 1.0
 
-# Cada vez que se procesa un pedido (decisión tomada), resta un 2%
-func _on_decision_tomada(_fue_permitido: bool) -> void:
-	energia_actual -= 2.0
-	actualizar_interfaz()
+func _on_alta_demanda_iniciada() -> void:
+	# La tensión aumenta el consumo a 1.5x
+	multiplicador_desgaste = 1.5
+
+func _on_alta_demanda_finalizada() -> void:
+	multiplicador_desgaste = 1.0
 
 #  Procesa el uso del Energizante / Café ---
 func _on_consumible_usado(id: String, nivel: int) -> void:
@@ -57,6 +80,9 @@ func _on_consumible_usado(id: String, nivel: int) -> void:
 	if inv and inv.has_method("mostrar_aviso"):
 		inv.mostrar_aviso("+" + str(int(incremento)) + "% Energía")
 
+# Mantener por compatibilidad si la señal sigue emitiéndose, pero vacía
+func _on_decision_tomada(_fue_permitido: bool) -> void:
+	pass
 
 # Actualiza el nodo visual
 func actualizar_interfaz() -> void:
