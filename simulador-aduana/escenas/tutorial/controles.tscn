@@ -67,9 +67,9 @@ bbcode_enabled = true
 text = "
 Click izquierdo para seleccionar herramientas y utilizarlas.
 
-
 Click derecho para utilizar la cámara.
 
+Zoom con la ruedita.
 
 "
 fit_content = true
