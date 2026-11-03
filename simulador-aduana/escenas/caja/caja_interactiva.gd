@@ -48,7 +48,7 @@ func _actualizar_objeto_en_caja() -> void:
 			hijo.queue_free()
 	var instancia_asset: Node = info.objeto_escena.instantiate()
 	punto_objeto.add_child(instancia_asset)
-	_ajustar_tamano_a_caja(instancia_asset, 0.4)
+	_ajustar_tamano_a_caja(instancia_asset, 0.60)
 	if pedido_asociado != null:
 		_aplicar_datos_al_ticket()
 
