@@ -45,6 +45,10 @@ var dinero_ganado_hoy: int = 0
 var dinero_descontado_hoy: int = 0
 var pedidos_correctos_hoy: int = 0
 
+var evento_cansancio_activo: bool = false
+var corte_luz_activo_metricas: bool = false
+var tiempo_inicio_paquete: float = 0.0
+
 # Cantidad de pedidos por día laboral.
 const OBJETIVOS_POR_DIA: Dictionary = {
 	1: 3,
@@ -56,6 +60,12 @@ const OBJETIVOS_POR_DIA: Dictionary = {
 
 func _ready() -> void:
 	_reiniciar_usos_herramientas()
+	#eventos para las metricas
+	EventBus.evento_cansancio_iniciado.connect(func(_duracion): evento_cansancio_activo = true)
+	EventBus.evento_cansancio_finalizado.connect(func(): evento_cansancio_activo = false)
+
+	EventBus.corte_luz_confirmado.connect(func(): corte_luz_activo_metricas = true)
+	EventBus.evento_corte_luz_finalizado.connect(func(): corte_luz_activo_metricas = false)
 
 func _process(delta: float) -> void:
 	# Avanza los enfriamientos activos; avisa solo cuando uno termina.
@@ -206,6 +216,13 @@ func procesar_denegar_paquete(es_ilegal: bool) -> void:
 func _aplicar_error(motivo: String) -> void:
 	errores_hoy += 1
 	dinero_descontado_hoy += PENALIZACION_ERROR
+	#registramos la hipotesis 3 (evento cansancio)
+	if evento_cansancio_activo:
+		Metrics.record_add("errores_cansancio", 1)
+		print("¡Error cometido bajo CANSANCIO!")
+	else:
+		Metrics.record_add("errores_normales", 1)
+	
 	
 	#dinero_total -= PENALIZACION_ERROR
 	#dinero_cambiado.emit(dinero_total)
@@ -260,4 +277,20 @@ func comprobar_fin_de_dia() -> void:
 		jornada_finalizada.emit()
 	
 		
+func iniciar_temporizador_pedido() -> void:
+	tiempo_inicio_paquete = Time.get_ticks_msec()
+
+func registrar_tiempo_procesamiento_paquete() -> void:
+	if tiempo_inicio_paquete == 0.0:
+		return
 	
+	var tiempo_actual = Time.get_ticks_msec()
+	var segundos_tardados = (tiempo_actual - tiempo_inicio_paquete) / 1000.0
+	
+	# Si el corte de luz está activo, guarda en tiempo_corte_luz; si no, en tiempo_sin_corte
+	if corte_luz_activo_metricas: 
+		Metrics.record_set("tiempo_corte_luz", segundos_tardados)
+	else:
+		Metrics.record_set("tiempo_sin_corte", segundos_tardados)
+		
+	tiempo_inicio_paquete = 0.0

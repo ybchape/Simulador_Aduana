@@ -69,6 +69,9 @@ func _notificar_inicio_inspeccion() -> void:
 	if not notificada_inspeccion:
 		notificada_inspeccion = true
 		EventBus.pedido_en_zona.emit(true)
+#cronometro del pedido 
+	if GameManager.has_method("iniciar_temporizador_pedido"):
+		GameManager.iniciar_temporizador_pedido()
 
 # ==========================================
 # NUEVO: Función para mover la caja hacia la salida
@@ -107,8 +110,10 @@ func registrar_caja(nueva_caja: Node3D) -> void:
 
 func _on_decision_tomada(_fue_permitido: bool) -> void:
 	if estado == "INSPECCIONANDO" and caja_actual != null:
+			if GameManager.has_method("registrar_tiempo_procesamiento_paquete"):
+				GameManager.registrar_tiempo_procesamiento_paquete()
 		# MODIFICADO: Ahora, sin importar si se permite o deniega, pasa a estado SALIENDO
-		estado = "SALIENDO"
+				estado = "SALIENDO"
 
 func _on_objetivo_alcanzado(_stats: Dictionary = {}) -> void:
 	jornada_completada = true
