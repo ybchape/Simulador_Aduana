@@ -9,6 +9,7 @@ var multiplicador_desgaste: float = 1.0
 # La energía siempre arranca en 100
 var energia_actual: float = 100.0
 var esta_en_crisis_cansancio: bool = false # Controla la restricción del evento
+var sueno_activo: bool = false # Controla si el evento de insomnio está activo
 var turno_activo: bool = true
 
 
@@ -19,6 +20,10 @@ func _ready() -> void:
 	EventBus.evento_cansancio_finalizado.connect(_on_cansancio_finalizado)
 	EventBus.alta_demanda_confirmada.connect(_on_alta_demanda_iniciada)
 	EventBus.evento_alta_demanda_finalizado.connect(_on_alta_demanda_finalizada)
+	# Evento de Sueño
+	EventBus.sueno_confirmado.connect(_on_sueno_iniciado)
+	EventBus.evento_sueno_finalizado.connect(_on_sueno_finalizado)
+	
 	reiniciar_energia()
 
 func _process(delta: float) -> void:
@@ -26,19 +31,55 @@ func _process(delta: float) -> void:
 		return
 		
 	# Desgaste continuo y natural por segundo
-	if energia_actual > 0.0:
-		var desgaste = velocidad_desgaste_base * multiplicador_desgaste * delta
-		energia_actual = maxf(0.0, energia_actual - desgaste)
-		actualizar_interfaz()
-
+	#if energia_actual > 0.0:
+	#	var desgaste = velocidad_desgaste_base * multiplicador_desgaste * delta
+	#	energia_actual = maxf(0.0, energia_actual - desgaste)
+	#	actualizar_interfaz()
+	
+	# Desgaste constante de energía (afectado por el multiplicador)
+	energia_actual -= (velocidad_desgaste_base * multiplicador_desgaste) * delta
+	barra_energia.value = energia_actual
+	
+	# CRITERIO 4: Game Over si la energía llega a 0
+	if energia_actual <= 0.0:
+		energia_actual = 0.0
+		turno_activo = false
+		GameManager.trigger_game_over_por_energia()
 
 # Reinicia la barra al 100%
 func reiniciar_energia() -> void:
 	energia_actual = 100.0
 	multiplicador_desgaste = 1.0
-	esta_en_crisis_cansancio = false
+	sueno_activo = false
+	#esta_en_crisis_cansancio = false
 	turno_activo = true
-	actualizar_interfaz()
+	#actualizar_interfaz()
+	barra_energia.value = energia_actual
+	
+# CRITERIO 1, 2 y 5: Inicia con 50%, actualiza barra y se agota más rápido
+func _on_sueno_iniciado() -> void:
+	sueno_activo = true
+	energia_actual = 50.0 
+	multiplicador_desgaste = 2.0 # Se agota el doble de rápido
+	barra_energia.value = energia_actual # Se refleja de inmediato en la UI
+
+func _on_sueno_finalizado() -> void:
+	sueno_activo = false
+	multiplicador_desgaste = 1.0
+
+# CRITERIO 3: Restaurar energía al tomar energizante o café
+func _on_consumible_usado(id: String, nivel: int) -> void:
+	var restauracion = 0.0
+	
+	if id == "energizante":
+		# Podés balancear estos números. Nivel 1 cura 30, Nivel 2 cura 60.
+		restauracion = 30.0 if nivel == 1 else 60.0 
+	elif id == "cafe":
+		restauracion = 25.0
+		
+	# clamp asegura que no pase de 100 ni baje de 0
+	energia_actual = clamp(energia_actual + restauracion, 0.0, 100.0)
+	barra_energia.value = energia_actual
 
 # --- Handlers de Eventos ---
 func _on_cansancio_iniciado() -> void:

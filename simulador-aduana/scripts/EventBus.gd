@@ -37,6 +37,12 @@ signal pagar_reparacion_corte_luz
 # Emite la orden de restaurar energía: id ("energizante" o "cafe") y el nivel actual del consumible
 signal consumible_usado(id: String, nivel: int)
 
+# Evento Sueño / Insomnio 
+signal evento_sueno_iniciado
+signal evento_sueno_finalizado
+signal sueno_confirmado
+
+
 ## El saldo se gestiona en GameManager.dinero_total para que la tienda y el
 ## cierre de turno compartan una sola billetera. Esta función mantiene la API
 ## usada por GestorDia para pagar el neto del turno.
