@@ -3,6 +3,7 @@ extends Node
 
 @export var meta_pedidos_dia: int = 3 # objetivo configurable desde el inspector
 
+
 var pedidos_procesados: int = 0
 var dia_terminado: bool = false
 

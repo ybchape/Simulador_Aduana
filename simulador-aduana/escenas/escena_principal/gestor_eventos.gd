@@ -25,7 +25,7 @@ func _ready() -> void:
 
 	# Elegir UN SOLO evento para el día de hoy
 	seleccionar_evento_del_dia()
-
+#que es 
 	#  Probabilidad del 60% de que ocurra en los días 2 en adelante
 	#if randf() < 0.6:
 		# Se dispara aleatoriamente entre el segundo 15 y el 45 del día
@@ -70,7 +70,7 @@ func seleccionar_evento_del_dia() -> void:
 
 	# Programar la aparición del evento aleatoriamente entre el segundo 15 y 35 del turno
 	var tiempo_aleatorio: float = randf_range(15.0, 35.0)
-	
+
 	match evento_elegido:
 		"cansancio":
 			get_tree().create_timer(tiempo_aleatorio).timeout.connect(disparar_evento_cansancio)
@@ -83,19 +83,19 @@ func seleccionar_evento_del_dia() -> void:
 func disparar_evento_cansancio() -> void:
 	var duracion_evento = randf_range(tiempo_min_duracion, tiempo_max_duracion)
 	print("¡EVENTO DE CANSANCIO PROGRAMADO! Mostrando cartel...")
-	
+
 	# MUESTRA el cartel
 	EventBus.evento_cansancio_iniciado.emit(duracion_evento)
-	
+
 	# Espera a que el jugador cierre el cartel
 	await EventBus.cansancio_confirmado
-	
+
 	# Activar la lentitud y el parpadeo
 	esta_cansado = true
-	
+
 	# Timer para finalizar la crisis
 	await get_tree().create_timer(duracion_evento).timeout
-	
+
 	esta_cansado = false
 	print("El evento de cansancio ha finalizado.")
 	EventBus.evento_cansancio_finalizado.emit()
@@ -123,26 +123,19 @@ func disparar_alta_demanda() -> void:
 	# emite señal para que el spawner aclere y se muestra indicador visual y sonoro
 	EventBus.evento_alta_demanda_iniciado.emit(duracion_demanda)
 
-	# timer
-	await get_tree().create_timer(duracion_demanda).timeout
-
-	esta_alta_demanda = false
-	print ("El evento de ALTA DEMANDA finalizó.")
-	EventBus.evento_alta_demanda_finalizado.emit()
-	
 #  Lógica del Corte de Luz 
 func disparar_corte_luz() -> void:
 	var duracion_corte = randf_range(tiempo_min_duracion, tiempo_max_duracion)
 	print("¡EVENTO CORTE DE LUZ INICIADO!")
 	
 	EventBus.evento_corte_luz_iniciado.emit(duracion_corte, costo_reparacion_luz)
-	
+
 	await EventBus.corte_luz_confirmado
 	esta_corte_luz = true
-	
+
 	# Guarda referencia del timer para poder cancelarlo si paga la reparación
 	timer_corte_luz = get_tree().create_timer(duracion_corte)
-	
+
 	await timer_corte_luz.timeout
 	if esta_corte_luz:
 		finalizar_corte_luz()
@@ -151,7 +144,7 @@ func disparar_corte_luz() -> void:
 func _on_pagar_reparacion_luz() -> void:
 	if not esta_corte_luz:
 		return
-		
+
 	if EventBus.gastar_dinero(costo_reparacion_luz):
 		print("Reparación de luz pagada ($", costo_reparacion_luz, "). Restableciendo energía...")
 		finalizar_corte_luz()
