@@ -3,6 +3,8 @@ extends Node3D
 # Ref a la instancia de la planilla dentro del CanvasLayer
 @onready var planilla_ui: Control = $UIPlanilla/PlanillaUI
 
+@export var game_manager_node: Node 
+
 # Precargamos la escena de la caja para poder instanciar news pedidos por código
 const CAJA_ESCENA = preload("res://escenas/caja/caja.tscn")
 
@@ -82,7 +84,7 @@ func _ready() -> void:
 	# Conectamos la señal del EventBus para que al terminar de salir una caja, se pida la siguiente
 	#EventBus.siguiente_pedido_solicitado.connect(_on_siguiente_pedido_solicitado)
 
-
+	GameManager.game_over.connect(_on_game_over)
 
 # Llena las bolsas de índices para elegir sin repetir
 func _reiniciar_bolsas_de_objetos() -> void:
@@ -238,3 +240,10 @@ func _generar_y_cargar_nuevo_pedido() -> void:
 		planilla_ui.cargar_pedido(pedido_actual)
 	
 	
+func _on_game_over() -> void:
+	# función para ir a la escena de derrota 
+	terminar_partida()
+
+func terminar_partida() -> void:
+	# Cambia a la escena de Game Over
+	get_tree().change_scene_to_file("res://escenas/game_over/game_over.tscn")

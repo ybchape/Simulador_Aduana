@@ -225,3 +225,7 @@ func obtener_stats_resumen() -> Dictionary:
 		"descontado": dinero_descontado_hoy,
 		"neto": dinero_ganado_hoy - dinero_descontado_hoy
 	}
+# Llama a esto cuando la energía del jugador llega a 0
+func trigger_game_over_por_energia() -> void:
+	print("Game Over: El jugador se quedó sin energía.")
+	game_over.emit()

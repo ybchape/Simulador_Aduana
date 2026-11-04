@@ -204,8 +204,11 @@ func _restaurar_vista_camara() -> void:
 
 func _desaparecer_caja(_fue_permitido: bool) -> void:
 	cerrar_caja()
+	if not is_inside_tree():
+		return
+	
 	await get_tree().create_timer(1.0).timeout
-	if is_instance_valid(self):
+	if is_instance_valid(self) and is_inside_tree():
 		queue_free()
 
 func _input(event: InputEvent) -> void:
