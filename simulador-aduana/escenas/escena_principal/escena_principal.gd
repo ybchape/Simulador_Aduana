@@ -85,7 +85,8 @@ func _ready() -> void:
 	#EventBus.siguiente_pedido_solicitado.connect(_on_siguiente_pedido_solicitado)
 
 	GameManager.game_over.connect(_on_game_over)
-
+	GameManager.victoria_juego.connect(_on_victoria_juego)
+	
 # Llena las bolsas de índices para elegir sin repetir
 func _reiniciar_bolsas_de_objetos() -> void:
 	indices_legales_disponibles.clear()
@@ -247,3 +248,6 @@ func _on_game_over() -> void:
 func terminar_partida() -> void:
 	# Cambia a la escena de Game Over
 	get_tree().change_scene_to_file("res://escenas/game_over/game_over.tscn")
+
+func _on_victoria_juego() -> void:
+	get_tree().change_scene_to_file("res://escenas/victoria/victoria.tscn")
