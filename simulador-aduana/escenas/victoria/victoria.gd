@@ -6,7 +6,7 @@ func _ready() -> void:
 	menu_button.pressed.connect(_on_menu_pressed)
 	
 	# Guardamos automáticamente las métricas de esta victoria en el CSV
-	#Metrics.export_to_csv()
+	Metrics.export_to_csv()
 
 
 func _on_menu_pressed() -> void:

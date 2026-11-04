@@ -9,7 +9,7 @@ func _ready() -> void:
 	menu_button.pressed.connect(_on_menu_pressed)
 	
 	#  se guarden automáticamente las métricas acumuladas de la partida en el CSV
-	#Metrics.export_to_csv()
+	Metrics.export_to_csv()
 
 func _on_restart_pressed() -> void:
 	#  Indica al addon que finaliza la sesión actual y arranca una nueva para el reinicio

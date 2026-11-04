@@ -73,5 +73,5 @@ metadata/_custom_type_script = "uid://d0rhmy7dfjibk"
 
 [resource]
 script = ExtResource("2_amgg6")
-metrics = Array[ExtResource("1_gyamx")]([SubResource("Resource_8gies"), SubResource("Resource_47hu0"), SubResource("Resource_wygjy"), SubResource("Resource_4yrls"), SubResource("Resource_c7s6p"), SubResource("Resource_8c0s6"), SubResource("Resource_cynix"), SubResource("Resource_cyqdu"), SubResource("Resource_uiojl"), null])
+metrics = Array[ExtResource("1_gyamx")]([SubResource("Resource_8gies"), SubResource("Resource_47hu0"), SubResource("Resource_wygjy"), SubResource("Resource_4yrls"), SubResource("Resource_c7s6p"), SubResource("Resource_8c0s6"), SubResource("Resource_cynix"), SubResource("Resource_cyqdu"), SubResource("Resource_uiojl")])
 metadata/_custom_type_script = "uid://u3ruhi6dfjny"

@@ -59,6 +59,8 @@ const OBJETIVOS_POR_DIA: Dictionary = {
 }
 
 func _ready() -> void:
+	Metrics.start_new_session()
+	
 	_reiniciar_usos_herramientas()
 	#eventos para las metricas
 	EventBus.evento_cansancio_iniciado.connect(func(_duracion): evento_cansancio_activo = true)
