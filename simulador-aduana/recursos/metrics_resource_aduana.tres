@@ -1,0 +1,92 @@
+[gd_resource type="Resource" script_class="MetricsResource" format=3 uid="uid://cgtp5ji64keib"]
+
+[ext_resource type="Script" uid="uid://d0rhmy7dfjibk" path="res://local_metrics/metric_item.gd" id="1_gyamx"]
+[ext_resource type="Script" uid="uid://u3ruhi6dfjny" path="res://local_metrics/metrics_resouce.gd" id="2_amgg6"]
+
+[sub_resource type="Resource" id="Resource_8gies"]
+script = ExtResource("1_gyamx")
+name = "tutorial completado"
+metric_id = "tutorial_completado"
+data_type = 3
+value = false
+metadata/_custom_type_script = "uid://d0rhmy7dfjibk"
+
+[sub_resource type="Resource" id="Resource_47hu0"]
+script = ExtResource("1_gyamx")
+name = "tiempo tutorial"
+metric_id = "tiempo_tutorial"
+data_type = 1
+value = 0.0
+metadata/_custom_type_script = "uid://d0rhmy7dfjibk"
+
+[sub_resource type="Resource" id="Resource_wygjy"]
+script = ExtResource("1_gyamx")
+name = "uso escaner"
+metric_id = "uso_escaner"
+value = 0
+metadata/_custom_type_script = "uid://d0rhmy7dfjibk"
+
+[sub_resource type="Resource" id="Resource_4yrls"]
+script = ExtResource("1_gyamx")
+name = "uso cuter"
+metric_id = "uso_cuter"
+value = 0
+metadata/_custom_type_script = "uid://d0rhmy7dfjibk"
+
+[sub_resource type="Resource" id="Resource_c7s6p"]
+script = ExtResource("1_gyamx")
+name = "tiempo escaner"
+metric_id = "tiempo_escaner"
+data_type = 1
+value = 0.0
+metadata/_custom_type_script = "uid://d0rhmy7dfjibk"
+
+[sub_resource type="Resource" id="Resource_8c0s6"]
+script = ExtResource("1_gyamx")
+name = "errores cansancio"
+metric_id = "errores_cansancio"
+value = 0
+metadata/_custom_type_script = "uid://d0rhmy7dfjibk"
+
+[sub_resource type="Resource" id="Resource_cynix"]
+script = ExtResource("1_gyamx")
+name = "errores normales"
+metric_id = "errores_normales"
+value = 0
+metadata/_custom_type_script = "uid://d0rhmy7dfjibk"
+
+[sub_resource type="Resource" id="Resource_cyqdu"]
+script = ExtResource("1_gyamx")
+name = "tiempo corte luz"
+metric_id = "tiempo_corte_luz"
+data_type = 1
+value = 0.0
+metadata/_custom_type_script = "uid://d0rhmy7dfjibk"
+
+[sub_resource type="Resource" id="Resource_uiojl"]
+script = ExtResource("1_gyamx")
+name = "tiempo sin corte"
+metric_id = "tiempo_sin_corte"
+data_type = 1
+value = 0.0
+metadata/_custom_type_script = "uid://d0rhmy7dfjibk"
+
+[sub_resource type="Resource" id="Resource_8d7b1"]
+script = ExtResource("1_gyamx")
+name = "dia actual"
+metric_id = "dia_actual"
+value = 0
+metadata/_custom_type_script = "uid://d0rhmy7dfjibk"
+
+[sub_resource type="Resource" id="Resource_4lvyv"]
+script = ExtResource("1_gyamx")
+name = "evento activo"
+metric_id = "evento_activo"
+data_type = 2
+value = ""
+metadata/_custom_type_script = "uid://d0rhmy7dfjibk"
+
+[resource]
+script = ExtResource("2_amgg6")
+metrics = Array[ExtResource("1_gyamx")]([SubResource("Resource_8gies"), SubResource("Resource_47hu0"), SubResource("Resource_wygjy"), SubResource("Resource_4yrls"), SubResource("Resource_c7s6p"), SubResource("Resource_8c0s6"), SubResource("Resource_cynix"), SubResource("Resource_cyqdu"), SubResource("Resource_uiojl"), SubResource("Resource_8d7b1"), SubResource("Resource_4lvyv")])
+metadata/_custom_type_script = "uid://u3ruhi6dfjny"

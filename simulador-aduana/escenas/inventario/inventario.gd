@@ -32,6 +32,8 @@ var pedido_en_zona: bool = false
 var corte_luz_activo: bool = false # Controla si el escáner está inhabilitado 
 var _aviso_tiempo: float = 0.0
 
+
+
 func _ready() -> void:
 	# La caja localiza el inventario por grupo al recibir el clic 3D.
 	add_to_group("inventario")
@@ -155,6 +157,12 @@ func seleccionar(id: String) -> void:
 	if GameManager.obtener_max_usos(id) >= 0 and GameManager.obtener_usos_restantes(id) <= 0:
 		return
 	herramienta_seleccionada = id
+	
+	#if id == "escaner": 
+		#Metrics.record_add("uso_escaner", 1)
+	#elif id == "cuter":
+		#Metrics.record_add("uso_cuter", 1)
+	
 	for slot in hotbar.get_children():
 		if slot is Button:
 			slot.set_pressed_no_signal(slot.get_meta("herramienta_id", "") == id)

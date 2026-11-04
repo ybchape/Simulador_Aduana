@@ -21,6 +21,7 @@ extends Control
 ]
 
 var paso_actual: int = 0
+var tiempo_inicio: float = 0.0
 
 @onready var titulo_label = $PanelContainer/VBoxContainer/Titulo
 @onready var texto_label = $PanelContainer/VBoxContainer/TextoExplicativo
@@ -29,6 +30,8 @@ var paso_actual: int = 0
 @onready var btn_siguiente = $PanelContainer/VBoxContainer/HBoxBotones/BotonSiguiente
 
 func _ready():
+	#guarda el tiempo en milisegundos para empezar
+	tiempo_inicio = Time.get_ticks_msec()
 	actualizar_paso()
 
 func actualizar_paso():
@@ -52,6 +55,7 @@ func _on_boton_siguiente_pressed() -> void:
 		paso_actual += 1
 		actualizar_paso()
 	else:
+		_registrar_metricas_tutorial(true)
 		_ir_a_escena_principal()
 
 func _on_boton_anterior_pressed() -> void:
@@ -61,7 +65,18 @@ func _on_boton_anterior_pressed() -> void:
 
 
 func _on_boton_omitir_pressed() -> void:
+	_registrar_metricas_tutorial(false)
 	_ir_a_escena_principal()
+
+func _registrar_metricas_tutorial(completado: bool) -> void:
+	# Calcula los segundos transcurridos desde que abrió el tutorial
+	var tiempo_actual_ms = Time.get_ticks_msec()
+	var segundos_totales = (tiempo_actual_ms - tiempo_inicio) / 1000.0
+	
+	# Guarda en el addon las métricas 
+	print("Guardando métricas tutorial: ", completado, " | Tiempo: ", segundos_totales)
+	Metrics.record_set("tutorial_completado", completado)
+	Metrics.record_set("tiempo_tutorial", segundos_totales)
 
 func _ir_a_escena_principal() -> void:
 	# Cambia a la escena de la aduana para empezar a jugar
