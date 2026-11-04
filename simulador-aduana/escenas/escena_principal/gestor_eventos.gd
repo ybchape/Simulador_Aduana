@@ -5,12 +5,13 @@ extends Node
 @export var costo_reparacion_luz: float = 150.0
 
 # Lista de todos los eventos aleatorios posibles 
-const EVENTOS_POSIBLES: Array[String] = ["cansancio", "alta_demanda", "corte_luz"]
+const EVENTOS_POSIBLES: Array[String] = ["cansancio", "alta_demanda", "corte_luz", "sueno"]
 
 
 var esta_cansado: bool = false
 var esta_alta_demanda: bool = false
 var esta_corte_luz: bool = false
+var esta_sueno: bool = false
 var timer_corte_luz: SceneTreeTimer = null
 
 func _ready() -> void:
@@ -67,17 +68,36 @@ func seleccionar_evento_del_dia() -> void:
 	GameManager.eventos_usados.append(evento_elegido)
 	
 	print("Día ", GameManager.dia_actual, " - Evento asignado: ", evento_elegido)
-
-	# Programar la aparición del evento aleatoriamente entre el segundo 15 y 35 del turno
-	var tiempo_aleatorio: float = randf_range(15.0, 35.0)
 	
-	match evento_elegido:
-		"cansancio":
-			get_tree().create_timer(tiempo_aleatorio).timeout.connect(disparar_evento_cansancio)
-		"alta_demanda":
-			get_tree().create_timer(tiempo_aleatorio).timeout.connect(disparar_alta_demanda)
-		"corte_luz":
-			get_tree().create_timer(tiempo_aleatorio).timeout.connect(disparar_corte_luz)
+	# El evento de sueño ocurre AL INICIO del día (segundo 1.0)
+	# Los otros ocurren a mitad de la jornada (entre 15 y 35s)
+	if evento_elegido == "sueno":
+		get_tree().create_timer(1.0).timeout.connect(disparar_evento_sueno)
+	else:
+		var tiempo_aleatorio: float = randf_range(15.0, 35.0)
+		match evento_elegido:
+			"cansancio":
+				get_tree().create_timer(tiempo_aleatorio).timeout.connect(disparar_evento_cansancio)
+			"alta_demanda":
+				get_tree().create_timer(tiempo_aleatorio).timeout.connect(disparar_alta_demanda)
+			"corte_luz":
+				get_tree().create_timer(tiempo_aleatorio).timeout.connect(disparar_corte_luz)
+	
+# --- NUEVO EVENTO: SUEÑO ---
+func disparar_evento_sueno() -> void:
+	print("¡EVENTO SUEÑO PROGRAMADO! Mostrando cartel...")
+	
+	# Llama al cartel que creaste
+	EventBus.evento_sueno_iniciado.emit()
+	
+	# Espera a que el jugador cierre el cartel clickeando en OK
+	await EventBus.sueno_confirmado
+	
+	esta_sueno = true
+	print("El personaje arrancó con sueño.")
+	
+	# A diferencia de los otros, el sueño dura TODO el turno.
+	# No hay timer de finalización. Se reinicia solo al pasar de día.
 
 
 func disparar_evento_cansancio() -> void:

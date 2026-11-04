@@ -48,6 +48,7 @@
 [ext_resource type="PackedScene" uid="uid://bkvutkqxtx7rm" path="res://escenas/cuter/cuter.tscn" id="41_cuter"]
 [ext_resource type="Texture2D" uid="uid://ldcrrqfpcnn5" path="res://assets/ui/interfaz/panel_grey_bolts_detail_a.png" id="41_ms636"]
 [ext_resource type="Script" uid="uid://djgpijqibs470" path="res://escenas/escena_principal/cartel_corte_luz.gd" id="47_k4cq1"]
+[ext_resource type="Script" uid="uid://7jpltjp13006" path="res://escenas/escena_principal/cartel_sueno.gd" id="49_7y3nc"]
 
 [sub_resource type="Environment" id="Environment_g4v7s"]
 ambient_light_source = 2
@@ -370,7 +371,6 @@ texture_progress = ExtResource("29_a73fb")
 
 [node name="HUD_Energia" type="CanvasLayer" parent="." unique_id=869395294]
 script = ExtResource("35_lp32y")
-velocidad_desgaste_base = null
 
 [node name="Label_Energia" type="Label" parent="HUD_Energia" unique_id=6996806]
 offset_left = 23.0
@@ -456,6 +456,9 @@ title = "¡APAGÓN EN LA ADUANA!"
 ok_button_text = "Pagar Reparación ($150)"
 cancel_button_text = "Entendido / Esperar"
 script = ExtResource("47_k4cq1")
+
+[node name="CartelSueno" type="ConfirmationDialog" parent="CartelesEventos" unique_id=2104216246]
+script = ExtResource("49_7y3nc")
 
 [connection signal="body_entered" from="ZonaInspeccion" to="ZonaInspeccion" method="_on_body_entered"]
 [connection signal="body_exited" from="ZonaInspeccion" to="ZonaInspeccion" method="_on_body_exited"]
