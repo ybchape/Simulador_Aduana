@@ -6,6 +6,8 @@ extends Control
 var estamos_viendo_pantalla: bool = false
 var esta_cansado: bool = false
 var request_id: int = 0
+var tiempo_inicio_escaner: float = 0.0
+
 
 func _ready() -> void:
 	EventBus.escanear_objeto.connect(_mostrar_en_pantalla)
@@ -24,6 +26,8 @@ func _al_finalizar_cansancio() -> void:
 func _mostrar_en_pantalla(forma_recibida: Mesh) -> void:
 	if not forma_recibida or not modelo_3d:
 		return
+		#cronometra cuando se abre la pantalla
+		tiempo_inicio_escaner = Time.get_ticks_msec()
 	request_id += 1
 	var id_solicitud: int = request_id
 	
@@ -60,6 +64,12 @@ func _mostrar_en_pantalla(forma_recibida: Mesh) -> void:
 	estamos_viendo_pantalla = true
 
 func ocultar() -> void:
+	if tiempo_inicio_escaner > 0.0:
+		var tiempo_actual_ms = Time.get_ticks_msec()
+		var segundos_abierto = (tiempo_actual_ms - tiempo_inicio_escaner) / 1000.0
+		Metrics.record_set("tiempo_escaner", segundos_abierto)
+		tiempo_inicio_escaner = 0.0
+	
 	estamos_viendo_pantalla = false
 	request_id += 1
 	hide()
