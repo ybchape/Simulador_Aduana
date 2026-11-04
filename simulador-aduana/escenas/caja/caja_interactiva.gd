@@ -36,7 +36,7 @@ func _ready() -> void:
 	input_ray_pickable = true
 	if malla_caja:
 		malla_caja_original = malla_caja.mesh
-	EventBus.decision_tomada.connect(_desaparecer_caja)
+	#EventBus.decision_tomada.connect(_desaparecer_caja)
 	_actualizar_objeto_en_caja()
 
 # Mantiene un solo objeto hijo y sincroniza la etiqueta del pedido.
@@ -64,16 +64,24 @@ func _aplicar_datos_al_ticket() -> void:
 	if nodo_ticket and nodo_ticket.has_method("cargar_ticket"):
 		nodo_ticket.cargar_ticket(pedido_asociado)
 
-# Solo permite inspeccionar si esta caja es la actual y la cinta está detenida.
+# permite inspeccionar si esta caja es la actual y la cinta está detenida
 func _pedido_detenido_en_inspeccion() -> bool:
 	var escena_actual: Node = get_tree().current_scene
 	var cinta: Node = escena_actual.get_node_or_null("Espacio_Trabajo/CintaTransportadora") if escena_actual else null
 	if cinta == null:
 		return false
-	var caja_actual: Node = cinta.get("caja_actual") as Node
-	var estado_cinta: String = cinta.get("estado") as String
+
+	# Verifica la cola de la cinta en lugar de la variable 'estado' obsoleta
+	var cola: Array = cinta.get("cola_cajas") as Array
+	if cola == null or cola.is_empty():
+		return false
+
+	var caja_delantera: Node = cola[0] as Node
+	var notificada: bool = cinta.get("notificada_inspeccion") as bool
 	var caja_raiz: Node = get_parent()
-	return caja_actual == caja_raiz and estado_cinta == "INSPECCIONANDO"
+
+	# Retorna true si esta caja es la que está al frente y ya fue notificada en la zona
+	return caja_delantera == caja_raiz and notificada
 
 # Abre la tapa del paquete y revela el objeto sin tomar la decisión de aprobarlo.
 func abrir_caja() -> void:

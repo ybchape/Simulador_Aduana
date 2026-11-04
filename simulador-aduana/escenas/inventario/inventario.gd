@@ -161,25 +161,42 @@ func seleccionar(id: String) -> void:
 	# Avisa a la escena principal para que muestre el modelo de esta herramienta.
 	EventBus.herramienta_seleccionada.emit(id)
 
-# Usa el estado real de la cinta y no el Area3D, que puede fallar o dispararse tarde.
+#el inventario ahora le pregunta directamente a la cinta por cola_cajas[0] 
+#y verifica si esa caja delantera ya fue notificada en la zona de inspección
+# Usa la cola de cajas de la cinta para saber si el pedido delantero está detenido en inspección
 func _esta_pedido_detenido() -> bool:
 	var escena_actual: Node = get_tree().current_scene
 	var cinta: Node = escena_actual.get_node_or_null("Espacio_Trabajo/CintaTransportadora") if escena_actual else null
 	if cinta == null:
 		return false
-	var caja_actual: Node = cinta.get("caja_actual") as Node
-	var estado_cinta: String = cinta.get("estado") as String
-	return estado_cinta == "INSPECCIONANDO" and caja_actual != null
+
+# Verificamos la cola de cajas del nuevo sistema
+	var cola: Array = cinta.get("cola_cajas") as Array
+	if cola == null or cola.is_empty():
+		return false
+
+	var caja_delantera: Node = cola[0] as Node
+	var notificada: bool = cinta.get("notificada_inspeccion") as bool
+
+	# true si la caja del frente ya llegó a la zona de inspección
+	return notificada and caja_delantera != null
 
 func _obtener_caja_interactiva_actual() -> Node:
 	var escena_actual: Node = get_tree().current_scene
 	var cinta: Node = escena_actual.get_node_or_null("Espacio_Trabajo/CintaTransportadora") if escena_actual else null
 	if cinta == null:
 		return null
-	var caja: Node = cinta.get("caja_actual") as Node
-	if caja == null:
+
+# ARRAY PARA LA COLA DE CAJAS
+	var cola: Array = cinta.get("cola_cajas") as Array
+	if cola == null or cola.is_empty():
 		return null
-	return caja.get_node_or_null("caja_interactiva")
+
+	var caja_delantera: Node = cola[0] as Node
+	if caja_delantera == null:
+		return null
+
+	return caja_delantera.get_node_or_null("caja_interactiva")
 
 func _on_slot_pressed(id: String) -> void:
 	var caja_abierta: Node = _obtener_caja_abierta()

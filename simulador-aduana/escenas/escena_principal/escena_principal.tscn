@@ -193,8 +193,11 @@ transform = Transform3D(4.7, 0, 0, 0, 4.7, 0, 0, 0, 4.7, 0.39131773, 2.9798727, 
 [node name="Espacio_Trabajo" type="Node3D" parent="." unique_id=1448636977]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
 
-[node name="CintaTransportadora" type="Node3D" parent="Espacio_Trabajo" unique_id=559761559]
+[node name="CintaTransportadora" type="Node3D" parent="Espacio_Trabajo" unique_id=559761559 node_paths=PackedStringArray("ruta_entrada", "punto_salida_final", "punto_inspeccion")]
 script = ExtResource("12_jn0hn")
+ruta_entrada = [NodePath("PuntoEntrada"), NodePath("PuntoEsquinaAtras"), NodePath("PuntoEsquinaFrente"), NodePath("PuntoInspeccion")]
+punto_salida_final = NodePath("PuntoSalidaPermitido")
+punto_inspeccion = NodePath("PuntoInspeccion")
 
 [node name="conveyor-bars-stripe-high" parent="Espacio_Trabajo/CintaTransportadora" unique_id=95368184 instance=ExtResource("15_1n332")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 1)
