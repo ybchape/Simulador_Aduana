@@ -58,7 +58,7 @@ func reiniciar_energia() -> void:
 func _on_sueno_iniciado() -> void:
 	sueno_activo = true
 	energia_actual = 30.0 
-	multiplicador_desgaste = 2.0 # Se agota el doble de rápido
+	multiplicador_desgaste = 1.4 # Se agota el doble de rápido
 	actualizar_interfaz() # Se refleja de inmediato en la UI
 
 func _on_sueno_finalizado() -> void:
