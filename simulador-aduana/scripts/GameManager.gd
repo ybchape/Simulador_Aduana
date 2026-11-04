@@ -5,7 +5,8 @@ signal dinero_cambiado(nuevo_saldo: int)
 # signals para la gestión de errores y fin de juego 
 signal error_registrado(total_errores: int)
 signal game_over
-
+signal victoria_juego
+signal jornada_finalizada
 # Se emite cuando cambian los usos/estado de una herramienta (refresca la UI).
 signal herramienta_estado_cambiado(id: String, restantes: int, maximo: int)
 
@@ -50,6 +51,7 @@ const OBJETIVOS_POR_DIA: Dictionary = {
 	2: 6,
 	3: 10,
 	4: 15,
+	5: 20,
 }
 
 func _ready() -> void:
@@ -86,6 +88,15 @@ func obtener_objetivo_actual() -> int:
 	return OBJETIVOS_POR_DIA.get(dia_actual, 15)
 
 func avanzar_siguiente_dia() -> void:
+	# Define cuál es el último día para ganar el juego
+	const ULTIMO_DIA: int = 5
+	
+	if dia_actual >= ULTIMO_DIA:
+		# Dispara la victoria
+		print("¡Victoria! Se completaron todos los días laborales.")
+		victoria_juego.emit()
+		return
+	
 	dia_actual += 1
 	pedidos_realizados_hoy = 0
 	# El saldo y las compras se conservan entre días.
@@ -180,6 +191,7 @@ func procesar_aprobar_paquete(es_ilegal: bool) -> void:
 		_aplicar_error("Aprobó un paquete ilegal")
 	else:
 		_registrar_acierto(50) # Recompensa por pedido correcto
+	comprobar_fin_de_dia()
 
 # Llama a esto cuando el jugador deniega un paquete
 func procesar_denegar_paquete(es_ilegal: bool) -> void:
@@ -189,6 +201,7 @@ func procesar_denegar_paquete(es_ilegal: bool) -> void:
 		_aplicar_error("Denegó un paquete correcto")
 	else:
 		_registrar_acierto(50) # Recompensa por rechazo correcto
+	comprobar_fin_de_dia()
 
 func _aplicar_error(motivo: String) -> void:
 	errores_hoy += 1
@@ -225,3 +238,26 @@ func obtener_stats_resumen() -> Dictionary:
 		"descontado": dinero_descontado_hoy,
 		"neto": dinero_ganado_hoy - dinero_descontado_hoy
 	}
+# Llama a esto cuando la energía del jugador llega a 0
+func trigger_game_over_por_energia() -> void:
+	print("Game Over: El jugador se quedó sin energía.")
+	game_over.emit()
+
+# Comprueba si ya se alcanzó la meta de pedidos del día actual
+func comprobar_fin_de_dia() -> void:
+	var objetivo_actual = obtener_objetivo_actual()
+	
+	if pedidos_realizados_hoy >= objetivo_actual:
+		print("¡Meta del día cumplida!")
+		liquidar_dia()
+		# SI ES EL DÍA 5 (EL ÚLTIMO), SALTA DIRECTO A LA VICTORIA
+		const ULTIMO_DIA: int = 5
+		if dia_actual >= ULTIMO_DIA:
+			print("¡Victoria directa al terminar el Día 5!")
+			victoria_juego.emit()
+			return
+		
+		jornada_finalizada.emit()
+	
+		
+	

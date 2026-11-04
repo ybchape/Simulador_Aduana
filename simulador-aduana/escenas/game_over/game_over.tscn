@@ -1,0 +1,58 @@
+[gd_scene format=3 uid="uid://bbfgftkf4a150"]
+
+[ext_resource type="Script" uid="uid://d1s5nmgl8iij1" path="res://escenas/game_over/game_over.gd" id="1_8uokb"]
+
+[node name="GameOver" type="Control" unique_id=1587694735]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_8uokb")
+
+[node name="Fondo" type="ColorRect" parent="." unique_id=345691634]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Fondo" unique_id=1694718174]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -211.0
+offset_top = -172.0
+offset_right = 187.0
+offset_bottom = -35.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TituloPerdiste" type="Label" parent="Fondo/VBoxContainer" unique_id=788305340]
+layout_mode = 2
+theme_override_font_sizes/font_size = 100
+text = "Perdiste"
+
+[node name="Reiniciar" type="Button" parent="Fondo/VBoxContainer/TituloPerdiste" unique_id=868469335]
+layout_mode = 0
+offset_left = 96.0
+offset_top = 235.0
+offset_right = 314.0
+offset_bottom = 312.0
+theme_override_font_sizes/font_size = 50
+text = "Reiniciar"
+
+[node name="Menu" type="Button" parent="Fondo/VBoxContainer/TituloPerdiste" unique_id=21394140]
+layout_mode = 0
+offset_left = -21.0
+offset_top = 447.0
+offset_right = 457.0
+offset_bottom = 524.0
+theme_override_font_sizes/font_size = 50
+text = "Ir al menú principal"
