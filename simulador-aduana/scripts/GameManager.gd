@@ -287,7 +287,7 @@ func comprobar_fin_de_dia() -> void:
 	
 	if pedidos_realizados_hoy >= objetivo_actual:
 		print("¡Meta del día cumplida!")
-		liquidar_dia()
+		#liquidar_dia() CREO QUE ESTO ESTA DE MAS SI NO ME SUMA 2 VECES LA PLATA
 		# SI ES EL DÍA 5 (EL ÚLTIMO), SALTA DIRECTO A LA VICTORIA
 		const ULTIMO_DIA: int = 5
 		if dia_actual >= ULTIMO_DIA:
