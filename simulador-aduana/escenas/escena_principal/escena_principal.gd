@@ -7,6 +7,7 @@ extends Node3D
 
 # Precargamos la escena de la caja para poder instanciar news pedidos por código
 const CAJA_ESCENA = preload("res://escenas/caja/caja.tscn")
+const JUEGO_METRICAS = preload("res://recursos/metrics_resource_aduana.tres")
 
 # Listas de control de historial (para que no se repitan los pedidos)
 static var indices_legales_disponibles: Array[int] = []
@@ -86,6 +87,9 @@ func _ready() -> void:
 
 	GameManager.game_over.connect(_on_game_over)
 	GameManager.victoria_juego.connect(_on_victoria_juego)
+	
+	#registra las metricas al iniciar el juego
+	Metrics.register_metrics(JUEGO_METRICAS)
 	
 # Llena las bolsas de índices para elegir sin repetir
 func _reiniciar_bolsas_de_objetos() -> void:
