@@ -71,7 +71,22 @@ data_type = 1
 value = 0.0
 metadata/_custom_type_script = "uid://d0rhmy7dfjibk"
 
+[sub_resource type="Resource" id="Resource_8d7b1"]
+script = ExtResource("1_gyamx")
+name = "dia actual"
+metric_id = "dia_actual"
+value = 0
+metadata/_custom_type_script = "uid://d0rhmy7dfjibk"
+
+[sub_resource type="Resource" id="Resource_4lvyv"]
+script = ExtResource("1_gyamx")
+name = "evento activo"
+metric_id = "evento_activo"
+data_type = 2
+value = ""
+metadata/_custom_type_script = "uid://d0rhmy7dfjibk"
+
 [resource]
 script = ExtResource("2_amgg6")
-metrics = Array[ExtResource("1_gyamx")]([SubResource("Resource_8gies"), SubResource("Resource_47hu0"), SubResource("Resource_wygjy"), SubResource("Resource_4yrls"), SubResource("Resource_c7s6p"), SubResource("Resource_8c0s6"), SubResource("Resource_cynix"), SubResource("Resource_cyqdu"), SubResource("Resource_uiojl")])
+metrics = Array[ExtResource("1_gyamx")]([SubResource("Resource_8gies"), SubResource("Resource_47hu0"), SubResource("Resource_wygjy"), SubResource("Resource_4yrls"), SubResource("Resource_c7s6p"), SubResource("Resource_8c0s6"), SubResource("Resource_cynix"), SubResource("Resource_cyqdu"), SubResource("Resource_uiojl"), SubResource("Resource_8d7b1"), SubResource("Resource_4lvyv")])
 metadata/_custom_type_script = "uid://u3ruhi6dfjny"

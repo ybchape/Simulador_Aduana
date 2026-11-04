@@ -57,9 +57,11 @@ const OBJETIVOS_POR_DIA: Dictionary = {
 	4: 15,
 	5: 20,
 }
+const METRICS_RESOURCE = preload("res://recursos/metrics_resource_aduana.tres")
+
 
 func _ready() -> void:
-	Metrics.start_new_session()
+	Metrics.register_metrics(METRICS_RESOURCE)
 	
 	_reiniciar_usos_herramientas()
 	#eventos para las metricas
@@ -80,6 +82,15 @@ func _process(delta: float) -> void:
 		if restante <= 0.0:
 			_emitir_estado_herramienta(id)
 
+# Iniciar una nueva sesión de métricas al comenzar el turno del día
+func iniciar_turno_dia() -> void:
+	Metrics.start_new_session()
+	# Registra el día y el evento en la sesión de métricas
+	var dia_a_registrar: int = maxi(1, dia_actual)
+	Metrics.record_set("dia_actual", dia_a_registrar)
+	
+	iniciar_temporizador_pedido()
+
 # Reinicia completamente la partida al perder o volver al menú principal ---
 func reiniciar_partida() -> void:
 	dia_actual = 1
@@ -99,7 +110,13 @@ func reiniciar_partida() -> void:
 func obtener_objetivo_actual() -> int:
 	return OBJETIVOS_POR_DIA.get(dia_actual, 15)
 
+func me_quedan_dias() -> bool:
+	return dia_actual < 5
+
 func avanzar_siguiente_dia() -> void:
+	# Exporta la sesión del día completado al CSV
+	Metrics.export_to_csv()
+	
 	# Define cuál es el último día para ganar el juego
 	const ULTIMO_DIA: int = 5
 	
@@ -121,7 +138,7 @@ func avanzar_siguiente_dia() -> void:
 
 	# Reiniciar los usos de herramientas del nuevo día.
 	_reiniciar_usos_herramientas()
-
+	iniciar_turno_dia()
 # --- Gestión de uso de herramientas (límite diario + cooldown) ----------------
 
 # Reinicia los usos del día (al arrancar el juego y al avanzar de día).
@@ -233,6 +250,7 @@ func _aplicar_error(motivo: String) -> void:
 	print("Error: ", motivo, " | Descuento: -$", PENALIZACION_ERROR)
 	
 	if errores_hoy >= MAX_ERRORES:
+		Metrics.export_to_csv() # Guarda las métricas antes del Game Over
 		game_over.emit()
 		print("Game Over: Se alcanzaron los 3 errores permitidos.")
 
@@ -259,6 +277,7 @@ func obtener_stats_resumen() -> Dictionary:
 	}
 # Llama a esto cuando la energía del jugador llega a 0
 func trigger_game_over_por_energia() -> void:
+	Metrics.export_to_csv()
 	print("Game Over: El jugador se quedó sin energía.")
 	game_over.emit()
 
@@ -272,6 +291,7 @@ func comprobar_fin_de_dia() -> void:
 		# SI ES EL DÍA 5 (EL ÚLTIMO), SALTA DIRECTO A LA VICTORIA
 		const ULTIMO_DIA: int = 5
 		if dia_actual >= ULTIMO_DIA:
+			Metrics.export_to_csv()
 			print("¡Victoria directa al terminar el Día 5!")
 			victoria_juego.emit()
 			return
@@ -291,8 +311,8 @@ func registrar_tiempo_procesamiento_paquete() -> void:
 	
 	# Si el corte de luz está activo, guarda en tiempo_corte_luz; si no, en tiempo_sin_corte
 	if corte_luz_activo_metricas: 
-		Metrics.record_set("tiempo_corte_luz", segundos_tardados)
+		Metrics.record_add("tiempo_corte_luz", segundos_tardados)
 	else:
-		Metrics.record_set("tiempo_sin_corte", segundos_tardados)
+		Metrics.record_add("tiempo_sin_corte", segundos_tardados)
 		
 	tiempo_inicio_paquete = 0.0

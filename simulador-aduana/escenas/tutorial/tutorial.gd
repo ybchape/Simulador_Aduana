@@ -74,6 +74,7 @@ func _registrar_metricas_tutorial(completado: bool) -> void:
 	var segundos_totales = (tiempo_actual_ms - tiempo_inicio) / 1000.0
 	
 	# Guarda en el addon las métricas 
+	print("Guardando métricas tutorial: ", completado, " | Tiempo: ", segundos_totales)
 	Metrics.record_set("tutorial_completado", completado)
 	Metrics.record_set("tiempo_tutorial", segundos_totales)
 

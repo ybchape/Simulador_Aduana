@@ -258,6 +258,14 @@ func _registrar_uso_herramienta(id: String) -> void:
 	herramientas_usadas_en_caja.append(id)
 	GameManager.consumir_uso_herramienta(id)
 
+# --- REGISTRO DIRECTO Y REAL DE MÉTRICAS ---
+	if id == "escaner":
+		Metrics.record_add("uso_escaner", 1)
+		print("Métrica: Uso de Escáner +1")
+	elif id == "cuter":
+		Metrics.record_add("uso_cuter", 1)
+		print("Métrica: Uso de Cúter +1")
+
 func _nombre_herramienta(inventario: Inventario, id: String) -> String:
 	var datos: Dictionary = inventario.herramientas.get(id, {})
 	return str(datos.get("nombre", id))

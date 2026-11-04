@@ -158,10 +158,10 @@ func seleccionar(id: String) -> void:
 		return
 	herramienta_seleccionada = id
 	
-	if id == "escaner": 
-		Metrics.record_add("uso_escaner", 1)
-	elif id == "cuter":
-		Metrics.record_add("uso_cuter", 1)
+	#if id == "escaner": 
+		#Metrics.record_add("uso_escaner", 1)
+	#elif id == "cuter":
+		#Metrics.record_add("uso_cuter", 1)
 	
 	for slot in hotbar.get_children():
 		if slot is Button:

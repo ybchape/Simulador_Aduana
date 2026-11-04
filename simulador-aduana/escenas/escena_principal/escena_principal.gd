@@ -89,7 +89,7 @@ func _ready() -> void:
 	GameManager.victoria_juego.connect(_on_victoria_juego)
 	
 	#registra las metricas al iniciar el juego
-	Metrics.register_metrics(JUEGO_METRICAS)
+	#Metrics.register_metrics(JUEGO_METRICAS)
 	
 # Llena las bolsas de índices para elegir sin repetir
 func _reiniciar_bolsas_de_objetos() -> void:

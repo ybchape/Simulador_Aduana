@@ -81,6 +81,8 @@ func seleccionar_evento_del_dia() -> void:
 
 
 func disparar_evento_cansancio() -> void:
+	# Guarda en las métricas del día que ocurrió el evento de Cansancio
+	Metrics.record_set("evento_activo", "cansancio")
 	var duracion_evento = randf_range(tiempo_min_duracion, tiempo_max_duracion)
 	print("¡EVENTO DE CANSANCIO PROGRAMADO! Mostrando cartel...")
 	
@@ -101,6 +103,7 @@ func disparar_evento_cansancio() -> void:
 	EventBus.evento_cansancio_finalizado.emit()
 
 func disparar_alta_demanda() -> void:
+	Metrics.record_set("evento_activo", "alta_demanda")
 	var duracion_demanda = randf_range(tiempo_min_duracion, tiempo_max_duracion)
 	print ("Evento ALTA DEMANDA activado. Aumenta el flujo de pedidos")
 # Muestra el cartel emitiendo la señal de inicio
@@ -132,6 +135,7 @@ func disparar_alta_demanda() -> void:
 	
 #  Lógica del Corte de Luz 
 func disparar_corte_luz() -> void:
+	Metrics.record_set("evento_activo", "corte_luz")
 	var duracion_corte = randf_range(tiempo_min_duracion, tiempo_max_duracion)
 	print("¡EVENTO CORTE DE LUZ INICIADO!")
 	
