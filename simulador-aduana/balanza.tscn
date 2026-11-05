@@ -7,6 +7,7 @@
 size = Vector3(3.2397156, 0.46533203, 3.1298523)
 
 [node name="Balanza" type="Node3D" unique_id=217098901]
+transform = Transform3D(0.1653218, 0, 0, 0, 0.4081212, 0, 0, 0, 0.15465672, 0, 0, 0)
 script = ExtResource("1_4vpy8")
 
 [node name="AreaBalanza" type="Area3D" parent="." unique_id=848956149 groups=["cajas"]]
@@ -16,11 +17,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.038223267, 0.32578814, -0.0
 shape = SubResource("BoxShape3D_g4v7s")
 
 [node name="container_B2" parent="." unique_id=705844318 instance=ExtResource("2_djpi4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.08023882)
 
 [node name="Label3D" type="Label3D" parent="." unique_id=562432405]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.39706922, -1.793325)
+transform = Transform3D(1.0000001, 0, 0, 0, 1, 0, 0, 0, 1.048382, 0, 0.8221662, -0.5798137)
 billboard = 2
 text = "10.00 kg."
-font_size = 45
+font_size = 80
 
 [connection signal="body_entered" from="AreaBalanza" to="." method="_on_area_balanza_body_entered"]

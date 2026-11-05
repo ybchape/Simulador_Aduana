@@ -123,6 +123,7 @@ func _refrescar_slot(id: String) -> void:
 			_actualizar_slot(slot, id)
 
 func seleccionar(id: String) -> void:
+	print("Intentando seleccionar desde inventario: ", id)
 	#Lógica para Consumibles (Energizante / Café) 
 	if id in ["energizante", "cafe"]:
 		# Verifica si la herramienta está desbloqueada
@@ -155,6 +156,7 @@ func seleccionar(id: String) -> void:
 	if GameManager.obtener_max_usos(id) >= 0 and GameManager.obtener_usos_restantes(id) <= 0:
 		return
 	herramienta_seleccionada = id
+	print("Emitiendo señal para herramienta: ", id)
 	
 	#if id == "escaner": 
 		#Metrics.record_add("uso_escaner", 1)
