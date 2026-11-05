@@ -122,10 +122,8 @@ func _refrescar_slot(id: String) -> void:
 		if slot is Button and slot.get_meta("herramienta_id", "") == id:
 			_actualizar_slot(slot, id)
 
-# --- Selección -------------------------------------------------------------
-
 func seleccionar(id: String) -> void:
-	#Lógica especial para Consumibles (Energizante / Café) ---
+	#Lógica para Consumibles (Energizante / Café) 
 	if id in ["energizante", "cafe"]:
 		# Verifica si la herramienta está desbloqueada
 		if not herramientas.has(id) or not herramientas[id]["desbloqueada"]:
@@ -147,7 +145,7 @@ func seleccionar(id: String) -> void:
 		mostrar_aviso("¡Sin energía! El escáner no funciona.")
 		return
 	
-	if id in ["escaner", "cuter"] and not _esta_pedido_detenido():
+	if id in ["escaner", "cuter" , "balanza"] and not _esta_pedido_detenido():
 		return
 	if _obtener_caja_abierta() != null:
 		return
