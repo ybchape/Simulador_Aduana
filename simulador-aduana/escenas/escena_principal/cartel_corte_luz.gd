@@ -1,5 +1,6 @@
 extends ConfirmationDialog
 
+@onready var audio_stream_player: AudioStreamPlayer3D = $SoundCorteLuz
 
 func _ready() -> void:
 	# Escucha cuando salta la posibilidad del evento
@@ -15,6 +16,10 @@ func _on_evento_iniciado(duracion: float, costo: float) -> void:
 	
 	ok_button_text = "Pagar Reparación ($" + str(int(costo)) + ")"
 	cancel_button_text = "Esperar"
+
+#play sonido de corte de luz
+	if audio_stream_player and audio_stream_player.stream:
+		audio_stream_player.play()
 	
 	# Espera 1 segundo mientras la luz se apaga en la escena 3D
 	await get_tree().create_timer(1.0).timeout

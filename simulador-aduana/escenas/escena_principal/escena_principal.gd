@@ -79,18 +79,18 @@ func _ready() -> void:
 	#EventBus.decision_tomada.connect(_on_decision_tomada)
 	
 	#_generar_y_cargar_nuevo_pedido()
-	
+
 	#$Espacio_Trabajo/CintaTransportadora.registrar_caja($Espacio_Trabajo/caja)
-	
+
 	# Conectamos la señal del EventBus para que al terminar de salir una caja, se pida la siguiente
 	#EventBus.siguiente_pedido_solicitado.connect(_on_siguiente_pedido_solicitado)
 
 	GameManager.game_over.connect(_on_game_over)
 	GameManager.victoria_juego.connect(_on_victoria_juego)
-	
+
 	#registra las metricas al iniciar el juego
 	#Metrics.register_metrics(JUEGO_METRICAS)
-	
+
 # Llena las bolsas de índices para elegir sin repetir
 func _reiniciar_bolsas_de_objetos() -> void:
 	indices_legales_disponibles.clear()

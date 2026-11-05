@@ -9,6 +9,10 @@ func _ready() -> void:
 
 	# Connect cuando presiona el botón "OK" del cartel
 	confirmed.connect(_on_cartel_aceptado)
+	# fuerza a que el botón OK reaccione al primer click
+	var boton_ok = get_ok_button()
+	if boton_ok:
+		boton_ok.action_mode = BaseButton.ACTION_MODE_BUTTON_PRESS
 
 func _on_evento_iniciado(_duracion: float) -> void:
 	dialog_text = "¡ALTA DEMANDA! El flujo de paquetes aumentó significativamente. ¡A trabajar!"
