@@ -12,7 +12,7 @@ func _ready() -> void:
 
 func _on_evento_iniciado() -> void:
 	title = "¡MALA NOCHE!"
-	dialog_text = "No pudiste dormir bien. Tu energía inicial está al 30% y te cansarás el doble de rápido durante el turno.\n\nVas a necesitar comprar energizantes en la tienda." 
+	dialog_text = "No pudiste dormir bien. Tu energía inicial está al 30% y te cansarás más rápido durante el turno.\n\nVas a necesitar comprar energizantes en la tienda."
 	
 	ok_button_text = "Comenzar jornada"
 	

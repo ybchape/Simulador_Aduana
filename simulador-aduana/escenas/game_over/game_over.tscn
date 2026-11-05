@@ -40,6 +40,7 @@ theme_override_font_sizes/font_size = 100
 text = "Perdiste"
 
 [node name="Reiniciar" type="Button" parent="Fondo/VBoxContainer/TituloPerdiste" unique_id=868469335]
+visible = false
 layout_mode = 0
 offset_left = 96.0
 offset_top = 235.0

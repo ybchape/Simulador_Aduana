@@ -60,6 +60,9 @@ const OBJETIVOS_POR_DIA: Dictionary = {
 const METRICS_RESOURCE = preload("res://recursos/metrics_resource_aduana.tres")
 
 
+#Variable para implementar la penalizacion del cuter
+var paquete_actual_abierto_con_cuter: bool = false
+
 func _ready() -> void:
 	Metrics.register_metrics(METRICS_RESOURCE)
 	
@@ -219,9 +222,9 @@ func procesar_aprobar_paquete(es_ilegal: bool) -> void:
 		# Aprobar paquete con objetos ilegales descuenta $20
 		_aplicar_error("Aprobó un paquete ilegal")
 	else:
-		_registrar_acierto(50) # Recompensa por pedido correcto
+		_registrar_acierto() 
 	comprobar_fin_de_dia()
-
+	paquete_actual_abierto_con_cuter = false # Reinicia para el próximo pedido
 # Llama a esto cuando el jugador deniega un paquete
 func procesar_denegar_paquete(es_ilegal: bool) -> void:
 	pedidos_realizados_hoy += 1
@@ -229,8 +232,17 @@ func procesar_denegar_paquete(es_ilegal: bool) -> void:
 		# Denegar un paquete correcto descuenta $20
 		_aplicar_error("Denegó un paquete correcto")
 	else:
-		_registrar_acierto(50) # Recompensa por rechazo correcto
+		_registrar_acierto() 
 	comprobar_fin_de_dia()
+	paquete_actual_abierto_con_cuter = false # Reinicia para el próximo pedido
+	
+# Registra el acierto aplicando la penalización si se usó el cúter
+func _registrar_acierto() -> void:
+	var recompensa: int = 30 if paquete_actual_abierto_con_cuter else 50
+	
+	pedidos_correctos_hoy += 1
+	dinero_ganado_hoy += recompensa
+	print("Pedido correcto. Recompensa: $", recompensa)
 
 func _aplicar_error(motivo: String) -> void:
 	errores_hoy += 1
@@ -254,11 +266,6 @@ func _aplicar_error(motivo: String) -> void:
 		game_over.emit()
 		print("Game Over: Se alcanzaron los 3 errores permitidos.")
 
-func _registrar_acierto(recompensa: int) -> void:
-	pedidos_correctos_hoy += 1
-	dinero_ganado_hoy += recompensa
-	#dinero_total += recompensa
-	#dinero_cambiado.emit(dinero_total)
 
 # Método para liquidar el saldo del día en la billetera
 func liquidar_dia() -> void:
@@ -287,7 +294,7 @@ func comprobar_fin_de_dia() -> void:
 	
 	if pedidos_realizados_hoy >= objetivo_actual:
 		print("¡Meta del día cumplida!")
-		liquidar_dia()
+		#liquidar_dia() CREO QUE ESTO ESTA DE MAS SI NO ME SUMA 2 VECES LA PLATA
 		# SI ES EL DÍA 5 (EL ÚLTIMO), SALTA DIRECTO A LA VICTORIA
 		const ULTIMO_DIA: int = 5
 		if dia_actual >= ULTIMO_DIA:
