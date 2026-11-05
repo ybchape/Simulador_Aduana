@@ -263,6 +263,7 @@ func _registrar_uso_herramienta(id: String) -> void:
 		Metrics.record_add("uso_escaner", 1)
 		print("Métrica: Uso de Escáner +1")
 	elif id == "cuter":
+		GameManager.paquete_actual_abierto_con_cuter = true # Activa la penalización de $30
 		Metrics.record_add("uso_cuter", 1)
 		print("Métrica: Uso de Cúter +1")
 
