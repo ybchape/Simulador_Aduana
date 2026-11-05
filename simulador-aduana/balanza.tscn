@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://ba6x065hx22rp"]
+
+[ext_resource type="Script" uid="uid://dc08hvqodc16c" path="res://balanza.gd" id="1_4vpy8"]
+[ext_resource type="PackedScene" uid="uid://hplx2r3d5u4r" path="res://assets/GLB format/gltf/container_B.gltf" id="2_djpi4"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_g4v7s"]
+size = Vector3(3.2397156, 0.46533203, 3.1298523)
+
+[node name="Balanza" type="Node3D" unique_id=217098901]
+script = ExtResource("1_4vpy8")
+
+[node name="AreaBalanza" type="Area3D" parent="." unique_id=848956149 groups=["cajas"]]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="AreaBalanza" unique_id=1075633126]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.038223267, 0.32578814, -0.008834839)
+shape = SubResource("BoxShape3D_g4v7s")
+
+[node name="container_B2" parent="." unique_id=705844318 instance=ExtResource("2_djpi4")]
+
+[node name="Label3D" type="Label3D" parent="." unique_id=562432405]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.39706922, -1.793325)
+billboard = 2
+text = "10.00 kg."
+font_size = 45
+
+[connection signal="body_entered" from="AreaBalanza" to="." method="_on_area_balanza_body_entered"]
