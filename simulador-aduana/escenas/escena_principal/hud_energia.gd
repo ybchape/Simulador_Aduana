@@ -3,7 +3,7 @@ extends CanvasLayer
 @onready var barra_energia: TextureProgressBar = $Barra_Energia
 
 # --- Configuración del desgaste pasivo ---
-@export var velocidad_desgaste_base: float = 0.0 # Porcentaje de energía que baja por segundo
+@export var velocidad_desgaste_base: float = 0.5 # Porcentaje de energía que baja por segundo
 var multiplicador_desgaste: float = 1.0
 
 # La energía siempre arranca en 100

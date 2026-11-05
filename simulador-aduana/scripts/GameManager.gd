@@ -12,7 +12,7 @@ signal herramienta_estado_cambiado(id: String, restantes: int, maximo: int)
 
 var dia_actual: int = 1
 # la billetera empieza vacía y es la fuente única de plata
-var dinero_total: int = 500 # CAMBIA ESTO CORAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL
+var dinero_total: int = 0 
 var pedidos_realizados_hoy: int = 0
 var mejoras_compradas: Array[String] = []
 
