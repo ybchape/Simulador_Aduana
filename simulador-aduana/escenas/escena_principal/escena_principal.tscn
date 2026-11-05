@@ -198,6 +198,7 @@ script = ExtResource("12_jn0hn")
 ruta_entrada = [NodePath("PuntoEntrada"), NodePath("PuntoEsquinaAtras"), NodePath("PuntoEsquinaFrente"), NodePath("PuntoInspeccion")]
 punto_salida_final = NodePath("PuntoSalidaPermitido")
 punto_inspeccion = NodePath("PuntoInspeccion")
+escena_caja = ExtResource("20_7y3nc")
 
 [node name="conveyor-bars-stripe-high" parent="Espacio_Trabajo/CintaTransportadora" unique_id=95368184 instance=ExtResource("15_1n332")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 1)

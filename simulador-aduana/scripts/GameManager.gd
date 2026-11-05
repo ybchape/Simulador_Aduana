@@ -258,6 +258,3 @@ func comprobar_fin_de_dia() -> void:
 			return
 		
 		jornada_finalizada.emit()
-	
-		
-	

@@ -18,6 +18,9 @@ var velocidad_animacion_base: float = 0.5
 var cola_cajas: Array[Node3D] = []
 @export var limite_maximo_cola: int = 4
 @export var punto_inspeccion: Marker3D
+@export var escena_caja: PackedScene
+@export var tiempo_entre_spawns: float = 1.5 # Tiempo de espera entre cajas
+var temporizador_spawn: float = 0.0
 
 var jornada_completada: bool = false
 var notificada_inspeccion: bool = false
@@ -38,12 +41,18 @@ func _process(delta: float) -> void:
 	if jornada_completada:
 		return
 
-	#  Desplaza la textura solo cuando la caja se mueve
-	#  valida si hay cajas en la cola en lugar de caja_actual
+	# Control de generación automática de nuevas cajas si hay espacio en la cola
+	if cola_cajas.size() < limite_maximo_cola:
+		temporizador_spawn += delta
+		if temporizador_spawn >= tiempo_entre_spawns:
+			temporizador_spawn = 0.0
+			_intentar_spawnear_caja()
+	else:
+		temporizador_spawn = 0.0 # Resetea si está llena
+
 	if not cola_cajas.is_empty() and material_cinta != null:
 		material_cinta.uv1_offset.x += delta * velocidad_animacion_cinta
 
-	# Reemplaza la lógica individual por el procesamiento de la cola 
 	_procesar_cola_cajas(delta)
 
 func _procesar_cola_cajas(delta: float) -> void:
@@ -171,3 +180,19 @@ func _on_alta_demanda_finalizado() -> void:
 		print ("Alta demanda FINALIZADA. Velocidad de la cinta normal.")
 		velocidad = velocidad_base
 		velocidad_animacion_cinta = velocidad_animacion_base
+
+func _intentar_spawnear_caja() -> void:
+	if escena_caja == null:
+		return
+
+	# Instanciamos la nueva caja
+	var nueva_caja = escena_caja.instantiate()
+
+	# La agregamos como hija de la escena principal o de la cinta
+	get_tree().current_scene.add_child(nueva_caja)
+
+	# Opcional: si la caja necesita datos aleatorios de pedido al nacer, puedes generarlos o inicializarlos aquí
+	
+	# La registramos en la cinta para que comience su recorrido de entrada
+	registrar_caja(nueva_caja)
+	print("¡Nuevo pedido spawner creado en la cinta!")
