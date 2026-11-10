@@ -25,6 +25,11 @@ func _ready() -> void:
 	EventBus.sueno_confirmado.connect(_on_sueno_iniciado)
 	EventBus.evento_sueno_finalizado.connect(_on_sueno_finalizado)
 	
+	# NUEVAS CONEXIONES PARA PAUSAR ENERGÍA
+	EventBus.tienda_abierta.connect(_on_pausar_energia)
+	EventBus.tienda_cerrada.connect(_on_reanudar_energia)
+	EventBus.objetivo_dia_alcanzado.connect(_on_fin_de_dia)
+	
 	reiniciar_energia()
 
 
@@ -118,3 +123,13 @@ func _on_decision_tomada(_fue_permitido: bool) -> void:
 func actualizar_interfaz() -> void:
 	if barra_energia:
 		barra_energia.value = clamp(energia_actual, 0.0, 100.0)
+
+# --- Funciones para pausar el desgaste ---
+func _on_pausar_energia() -> void:
+	turno_activo = false
+
+func _on_reanudar_energia() -> void:
+	turno_activo = true
+
+func _on_fin_de_dia(_stats: Dictionary) -> void:
+	turno_activo = false
