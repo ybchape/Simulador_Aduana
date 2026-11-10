@@ -62,8 +62,8 @@ func reiniciar_energia() -> void:
 # CRITERIO 1, 2 y 5: Inicia con 50%, actualiza barra y se agota más rápido
 func _on_sueno_iniciado() -> void:
 	sueno_activo = true
-	energia_actual = 30.0 
-	multiplicador_desgaste = 1.4 # Se agota el doble de rápido
+	energia_actual = 70.0 
+	multiplicador_desgaste = 1.7 # Se agota el doble de rápido
 	actualizar_interfaz() # Se refleja de inmediato en la UI
 
 func _on_sueno_finalizado() -> void:
