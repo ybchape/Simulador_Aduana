@@ -16,6 +16,8 @@ signal siguiente_pedido_solicitado
 signal dinero_cambiado(nuevo_saldo: float)
 signal herramienta_desbloqueada(id: String)
 signal herramienta_mejorada(id: String, nivel: int)
+signal tienda_abierta
+signal tienda_cerrada
 
 # Se emite cuando el jugador elige (o suelta) una herramienta activa. "" = ninguna.
 signal herramienta_seleccionada(id: String)

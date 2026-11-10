@@ -21,6 +21,7 @@ const PRECIO_COMPRA_ENERGIZANTE: int = 150
 @onready var nivel_energizante: Label = $ScrollContainer/VBoxContainer/PanelEnergizante/HBoxContainer/VBoxContainer/Nivel_energizante
 
 func _ready() -> void:
+	visibility_changed.connect(_on_visibility_changed)
 	_conectar_botones()
 	if not GameManager.dinero_cambiado.is_connected(_on_dinero_cambiado):
 		GameManager.dinero_cambiado.connect(_on_dinero_cambiado)
@@ -148,3 +149,9 @@ func _pagar(precio: int) -> bool:
 
 func _on_button_cerrar_pressed() -> void:
 	hide()
+
+func _on_visibility_changed() -> void:
+	if visible:
+		EventBus.tienda_abierta.emit()
+	else:
+		EventBus.tienda_cerrada.emit()
