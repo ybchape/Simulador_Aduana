@@ -33,6 +33,7 @@ func _ready() -> void:
 	player_cinta = AudioStreamPlayer.new()
 	player_cinta.name = "PlayerCinta"
 	player_cinta.bus = "Master"
+	player_cinta.volume_db = -6.0
 	add_child(player_cinta)
 
 	# Volumen más bajo que los efectos de sonido con el bus nuevo que cree
