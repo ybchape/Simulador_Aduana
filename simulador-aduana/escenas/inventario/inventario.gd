@@ -157,7 +157,7 @@ func seleccionar(id: String) -> void:
 		return
 	herramienta_seleccionada = id
 	print("Emitiendo señal para herramienta: ", id)
-	
+
 	#if id == "escaner": 
 		#Metrics.record_add("uso_escaner", 1)
 	#elif id == "cuter":
