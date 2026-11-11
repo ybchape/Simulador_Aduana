@@ -91,7 +91,11 @@ func iniciar_turno_dia() -> void:
 	# Registra el día y el evento en la sesión de métricas
 	var dia_a_registrar: int = maxi(1, dia_actual)
 	Metrics.record_set("dia_actual", dia_a_registrar)
-	
+
+	# llama a la música de gameplay al empezar el turno
+	if AudioManager.has_method("reproducir_musica_gameplay"):
+		AudioManager.reproducir_musica_gameplay()
+
 	iniciar_temporizador_pedido()
 
 # Reinicia completamente la partida al perder o volver al menú principal ---

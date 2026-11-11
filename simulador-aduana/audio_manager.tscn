@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://co1pj74yxni14"]
+
+[ext_resource type="Script" uid="uid://6ho7um3eniy1" path="res://audio_manager.gd" id="1_jisk1"]
+
+[node name="Node3D" type="Node3D" unique_id=1472631742]
+script = ExtResource("1_jisk1")

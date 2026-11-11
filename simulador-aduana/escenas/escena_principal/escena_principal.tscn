@@ -44,12 +44,12 @@
 [ext_resource type="Script" uid="uid://bq5i1rmxvf3n4" path="res://escenas/escena_principal/cartel_cansancio.gd" id="39_mbhr4"]
 [ext_resource type="Script" uid="uid://bfl2ylkyagrsx" path="res://escenas/escena_principal/cartel_alta_demanda.gd" id="40_cr0xl"]
 [ext_resource type="Script" uid="uid://bafm1klo2yqyh" path="res://escenas/escena_principal/herramienta_en_escena.gd" id="40_herram"]
-[ext_resource type="AudioStream" uid="uid://cp1sgs37jgevb" path="res://sounds/alarm_alta_demanda.mp3" id="41_2yig5"]
+[ext_resource type="AudioStream" uid="uid://cp1sgs37jgevb" path="res://sounds/events/alarm_alta_demanda.mp3" id="41_2yig5"]
 [ext_resource type="PackedScene" uid="uid://bkvutkqxtx7rm" path="res://escenas/cuter/cuter.tscn" id="41_cuter"]
 [ext_resource type="Texture2D" uid="uid://ldcrrqfpcnn5" path="res://assets/ui/interfaz/panel_grey_bolts_detail_a.png" id="41_ms636"]
 [ext_resource type="Script" uid="uid://djgpijqibs470" path="res://escenas/escena_principal/cartel_corte_luz.gd" id="47_k4cq1"]
 [ext_resource type="Script" uid="uid://7jpltjp13006" path="res://escenas/escena_principal/cartel_sueno.gd" id="49_7y3nc"]
-[ext_resource type="AudioStream" uid="uid://chd0043ch5s0k" path="res://sounds/sound_corte_luz.wav" id="49_wqth3"]
+[ext_resource type="AudioStream" uid="uid://chd0043ch5s0k" path="res://sounds/events/sound_corte_luz.wav" id="49_wqth3"]
 
 [sub_resource type="Environment" id="Environment_g4v7s"]
 ambient_light_source = 2
