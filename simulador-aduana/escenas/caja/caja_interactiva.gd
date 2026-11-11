@@ -246,10 +246,12 @@ func _on_input_event(_camera: Node, event: InputEvent, _event_position: Vector3,
 	match herramienta:
 		"escaner":
 			if _puede_escanear():
+				AudioManager.reproducir_escaner() # sonidito beep
 				escanear_contenido()
 				_registrar_uso_herramienta(herramienta)
 		"cuter":
 			if _puede_iniciar_apertura():
+				AudioManager.reproducir_cutter() #sonido cutter
 				abrir_caja()
 				_registrar_uso_herramienta(herramienta)
 
