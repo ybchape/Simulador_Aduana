@@ -6,6 +6,9 @@ extends Resource
 @export var codigo_identificador: String = ""
 @export var es_ilegal: bool = false
 
+# Indica si el ticket debe mostrar una apariencia sospechosa
+@export var es_sospechoso: bool = false
+
 # Datos falsificados para el ticket de la caja (si la caja inconsistencias)
 @export var ticket_producto: String = ""
 @export var ticket_peso_kg: float = 0.0

@@ -202,12 +202,15 @@ func _generar_y_cargar_nuevo_pedido() -> void:
 	# Determinar si el paquete será ilegal (30% de probabilidad)
 	pedido_actual.es_ilegal = randf() < 0.3
 	
+	# Si es ilegal es sospechoso (100%). Si es legal, hay 15% de chance de que parezca sospechoso (falsa alarma)
 	# Asigna el modelo 3D y el nombre según el historial sin repetición
 	if pedido_actual.es_ilegal:
+		pedido_actual.es_sospechoso = true
 		var idx = _obtener_indice_ilegal_unico()
 		pedido_actual.nombre_producto = nombres_ilegales[idx]
 		pedido_actual.objeto_escena = mallas_ilegales[idx]
 	else:
+		pedido_actual.es_sospechoso = (randf() < 0.15)
 		var idx = _obtener_indice_legal_unico()
 		pedido_actual.nombre_producto = nombres_legales[idx]
 		pedido_actual.objeto_escena = mallas_legales[idx]
