@@ -1,7 +1,7 @@
 extends Node
 
-const MUSICA_MENU = preload     
-const MUSICA_GAMEPLAY = preload 
+const MUSICA_MENU = preload ("res://sounds/music_main_menu.mp3")
+const MUSICA_GAMEPLAY = preload ("res://sounds/music_gameplay.wav")
 
 var player_musica: AudioStreamPlayer
 
