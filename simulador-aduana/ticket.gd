@@ -5,6 +5,7 @@ extends Control
 @onready var lbl_peso: Label = $Fondo/MarginContainer/VBoxContainer/LblPeso
 @onready var lbl_codigo: Label = $Fondo/MarginContainer/VBoxContainer/LblCodigo
 @onready var lbl_titulo: Label = $Fondo/MarginContainer/VBoxContainer/LblTitulo
+@onready var textura_arruga: TextureRect = $Fondo/TexturaArruga 
 
 var datos_pendientes: PedidoInfo = null
 
@@ -37,10 +38,10 @@ func cargar_ticket(datos: PedidoInfo) -> void:
 	
 	# --- VARIACIÓN VISUAL DE SOSPECHA ---
 	if datos.es_sospechoso:
-		# Modula el papel para llamar la atención del jugador
-		fondo.self_modulate = Color(0.82, 0.82, 0.8)
-		# El código identificador en rojo alerta
-		lbl_codigo.modulate = Color(0.85, 0.15, 0.15)
+		rotation_degrees = randf_range(-6.0, 6.0)
+		if textura_arruga:
+			textura_arruga.show()
 	else:
-		fondo.self_modulate = Color(1.0, 1.0, 1.0)
-		lbl_codigo.modulate = Color(0.1, 0.1, 0.1)
+		rotation_degrees = 0.0
+		if textura_arruga:
+			textura_arruga.hide()
