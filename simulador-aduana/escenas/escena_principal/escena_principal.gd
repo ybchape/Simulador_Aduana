@@ -8,6 +8,7 @@ extends Node3D
 # Precargamos la escena de la caja para poder instanciar news pedidos por código
 const CAJA_ESCENA = preload("res://escenas/caja/caja.tscn")
 const JUEGO_METRICAS = preload("res://recursos/metrics_resource_aduana.tres")
+const MARGEN_PESO_TOLERADO: float = 0.5 # Diferencia máxima permitida en kg
 
 # Listas de control de historial (para que no se repitan los pedidos)
 static var indices_legales_disponibles: Array[int] = []
@@ -205,12 +206,12 @@ func _generar_y_cargar_nuevo_pedido() -> void:
 	# Si es ilegal es sospechoso (100%). Si es legal, hay 15% de chance de que parezca sospechoso (falsa alarma)
 	# Asigna el modelo 3D y el nombre según el historial sin repetición
 	if pedido_actual.es_ilegal:
-		pedido_actual.es_sospechoso = true
+		
 		var idx = _obtener_indice_ilegal_unico()
 		pedido_actual.nombre_producto = nombres_ilegales[idx]
 		pedido_actual.objeto_escena = mallas_ilegales[idx]
 	else:
-		pedido_actual.es_sospechoso = (randf() < 0.15)
+		
 		var idx = _obtener_indice_legal_unico()
 		pedido_actual.nombre_producto = nombres_legales[idx]
 		pedido_actual.objeto_escena = mallas_legales[idx]
@@ -223,24 +224,38 @@ func _generar_y_cargar_nuevo_pedido() -> void:
 
 
 	if pedido_actual.es_ilegal:
+		pedido_actual.es_sospechoso = true
 		# Alterar alguno de los datos del Ticket para crear la discrepancia
 		var tipo_error = randi() % 3
 		if tipo_error == 0:
+			# ILEGAL POR PESO EXCEDIDO (Diferencia mayor al margen de 0.5 kg)
+			var exceso = randf_range(1.2, 4.0)
+			pedido_actual.ticket_peso_kg = snappedf(pedido_actual.peso_kg + exceso, 0.1)
+			pedido_actual.ticket_producto = pedido_actual.nombre_producto
+			pedido_actual.ticket_codigo_identificador = pedido_actual.codigo_identificador
+		elif tipo_error == 1:
+			# ILEGAL POR CÓDIGO (Formato inválido, ej: termina en XX)
+			pedido_actual.ticket_codigo_identificador = pedido_actual.codigo_identificador.replace("VY", "XX")
+			pedido_actual.ticket_producto = pedido_actual.nombre_producto
+			pedido_actual.ticket_peso_kg = pedido_actual.peso_kg
+		else:
+			# ILEGAL POR PRODUCTO PROHIBIDO DIRECTO
 			pedido_actual.ticket_producto = "Producto Prohibido"
 			pedido_actual.ticket_peso_kg = pedido_actual.peso_kg
 			pedido_actual.ticket_codigo_identificador = pedido_actual.codigo_identificador
-		elif tipo_error == 1:
-			pedido_actual.ticket_producto = pedido_actual.nombre_producto
-			pedido_actual.ticket_peso_kg = pedido_actual.peso_kg + 5.0 # Peso falso
-			pedido_actual.ticket_codigo_identificador = pedido_actual.codigo_identificador
-		else:
-			pedido_actual.ticket_producto = pedido_actual.nombre_producto
-			pedido_actual.ticket_peso_kg = pedido_actual.peso_kg
-			pedido_actual.ticket_codigo_identificador = "RF-000 XX" # Código falso
 	else:
-		# Coinciden exactamente
+	# PEDIDO LEGAL
+		# 40% de los pedidos legales tienen un pequeño desvío dentro del margen (Tolerado)
+		if randf() < 0.4:
+			pedido_actual.es_sospechoso = true # Para que active el ticket arrugado/duda
+			# Varía pero DENTRO del margen permitido (ej: +0.3 kg)
+			var variacion_tolerada = randf_range(0.1, MARGEN_PESO_TOLERADO)
+			pedido_actual.ticket_peso_kg = snappedf(pedido_actual.peso_kg + variacion_tolerada, 0.1)
+		else:
+			pedido_actual.es_sospechoso = false
+			pedido_actual.ticket_peso_kg = pedido_actual.peso_kg
+			
 		pedido_actual.ticket_producto = pedido_actual.nombre_producto
-		pedido_actual.ticket_peso_kg = pedido_actual.peso_kg
 		pedido_actual.ticket_codigo_identificador = pedido_actual.codigo_identificador
 
 	# UPDATE la planilla con los datos de esta nueva order
