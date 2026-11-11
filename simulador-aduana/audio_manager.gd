@@ -1,3 +1,4 @@
+class_name AudioManagerClass
 extends Node
 
 const MUSICA_MENU = preload ("res://sounds/music_main_menu.mp3")
@@ -10,8 +11,8 @@ func _ready() -> void:
 	player_musica = AudioStreamPlayer.new()
 	add_child(player_musica)
 
-	# Volumen más bajo que los efectos de sonido 
-	player_musica.bus = "Master" 
+	# Volumen más bajo que los efectos de sonido con el bus nuevo que cree
+	player_musica.bus = "Musica"  
 
 	# inicia con la música del menú principal
 	reproducir_musica_menu()

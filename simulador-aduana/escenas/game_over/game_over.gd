@@ -19,6 +19,7 @@ func _on_restart_pressed() -> void:
 	get_tree().change_scene_to_file("res://escenas/escena_principal/escena_principal.tscn")
 
 func _on_menu_pressed() -> void:
+	AudioManager.reproducir_musica_menu() # llama a la musica del menu principal
 	#  Cierra la sesión actual de métricas
 	#Metrics.start_new_session()
 	
