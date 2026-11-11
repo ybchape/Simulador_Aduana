@@ -38,8 +38,15 @@ func _process(delta: float) -> void:
 		AudioManager.alternar_sonido_cinta(false)
 		return
 
+# detecta si la cinta se está moviendo 
+	var esta_moviendose: bool = estado in ["AVANZANDO", "SALIENDO"]
+
+	# llama al AudioManager para reproducir o detener el loop de la cinta
+	AudioManager.alternar_sonido_cinta(esta_moviendose)
+
 	# ANIMACIÓN VISUAL: Desplazamos la textura solo cuando la caja se mueve
-	if estado in ["AVANZANDO", "SALIENDO"] and material_cinta != null:
+	#if estado in ["AVANZANDO", "SALIENDO"] and material_cinta != null:
+	if esta_moviendose and material_cinta != null: # lo cambie de estado- Cori
 		material_cinta.uv1_offset.x += delta * velocidad_animacion_cinta
 
 	if caja_actual == null:
