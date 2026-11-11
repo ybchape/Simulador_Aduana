@@ -82,9 +82,8 @@ func _notificar_inicio_inspeccion() -> void:
 	if GameManager.has_method("iniciar_temporizador_pedido"):
 		GameManager.iniciar_temporizador_pedido()
 
-# ==========================================
-# NUEVO: Función para mover la caja hacia la salida
-# ==========================================
+
+# func para mover la caja hacia la salida
 func _mover_salida(delta: float) -> void:
 	if punto_salida_final == null:
 		return
@@ -100,8 +99,8 @@ func _mover_salida(delta: float) -> void:
 		if is_instance_valid(caja_actual):
 			caja_actual.queue_free()
 		caja_actual = null
-		
-		# Aquí dispararemos el siguiente pedido automáticamente
+
+		# dispara el sgte pedido automaticamente
 		EventBus.emit_signal("siguiente_pedido_solicitado")
 
 func registrar_caja(nueva_caja: Node3D) -> void:
@@ -113,7 +112,7 @@ func registrar_caja(nueva_caja: Node3D) -> void:
 
 	caja_actual = nueva_caja
 	indice_punto_actual = 0
-	# se teletransporta al primer punto (Persiana)
+	# se transporta al primer marker 3d
 	caja_actual.global_position = ruta_entrada[0].global_position
 	estado = "AVANZANDO"
 
@@ -121,7 +120,7 @@ func _on_decision_tomada(_fue_permitido: bool) -> void:
 	if estado == "INSPECCIONANDO" and caja_actual != null:
 			if GameManager.has_method("registrar_tiempo_procesamiento_paquete"):
 				GameManager.registrar_tiempo_procesamiento_paquete()
-		# MODIFICADO: Ahora, sin importar si se permite o deniega, pasa a estado SALIENDO
+		# sin importar si se permite o deniega, pasa a estado SALIENDO
 				estado = "SALIENDO"
 
 func _on_objetivo_alcanzado(_stats: Dictionary = {}) -> void:
