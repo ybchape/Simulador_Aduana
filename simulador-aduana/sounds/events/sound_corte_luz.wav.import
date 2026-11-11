@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://chd0043ch5s0k"
-path="res://.godot/imported/sound_corte_luz.wav-5db8e9885fc91b5a990f8dd1608711f6.sample"
+path="res://.godot/imported/sound_corte_luz.wav-d1ad84abbf93226d441bf05494bf3c8a.sample"
 
 [deps]
 
-source_file="res://sounds/sound_corte_luz.wav"
-dest_files=["res://.godot/imported/sound_corte_luz.wav-5db8e9885fc91b5a990f8dd1608711f6.sample"]
+source_file="res://sounds/events/sound_corte_luz.wav"
+dest_files=["res://.godot/imported/sound_corte_luz.wav-d1ad84abbf93226d441bf05494bf3c8a.sample"]
 
 [params]
 

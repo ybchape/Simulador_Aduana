@@ -15,10 +15,10 @@ func _ready() -> void:
 	else:
 		print("No se encontró el botón ButtonPlay.")
 
-
-
-
 func _on_boton_jugar_pressed() -> void:
+	# cambia a la música de gameplay
+	AudioManager.reproducir_musica_gameplay()
+
 	# transición fluida al gameplay
 	if primera_escena_path != "":
 		var resultado = get_tree().change_scene_to_file(primera_escena_path)
@@ -32,8 +32,6 @@ func _on_button_controles_pressed() -> void:
 		print("Resultado del cambio de escena a Controles (0 es ok): ", resultado)
 	else:
 		print("No se configuró la ruta a la escena controles.")
-
-
 
 func _on_button_salir_pressed() -> void:
 	get_tree().quit()
