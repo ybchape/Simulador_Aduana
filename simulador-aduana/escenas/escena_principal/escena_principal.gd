@@ -56,6 +56,7 @@ var pedido_actual: PedidoInfo = null
 func _ready() -> void:
 	EventBus.decision_tomada.connect(_on_decision_tomada)
 	EventBus.siguiente_pedido_solicitado.connect(_on_siguiente_pedido_solicitado)
+	EventBus.evento_alta_demanda_iniciado.connect(_on_alta_demanda_iniciado_spawn)
 	if indices_legales_disponibles.is_empty() and indices_ilegales_disponibles.is_empty():
 		_reiniciar_bolsas_de_objetos() #si ya no hay mas objetos se reinician
 	#probar_carga_pedido()
@@ -255,3 +256,11 @@ func terminar_partida() -> void:
 
 func _on_victoria_juego() -> void:
 	get_tree().change_scene_to_file("res://escenas/victoria/victoria.tscn")
+
+# NUEVO: Manejador para el evento de alta demanda
+# ==========================================
+func _on_alta_demanda_iniciado_spawn(_duracion: float) -> void:
+	print("¡Evento de Alta Demanda activo! Solicitando múltiples pedidos en fila...")
+	# Forzamos a solicitar un nuevo pedido inmediatamente para llenar los Marker3D vacíos
+	_on_siguiente_pedido_solicitado()
+	
