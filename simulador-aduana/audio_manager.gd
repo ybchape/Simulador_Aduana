@@ -1,8 +1,8 @@
 class_name AudioManagerClass
 extends Node
 
-const MUSICA_MENU = preload ("res://sounds/music_main_menu.mp3")
-const MUSICA_GAMEPLAY = preload ("res://sounds/music_gameplay.wav")
+const MUSICA_MENU = preload ("res://sounds/main_menu/music_main_menu.mp3")
+const MUSICA_GAMEPLAY = preload ("res://sounds/gameplay/music_gameplay.wav")
 
 var player_musica: AudioStreamPlayer
 
