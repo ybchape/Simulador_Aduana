@@ -31,6 +31,7 @@ var jornada_completada: bool = false
 var notificada_inspeccion: bool = false
 var indice_punto_actual: int = 0
 var caja_waypoint_indices: Array[int] = []
+var hay_movimiento: bool = false
 
 func _ready() -> void:
 	# save veloc base al iniciar
@@ -48,16 +49,19 @@ func _process(delta: float) -> void:
 	if jornada_completada:
 		return
 
-	# ANIMACIÓN VISUAL: Desplazamos la textura solo cuando la caja se mueve
-	if not cola_cajas.is_empty() and material_cinta != null:
-		material_cinta.uv1_offset.x += delta * velocidad_animacion_cinta
+	# Reiniciamos el indicador de movimiento en cada fotograma
+	hay_movimiento = false
 
-	# NUEVO: Actualizamos el movimiento de toda la fila de cajas en cada frame
+	# Actualizamos el movimiento de las cajas (esto activará hay_movimiento si alguna se desplaza)
 	_actualizar_movimiento_cola(delta)
+
+	# Animación visual de la cinta: SOLO gira si hay cajas moviéndose
+	if hay_movimiento and material_cinta != null:
+		material_cinta.uv1_offset.x += delta * velocidad_animacion_cinta
 
 
 # ==========================================
-# MOVIMIENTO ORDENADO: ESQUINAS COMPARTIDAS + DESTINO DE COLA
+# MOVIMIENTO ORDENADO CON DETECCIÓN DE MOVIMIENTO
 # ==========================================
 func _actualizar_movimiento_cola(delta: float) -> void:
 	if cola_cajas.is_empty() or ruta_entrada.is_empty():
@@ -71,32 +75,31 @@ func _actualizar_movimiento_cola(delta: float) -> void:
 		var wp_idx = caja_waypoint_indices[i]
 		var objetivo: Vector3
 
-		# Definimos el objetivo según el índice de waypoint de cada caja
+		# Definimos el objetivo según el waypoint
 		if wp_idx < ruta_entrada.size():
-			# Mientras esté recorriendo las esquinas de la cinta (PuntoEntrada, Esquinas, etc.)
 			objetivo = ruta_entrada[wp_idx].global_position
 		else:
-			# Una vez terminadas las esquinas de la cinta, cada caja va a su destino final:
 			if i == 0:
-				objetivo = ruta_entrada[-1].global_position # La primera caja se queda en PuntoInspecc
+				objetivo = ruta_entrada[-1].global_position # PuntoInspecc
 			else:
-				# Las cajas de atrás van a su respectivo PuestoCola (PuestoCola_1, PuestoCola_2, etc.)
 				var idx_cola = min(i - 1, puestos_cola.size() - 1)
 				if not puestos_cola.is_empty() and puestos_cola[idx_cola] != null:
 					objetivo = puestos_cola[idx_cola].global_position
 				else:
 					objetivo = ruta_entrada[-1].global_position
 
+		# Si la caja todavía está lejos del objetivo, significa que se está moviendo
+		if caja.global_position.distance_to(objetivo) >= 0.1:
+			hay_movimiento = true
+
 		# Mover la caja de forma fluida hacia el objetivo actual
 		caja.global_position = caja.global_position.move_toward(objetivo, velocidad * delta)
 
-		# Si la caja llegó al objetivo actual, avanzamos su índice de waypoint de forma segura
+		# Si llegó al objetivo actual, avanzamos el waypoint
 		if caja.global_position.distance_to(objetivo) < 0.1:
-			# El límite máximo de pasos es el tamaño de la ruta de entrada
 			if wp_idx < ruta_entrada.size():
 				caja_waypoint_indices[i] += 1
 			
-			# Si es la primera caja y ya llegó al último punto (PuntoInspecc)
 			if i == 0 and wp_idx >= ruta_entrada.size() - 1:
 				if estado != "INSPECCIONANDO" and estado != "SALIENDO":
 					estado = "INSPECCIONANDO"
