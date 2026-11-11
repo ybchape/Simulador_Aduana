@@ -34,6 +34,8 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	if jornada_completada:
+	 #apaga el sonido de la cinta si la jornada finaliza
+		AudioManager.alternar_sonido_cinta(false)
 		return
 
 	# ANIMACIÓN VISUAL: Desplazamos la textura solo cuando la caja se mueve
