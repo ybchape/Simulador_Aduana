@@ -34,10 +34,19 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	if jornada_completada:
+	 #apaga el sonido de la cinta si la jornada finaliza
+		AudioManager.alternar_sonido_cinta(false)
 		return
 
+# detecta si la cinta se está moviendo 
+	var esta_moviendose: bool = estado in ["AVANZANDO", "SALIENDO"]
+
+	# llama al AudioManager para reproducir o detener el loop de la cinta
+	AudioManager.alternar_sonido_cinta(esta_moviendose)
+
 	# ANIMACIÓN VISUAL: Desplazamos la textura solo cuando la caja se mueve
-	if estado in ["AVANZANDO", "SALIENDO"] and material_cinta != null:
+	#if estado in ["AVANZANDO", "SALIENDO"] and material_cinta != null:
+	if esta_moviendose and material_cinta != null: # lo cambie de estado- Cori
 		material_cinta.uv1_offset.x += delta * velocidad_animacion_cinta
 
 	if caja_actual == null:
@@ -73,9 +82,8 @@ func _notificar_inicio_inspeccion() -> void:
 	if GameManager.has_method("iniciar_temporizador_pedido"):
 		GameManager.iniciar_temporizador_pedido()
 
-# ==========================================
-# NUEVO: Función para mover la caja hacia la salida
-# ==========================================
+
+# func para mover la caja hacia la salida
 func _mover_salida(delta: float) -> void:
 	if punto_salida_final == null:
 		return
@@ -91,8 +99,8 @@ func _mover_salida(delta: float) -> void:
 		if is_instance_valid(caja_actual):
 			caja_actual.queue_free()
 		caja_actual = null
-		
-		# Aquí dispararemos el siguiente pedido automáticamente
+
+		# dispara el sgte pedido automaticamente
 		EventBus.emit_signal("siguiente_pedido_solicitado")
 
 func registrar_caja(nueva_caja: Node3D) -> void:
@@ -104,7 +112,7 @@ func registrar_caja(nueva_caja: Node3D) -> void:
 
 	caja_actual = nueva_caja
 	indice_punto_actual = 0
-	# se teletransporta al primer punto (Persiana)
+	# se transporta al primer marker 3d
 	caja_actual.global_position = ruta_entrada[0].global_position
 	estado = "AVANZANDO"
 
@@ -112,7 +120,7 @@ func _on_decision_tomada(_fue_permitido: bool) -> void:
 	if estado == "INSPECCIONANDO" and caja_actual != null:
 			if GameManager.has_method("registrar_tiempo_procesamiento_paquete"):
 				GameManager.registrar_tiempo_procesamiento_paquete()
-		# MODIFICADO: Ahora, sin importar si se permite o deniega, pasa a estado SALIENDO
+		# sin importar si se permite o deniega, pasa a estado SALIENDO
 				estado = "SALIENDO"
 
 func _on_objetivo_alcanzado(_stats: Dictionary = {}) -> void:
