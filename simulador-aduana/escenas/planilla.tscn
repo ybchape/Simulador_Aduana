@@ -61,3 +61,19 @@ layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 18
 text = "Código:"
+
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer" unique_id=155825708]
+layout_mode = 2
+
+[node name="LblTituloProhibidos" type="Label" parent="MarginContainer/VBoxContainer" unique_id=1336900749]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.72156864, 0.14509805, 0.14509805, 1)
+text = "OBJETOS PROHIBIDOS
+"
+horizontal_alignment = 1
+
+[node name="LBlListaProhibidos" type="Label" parent="MarginContainer/VBoxContainer" unique_id=1196992173]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 16
+autowrap_mode = 3
