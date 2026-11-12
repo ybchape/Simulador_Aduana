@@ -11,6 +11,7 @@ const SFX_CUTER = preload("res://sounds/cutter/sound_cutter.wav")
 const SFX_CINTA = preload("res://sounds/cinta_transportadora/sound_cinta.wav")
 # balanza 
 # const SFX_BALANZA = preload
+const SFX_MENU_CLICK = preload("res://sounds/main_menu_button/main_menu_click.wav")
 
 var player_musica: AudioStreamPlayer
 var player_sfx: AudioStreamPlayer
@@ -77,3 +78,8 @@ func alternar_sonido_cinta(en_movimiento: bool) -> void:
 
 func detener_musica() -> void:
 	player_musica.stop()
+
+func reproducir_click_menu() -> void:
+	if player_sfx:
+		player_sfx.stream = SFX_MENU_CLICK
+		player_sfx.play()

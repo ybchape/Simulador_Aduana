@@ -51,6 +51,7 @@ func actualizar_paso():
 		btn_siguiente.text = "Siguiente >"
 
 func _on_boton_siguiente_pressed() -> void:
+	AudioManager.reproducir_click_menu()
 	if paso_actual < pasos.size() - 1:
 		paso_actual += 1
 		actualizar_paso()
@@ -59,12 +60,14 @@ func _on_boton_siguiente_pressed() -> void:
 		_ir_a_escena_principal()
 
 func _on_boton_anterior_pressed() -> void:
+	AudioManager.reproducir_click_menu()
 	if paso_actual > 0:
 		paso_actual -= 1
 		actualizar_paso()
 
 
 func _on_boton_omitir_pressed() -> void:
+	AudioManager.reproducir_click_menu()
 	_registrar_metricas_tutorial(false)
 	_ir_a_escena_principal()
 
