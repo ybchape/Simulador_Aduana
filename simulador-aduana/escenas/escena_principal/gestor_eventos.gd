@@ -85,6 +85,7 @@ func seleccionar_evento_del_dia() -> void:
 	
 # --- NUEVO EVENTO: SUEÑO ---
 func disparar_evento_sueno() -> void:
+	AudioManager.reproducir_sueno()
 	print("¡EVENTO SUEÑO PROGRAMADO! Mostrando cartel...")
 	
 	# Llama al cartel que creaste
@@ -101,6 +102,7 @@ func disparar_evento_sueno() -> void:
 
 
 func disparar_evento_cansancio() -> void:
+	AudioManager.reproducir_cansancio()
 	# Guarda en las métricas del día que ocurrió el evento de Cansancio
 	Metrics.record_set("evento_activo", "cansancio")
 	var duracion_evento = randf_range(tiempo_min_duracion, tiempo_max_duracion)

@@ -13,6 +13,8 @@ const SFX_CINTA = preload("res://sounds/cinta_transportadora/sound_cinta.wav")
 # const SFX_BALANZA = preload
 const SFX_MENU_CLICK = preload("res://sounds/main_menu_button/main_menu_click.wav")
 const SFX_ENERGIZANTE = preload ("res://sounds/energizante/energizante_sound.wav")
+const SFX_CANSANCIO = preload("res://sounds/events/sound_cansancio.wav")
+const SFX_SUENO = preload("res://sounds/events/sound_sueno.wav")
 
 var player_musica: AudioStreamPlayer
 var player_sfx: AudioStreamPlayer
@@ -88,4 +90,14 @@ func reproducir_click_menu() -> void:
 func reproducir_energizante() -> void:
 	if player_sfx:
 		player_sfx.stream = SFX_ENERGIZANTE
+		player_sfx.play()
+
+func reproducir_cansancio() -> void:
+	if player_sfx:
+		player_sfx.stream = SFX_CANSANCIO
+		player_sfx.play()
+
+func reproducir_sueno() -> void:
+	if player_sfx:
+		player_sfx.stream = SFX_SUENO
 		player_sfx.play()
