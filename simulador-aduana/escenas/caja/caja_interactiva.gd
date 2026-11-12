@@ -75,6 +75,34 @@ func _pedido_detenido_en_inspeccion() -> bool:
 	var caja_raiz: Node = get_parent()
 	return caja_actual == caja_raiz and estado_cinta == "INSPECCIONANDO"
 
+func _animar_corte_cuter() -> void:
+	var escena: Node = get_tree().current_scene
+	if not escena:
+		return
+	# Busca con C mayúscula como está en cuter.tscn
+	var modelo_cuter: Node3D = escena.find_child("Cuter", true, false) as Node3D
+	if not modelo_cuter:
+		modelo_cuter = escena.find_child("*boxcutter*", true, false) as Node3D
+	if not modelo_cuter or not modelo_cuter.visible:
+		return
+		
+	var pos_original: Vector3 = modelo_cuter.global_position
+	var rot_original: Vector3 = modelo_cuter.rotation_degrees
+	var centro_tapa: Vector3 = global_position + Vector3(0, 0.42, 0)
+	
+	var tween: Tween = create_tween()
+	# Inclina el cúter y lo lleva al borde izquierdo de la tapa
+	# Inclina la punta hacia abajo (135° en Z) y apoya sobre el borde izquierdo
+	tween.tween_property(modelo_cuter, "rotation_degrees", rot_original + Vector3(20, 0, -135), 0.08)
+	tween.parallel().tween_property(modelo_cuter, "global_position", centro_tapa + Vector3(-0.18, 0.08, 0), 0.08)
+	# Desliza cortando hacia la derecha rozando la tapa
+	tween.tween_property(modelo_cuter, "global_position", centro_tapa + Vector3(0.18, 0.08, 0), 0.16)
+	# Vuelve a su posición y ángulo original
+	tween.tween_property(modelo_cuter, "global_position", pos_original, 0.10)
+	tween.parallel().tween_property(modelo_cuter, "rotation_degrees", rot_original, 0.10)
+	await tween.finished
+
+
 # Abre la tapa del paquete y revela el objeto sin tomar la decisión de aprobarlo.
 func abrir_caja() -> void:
 	if not _pedido_detenido_en_inspeccion() or caja_abierta or inspeccion_en_proceso or info == null:
@@ -103,6 +131,7 @@ func abrir_caja() -> void:
 		tapa_original = null
 		inspeccion_en_proceso = false
 		return
+	await _animar_corte_cuter()
 	malla_caja.mesh = base_abierta
 	malla_caja.show()
 
