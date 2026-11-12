@@ -117,6 +117,12 @@ func abrir_caja() -> void:
 	if material_base:
 		tapa_abierta.material_override = material_base.duplicate() as Material
 	modelo_caja.add_child(tapa_abierta)
+	#Dispara las partículas de cinta/cartón al abrir 
+	var particulas_corte: CPUParticles3D = get_parent().find_child("ParticulasCorte", true, false) as CPUParticles3D
+	print("DISPARANDO PARTICULAS: ", particulas_corte, " | Pos global: ", particulas_corte.global_position if particulas_corte else Vector3.ZERO)
+	if particulas_corte:
+		particulas_corte.restart()
+		particulas_corte.emitting = true
 	var posicion_tapa_inicial: Vector3 = tapa_abierta.position
 	var tween_tapa: Tween = create_tween()
 	tween_tapa.tween_property(tapa_abierta, "position", posicion_tapa_inicial + Vector3.UP * 0.8, 0.4).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
