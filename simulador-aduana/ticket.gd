@@ -1,8 +1,11 @@
 extends Control
 
+@onready var fondo: ColorRect = $Fondo
 @onready var lbl_producto: Label = $Fondo/MarginContainer/VBoxContainer/LblProducto
 @onready var lbl_peso: Label = $Fondo/MarginContainer/VBoxContainer/LblPeso
 @onready var lbl_codigo: Label = $Fondo/MarginContainer/VBoxContainer/LblCodigo
+@onready var lbl_titulo: Label = $Fondo/MarginContainer/VBoxContainer/LblTitulo
+@onready var textura_arruga: TextureRect = $Fondo/TexturaArruga 
 
 var datos_pendientes: PedidoInfo = null
 
@@ -32,3 +35,13 @@ func cargar_ticket(datos: PedidoInfo) -> void:
 	lbl_producto.text = "Producto: " + str(datos.ticket_producto)
 	lbl_peso.text = "Peso: " + str(datos.ticket_peso_kg) + " kg"
 	lbl_codigo.text = "Código: " + str(datos.ticket_codigo_identificador)
+	
+	# --- VARIACIÓN VISUAL DE SOSPECHA ---
+	if datos.es_sospechoso:
+		rotation_degrees = randf_range(-6.0, 6.0)
+		if textura_arruga:
+			textura_arruga.show()
+	else:
+		rotation_degrees = 0.0
+		if textura_arruga:
+			textura_arruga.hide()

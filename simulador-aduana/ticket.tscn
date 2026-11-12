@@ -1,6 +1,10 @@
 [gd_scene format=3 uid="uid://cadfxir1r7kt8"]
 
 [ext_resource type="Script" uid="uid://btojbf7ovy25w" path="res://ticket.gd" id="1_y5k4v"]
+[ext_resource type="Texture2D" uid="uid://uu8jw7sg6wr6" path="res://assets/ui/interfaz/grieta_tickets.jpg" id="2_rv0ow"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_g4v7s"]
+blend_mode = 3
 
 [node name="Ticket" type="Control" unique_id=149076554]
 layout_mode = 3
@@ -54,3 +58,13 @@ layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 150
 text = "Código:"
+
+[node name="TexturaArruga" type="TextureRect" parent="Fondo" unique_id=30288044]
+material = SubResource("CanvasItemMaterial_g4v7s")
+layout_mode = 0
+offset_left = 1926.9116
+offset_top = -8.36354
+offset_right = 3018.3284
+offset_bottom = 1933.0154
+rotation = 1.5665345
+texture = ExtResource("2_rv0ow")

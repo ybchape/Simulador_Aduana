@@ -3,6 +3,7 @@ extends Control
 @onready var lbl_producto: Label = $MarginContainer/VBoxContainer/LblProducto
 @onready var lbl_peso: Label = $MarginContainer/VBoxContainer/LblPeso
 @onready var lbl_codigo: Label = $MarginContainer/VBoxContainer/LblCodigo
+@onready var lbl_lista_prohibidos: Label = $MarginContainer/VBoxContainer/LBlListaProhibidos
 
 #variables para la interaccion con la planilla (tween)
 var escala_original: Vector2 = Vector2.ONE
@@ -14,6 +15,17 @@ func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	mouse_entered.connect(_on_mouse_entered)
 	mouse_exited.connect(_on_mouse_exited)
+	_cargar_reglas_aduana()
+
+func _cargar_reglas_aduana() -> void:
+	if lbl_lista_prohibidos:
+		lbl_lista_prohibidos.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		lbl_lista_prohibidos.text = (
+			"• Armas (Espada, Daga, Hacha, Maza, Manoplas, Martillo)\n"
+			+ "• Corte (Cuchillo, Serrucho)\n"
+			+ "• Margen peso: ±0.5 kg | Código: RF-### VY"
+		)
+
 
 # función principal para alimentar la planilla con un pedido info func
 func cargar_pedido(datos: PedidoInfo) -> void:
