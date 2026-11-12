@@ -106,36 +106,42 @@ func _refrescar_estado_botones() -> void:
 		btn_mejorar_energizante.disabled = saldo < PRECIO_MEJORA_NIVEL_2
 
 func _comprar_mejora_escaner() -> void:
+	AudioManager.reproducir_click_menu()
 	if _pagar(PRECIO_MEJORA_NIVEL_2):
 		GameManager.registrar_mejora("escaner_lvl2")
 		EventBus.herramienta_mejorada.emit("escaner", 2)
 		_refrescar_tienda()
 
 func _comprar_mejora_cuter() -> void:
+	AudioManager.reproducir_click_menu() 
 	if _pagar(PRECIO_MEJORA_NIVEL_2):
 		GameManager.registrar_mejora("cuter_lvl2")
 		EventBus.herramienta_mejorada.emit("cuter", 2)
 		_refrescar_tienda()
 
 func _comprar_balanza() -> void:
+	AudioManager.reproducir_click_menu() 
 	if _pagar(PRECIO_COMPRA_BALANZA):
 		GameManager.registrar_mejora("balanza_obtenida")
 		EventBus.herramienta_desbloqueada.emit("balanza")
 		_refrescar_tienda()
 
 func _mejorar_balanza() -> void:
+	AudioManager.reproducir_click_menu()
 	if _pagar(PRECIO_MEJORA_NIVEL_2):
 		GameManager.registrar_mejora("balanza_lvl2")
 		EventBus.herramienta_mejorada.emit("balanza", 2)
 		_refrescar_tienda()
 
 func _comprar_energizante() -> void:
+	AudioManager.reproducir_click_menu()
 	if _pagar(PRECIO_COMPRA_ENERGIZANTE):
 		GameManager.registrar_mejora("energizante_obtenido")
 		EventBus.herramienta_desbloqueada.emit("energizante")
 		_refrescar_tienda()
 
 func _mejorar_energizante() -> void:
+	AudioManager.reproducir_click_menu()
 	if _pagar(PRECIO_MEJORA_NIVEL_2):
 		GameManager.registrar_mejora("energizante_lvl2")
 		EventBus.herramienta_mejorada.emit("energizante", 2)
@@ -148,6 +154,7 @@ func _pagar(precio: int) -> bool:
 	return pago_exitoso
 
 func _on_button_cerrar_pressed() -> void:
+	AudioManager.reproducir_click_menu()
 	hide()
 
 func _on_visibility_changed() -> void:
