@@ -13,26 +13,41 @@ func _ready() -> void:
 	EventBus.escanear_objeto.connect(_activar_efecto_escaneo)
 
 func _activar_efecto_escaneo(_forma: Mesh) -> void:
+	# Busca la caja detenida en la cinta y apunta la luz directo hacia ella
+	var caja_objetivo: Node3D = _obtener_caja_actual()
+	if caja_objetivo:
+		var centro_caja: Vector3 = caja_objetivo.global_position + Vector3(0, 0.25, 0)
+		if luz_roja:
+			luz_roja.look_at(centro_caja, Vector3.UP)
+		if rayo_laser:
+			rayo_laser.look_at(centro_caja, Vector3.UP)
+
 	if luz_roja:
 		luz_roja.visible = true
-		luz_roja.light_energy = 8.0
+		luz_roja.light_energy = 0.0
 	if rayo_laser:
 		rayo_laser.visible = true
 
-	# Animación de barrido/parpadeo láser durante 0.9 segundos (justo antes de que suba la pantalla)
 	var tween: Tween = create_tween()
 	if luz_roja:
-		tween.tween_property(luz_roja, "light_energy", 2.0, 0.12)
-		tween.tween_property(luz_roja, "light_energy", 8.0, 0.12)
-	if rayo_laser:
-		# Hace que el rayo haga un barrido vertical corto sobre la caja
-		var rot_original: float = rotation_degrees.x
-		tween.tween_property(self, "rotation_degrees:x", rot_original - 10.0, 0.25)
-		tween.tween_property(self, "rotation_degrees:x", rot_original + 10.0, 0.35)
-		tween.tween_property(self, "rotation_degrees:x", rot_original, 0.2)
+		tween.tween_property(luz_roja, "light_energy", 12.0, 0.15)
+		tween.tween_property(luz_roja, "light_energy", 4.0, 0.15)
+		tween.tween_property(luz_roja, "light_energy", 12.0, 0.20)
+		tween.tween_property(luz_roja, "light_energy", 0.0, 0.20)
+	else:
+		tween.tween_interval(0.7)
 
 	await tween.finished
 	if is_instance_valid(luz_roja):
 		luz_roja.visible = false
 	if is_instance_valid(rayo_laser):
 		rayo_laser.visible = false
+
+func _obtener_caja_actual() -> Node3D:
+	var escena: Node = get_tree().current_scene
+	if not escena:
+		return null
+	var cinta: Node = escena.get_node_or_null("Espacio_Trabajo/CintaTransportadora")
+	if cinta:
+		return cinta.get("caja_actual") as Node3D
+	return null
