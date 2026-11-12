@@ -136,6 +136,8 @@ func seleccionar(id: String) -> void:
 			
 		# Consume el uso diario e inicia el cooldown en el GameManager
 		if GameManager.consumir_uso_herramienta(id):
+			# SONIDO ENERGIZANTEEEE- CORI
+			AudioManager.reproducir_energizante()
 			var nivel_actual: int = herramientas[id]["nivel"]
 			# Emite el consumo hacia la barra de energía
 			EventBus.consumible_usado.emit(id, nivel_actual)

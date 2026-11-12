@@ -12,6 +12,7 @@ const SFX_CINTA = preload("res://sounds/cinta_transportadora/sound_cinta.wav")
 # balanza 
 # const SFX_BALANZA = preload
 const SFX_MENU_CLICK = preload("res://sounds/main_menu_button/main_menu_click.wav")
+const SFX_ENERGIZANTE = preload ("res://sounds/energizante/energizante_sound.wav")
 
 var player_musica: AudioStreamPlayer
 var player_sfx: AudioStreamPlayer
@@ -82,4 +83,9 @@ func detener_musica() -> void:
 func reproducir_click_menu() -> void:
 	if player_sfx:
 		player_sfx.stream = SFX_MENU_CLICK
+		player_sfx.play()
+
+func reproducir_energizante() -> void:
+	if player_sfx:
+		player_sfx.stream = SFX_ENERGIZANTE
 		player_sfx.play()

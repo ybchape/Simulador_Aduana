@@ -144,6 +144,7 @@ func _obtener_indice_ilegal_unico() -> int:
 		#print("Error: No se encontró la PlanillaUI en la ruta especificada.")
 
 func _on_boton_tienda_pressed() -> void:
+	AudioManager.reproducir_click_menu()
 	$CanvasLayer/tienda.show()
 
 # Procesa la aprobación o denegación cuando el jugador presiona un botón 
