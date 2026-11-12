@@ -49,7 +49,12 @@ func _mostrar_en_pantalla(forma_recibida: Mesh) -> void:
 			var factor_escala = 0.9 / tamano_maximo
 			modelo_3d.scale = Vector3(factor_escala, factor_escala, factor_escala)
 	
-	# 2. Hacemos que la pantalla se vuelva VISIBLE
+	# Esperamos 0.8s mientras el láser rojo escanea la caja físicamente
+	await get_tree().create_timer(0.8).timeout
+	if not is_inside_tree() or request_id != id_solicitud:
+		return
+	
+	# Hacemos que la pantalla se vuelva VISIBLE
 	show()
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	

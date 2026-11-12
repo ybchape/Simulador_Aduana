@@ -1,11 +1,26 @@
 [gd_scene format=3 uid="uid://bmcj7oox0fy2h"]
 
+[ext_resource type="Script" uid="uid://2jqsyu8a1psr" path="res://escenas/pistola/pistola_escaner.gd" id="1_1oyvs"]
 [ext_resource type="PackedScene" uid="uid://ef3tds1fbknh" path="res://assets/escaner/pistol_scanner_godot.glb" id="1_hx2kx"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_g4v7s"]
 size = Vector3(0.8652344, 1, 0.53878784)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yf5fn"]
+transparency = 1
+albedo_color = Color(1, 0.06666667, 0.06666667, 0.11372549)
+emission_enabled = true
+emission = Color(1, 0.06666667, 0.06666667, 1)
+emission_energy_multiplier = 4.0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_g4v7s"]
+material = SubResource("StandardMaterial3D_yf5fn")
+top_radius = 0.002
+bottom_radius = 0.002
+height = 0.7
+
 [node name="PistolaEscaner" type="Node3D" unique_id=322953484]
+script = ExtResource("1_1oyvs")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=2130200977]
 transform = Transform3D(-4.3711385e-08, -0.26897675, 0, 0.99999994, -1.1757347e-08, 0, 0, 0, 0.46223405, -0.06738281, 0, 0.026188279)
@@ -19,3 +34,15 @@ collide_with_areas = true
 
 [node name="pistol_scanner_godot" parent="." unique_id=520085276 instance=ExtResource("1_hx2kx")]
 transform = Transform3D(-0.29981542, -0.010521235, -0.00019069377, -4.7527315e-10, -0.005436491, 0.29995075, -0.010522963, 0.29976618, 0.005433146, 0, 0, 0)
+
+[node name="LuzRoja" type="SpotLight3D" parent="." unique_id=1203069837]
+visible = false
+light_color = Color(1, 0, 0, 1)
+light_energy = 6.0
+spot_range = 4.0
+spot_angle = 22.0
+
+[node name="RayoLaser" type="MeshInstance3D" parent="." unique_id=1508568076]
+transform = Transform3D(1, 0, 0, 0, 0.9999863, 0.005235964, 0, -0.005235964, 0.9999863, 0, 0, 0)
+visible = false
+mesh = SubResource("CylinderMesh_g4v7s")
