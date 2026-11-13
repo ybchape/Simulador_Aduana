@@ -8,6 +8,9 @@ extends CanvasLayer
 @onready var total: Label = $PanelContainer/VBoxContainer/Total
 @onready var siguiente_dia: Button = $PanelContainer/VBoxContainer/SiguienteDia
 
+@onready var bono_evento: Label = $PanelContainer/VBoxContainer/BonoEvento
+
+
 # var para guardar el neto del día actual 
 var dinero_neto_actual: float = 0.0
 
@@ -37,6 +40,22 @@ func _mostrar_resumen(stats: Dictionary) -> void:
 	dinero_ganado.text = "Dinero obtenido: $" + str(stats.ganado)
 	dinero_descontado.text = "Dinero descontado: -$" + str(stats.descontado)
 	total.text = "Balance neto: $" + str(stats.neto)
+
+# --- NUEVO: Lógica para mostrar u ocultar el bono ---
+	if stats.has("hubo_evento") and stats.hubo_evento == true:
+		bono_evento.show()
+		
+		if stats.errores_evento == 0:
+			# Si no hubo errores, muestra el bono en verde
+			bono_evento.text = "Bono por Evento Perfecto: +$" + str(stats.bono_evento)
+			bono_evento.modulate = Color("2ecc71") 
+		else:
+			# Si hubo 1 o más errores, te avisa que lo perdiste en rojo
+			bono_evento.text = "Perdiste el bono por equivocarte"
+			bono_evento.modulate = Color("e74c3c") 
+	else:
+		bono_evento.hide()
+	# ----------------------------------------------------
 
 	# Mostrar la ventana inmediatamente
 	show()
