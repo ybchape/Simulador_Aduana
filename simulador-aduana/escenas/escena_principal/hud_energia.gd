@@ -11,7 +11,7 @@ var energia_actual: float = 100.0
 var esta_en_crisis_cansancio: bool = false # Controla la restricción del evento
 var sueno_activo: bool = false # Controla si el evento de insomnio está activo
 var turno_activo: bool = true
-
+var en_energia_critica: bool = false
 
 func _ready() -> void:
 	# Escucha los consumibles y eventos del juego
@@ -41,6 +41,11 @@ func _process(delta: float) -> void:
 	energia_actual -= (velocidad_desgaste_base * multiplicador_desgaste) * delta
 	actualizar_interfaz()
 	
+	var critica_ahora: bool = energia_actual <= 10.0 and energia_actual > 0.0
+	if critica_ahora != en_energia_critica:
+		en_energia_critica = critica_ahora
+		EventBus.energia_critica_cambiada.emit(en_energia_critica)
+	
 	# CRITERIO 4: Game Over si la energía llega a 0
 	if energia_actual <= 0.0:
 		energia_actual = 0.0
@@ -56,7 +61,9 @@ func reiniciar_energia() -> void:
 	esta_en_crisis_cansancio = false
 	turno_activo = true
 	actualizar_interfaz()
-
+	if en_energia_critica:
+		en_energia_critica = false
+		EventBus.energia_critica_cambiada.emit(false)
 
 # --- Evento de Sueño ---
 # CRITERIO 1, 2 y 5: Inicia con 50%, actualiza barra y se agota más rápido

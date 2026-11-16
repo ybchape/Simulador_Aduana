@@ -2,6 +2,7 @@ extends ColorRect
 
 var en_cansancio: bool = false
 var tiempo_parpadeo: float = 0.0
+var en_energia_critica: bool = false
 
 func _ready() -> void:
 	color.a = 0.0 # Totalmente transparente al inicio
@@ -9,18 +10,29 @@ func _ready() -> void:
 	
 	EventBus.cansancio_confirmado.connect(func(): en_cansancio = true)
 	EventBus.evento_cansancio_finalizado.connect(_on_evento_finalizado)
+	EventBus.energia_critica_cambiada.connect(_on_energia_critica_cambiada)
 
 func _on_evento_iniciado(_duracion: float) -> void:
 	en_cansancio = true
 
 func _on_evento_finalizado() -> void:
 	en_cansancio = false
-	# Restaura la pantalla normal con un tween 
-	var tween = create_tween()
-	tween.tween_property(self, "color:a", 0.0, 1.0)
+	_verificar_restaurar_pantalla()
+
+func _on_energia_critica_cambiada(esta_critica: bool) -> void:
+	en_energia_critica = esta_critica
+	if not esta_critica:
+		_verificar_restaurar_pantalla()
+
+func _verificar_restaurar_pantalla() -> void:
+	# Solo aclara la pantalla si NO queda ninguno de los dos estados activo
+	if not en_cansancio and not en_energia_critica:
+		var tween = create_tween()
+		tween.tween_property(self, "color:a", 0.0, 1.0)
+
 
 func _process(delta: float) -> void:
-	if en_cansancio:
+	if en_cansancio or en_energia_critica:
 		tiempo_parpadeo += delta * 2.0 # Velocidad del parpadeo
 		# Usa sin() para generar un efecto suave de parpadeo/sueño
 		var alfa_objetivo = (sin(tiempo_parpadeo) + 1.0) / 2.0
