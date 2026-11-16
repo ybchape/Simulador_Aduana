@@ -21,6 +21,13 @@ albedo_texture = SubResource("ViewportTexture_nvgnm")
 resource_local_to_scene = true
 size = Vector2(0.3, 0.3)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yf5fn"]
+albedo_color = Color(0.84705883, 0.72156864, 0.53333336, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_g4v7s"]
+material = SubResource("StandardMaterial3D_yf5fn")
+size = Vector3(0.05, 0.005, 0.02)
+
 [node name="caja" type="Node3D" unique_id=1000838108 groups=["cajas"]]
 transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 0, 0, 0)
 
@@ -53,5 +60,18 @@ mesh = SubResource("PlaneMesh_aiqyg")
 size = Vector2i(1500, 1500)
 
 [node name="Ticket" parent="caja_interactiva/MeshInstance/SubViewport" unique_id=149076554 instance=ExtResource("3_qs45v")]
+
+[node name="ParticulasCorte" type="CPUParticles3D" parent="." unique_id=2140895408]
+transform = Transform3D(0.9999986, -0.0016654033, 0, 0.0016654033, 0.9999986, 0, 0, 0, 0.99999946, 0, 0.75022966, 0)
+emitting = false
+amount = 16
+lifetime = 0.6
+one_shot = true
+explosiveness = 0.95
+mesh = SubResource("BoxMesh_g4v7s")
+direction = Vector3(0, 1, 0)
+spread = 65.0
+initial_velocity_min = 1.5
+initial_velocity_max = 3.0
 
 [connection signal="input_event" from="caja_interactiva" to="caja_interactiva" method="_on_input_event"]

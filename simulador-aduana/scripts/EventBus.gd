@@ -44,6 +44,7 @@ signal evento_sueno_iniciado
 signal evento_sueno_finalizado
 signal sueno_confirmado
 
+signal energia_critica_cambiada(esta_critica: bool)
 
 ## El saldo se gestiona en GameManager.dinero_total para que la tienda y el
 ## cierre de turno compartan una sola billetera. Esta función mantiene la API
