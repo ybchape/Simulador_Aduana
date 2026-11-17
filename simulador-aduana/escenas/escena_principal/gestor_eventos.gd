@@ -4,6 +4,9 @@ extends Node
 @export var tiempo_max_duracion: float = 40.0
 @export var costo_reparacion_luz: float = 150.0
 
+@export var cansancio_min_duracion: float = 50.0 # <-- duración mínima para cansancio
+@export var cansancio_max_duracion: float = 65.0 # <-- duración máxima para cansancio
+
 # Lista de todos los eventos aleatorios posibles 
 const EVENTOS_POSIBLES: Array[String] = ["cansancio", "alta_demanda", "corte_luz", "sueno"]
 
@@ -105,7 +108,7 @@ func disparar_evento_cansancio() -> void:
 	AudioManager.reproducir_cansancio()
 	# Guarda en las métricas del día que ocurrió el evento de Cansancio
 	Metrics.record_set("evento_activo", "cansancio")
-	var duracion_evento = randf_range(tiempo_min_duracion, tiempo_max_duracion)
+	var duracion_evento = randf_range(cansancio_min_duracion, cansancio_max_duracion)
 	print("¡EVENTO DE CANSANCIO PROGRAMADO! Mostrando cartel...")
 	
 	# MUESTRA el cartel
