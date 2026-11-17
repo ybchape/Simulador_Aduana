@@ -12,6 +12,7 @@ func _ready() -> void:
 	Metrics.export_to_csv()
 
 func _on_restart_pressed() -> void:
+	GameManager.reiniciar_partida()
 	#  Indica al addon que finaliza la sesión actual y arranca una nueva para el reinicio
 	#Metrics.start_new_session()
 	
@@ -22,6 +23,6 @@ func _on_menu_pressed() -> void:
 	AudioManager.reproducir_musica_menu() # llama a la musica del menu principal
 	#  Cierra la sesión actual de métricas
 	#Metrics.start_new_session()
-	
+	GameManager.reiniciar_partida()
 	# Volvemos al menú principal 
 	get_tree().change_scene_to_file("res://escenas/menu_principal.tscn")

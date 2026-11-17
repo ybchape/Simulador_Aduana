@@ -26,10 +26,11 @@ func _ready() -> void:
 		#print("No se encontró el botón ButtonPlay.")
 
 func _on_boton_jugar_pressed() -> void:
+	
 	AudioManager.reproducir_click_menu()
 	# cambia a la música de gameplay
 	AudioManager.reproducir_musica_gameplay()
-
+	GameManager.reiniciar_partida()
 	# transición fluida al gameplay
 	if primera_escena_path != "":
 		var resultado = get_tree().change_scene_to_file(primera_escena_path)
