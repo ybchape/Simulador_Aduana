@@ -30,7 +30,7 @@ func cargar_ticket(datos: PedidoInfo) -> void:
 	if not is_node_ready():
 		datos_pendientes = datos
 		return
-		print("Datos del ticket recibidos Producto: ", datos.ticket_producto)
+	print("Datos del ticket recibidos Producto: ", datos.ticket_producto)
 
 	lbl_producto.text = "Producto: " + str(datos.ticket_producto)
 	lbl_peso.text = "Peso: " + str(datos.ticket_peso_kg) + " kg"

@@ -24,6 +24,13 @@ var errores_hoy: int = 0
 const MAX_ERRORES: int = 3
 const PENALIZACION_ERROR: int = 20
 
+# --- Control de Bono por Evento Perfecto ---
+var hubo_evento_hoy: bool = false
+var evento_en_curso: bool = false
+var errores_durante_evento: int = 0
+var bono_evento_perfecto: int = 0
+const BONO_PERFECTO_CANTIDAD: int = 200
+
 # --- Límites de uso de herramientas ---
 # Usos permitidos por día. -1 = sin límite.
 const USOS_BASE_HERRAMIENTA: Dictionary = {
@@ -73,6 +80,16 @@ func _ready() -> void:
 
 	EventBus.corte_luz_confirmado.connect(func(): corte_luz_activo_metricas = true)
 	EventBus.evento_corte_luz_finalizado.connect(func(): corte_luz_activo_metricas = false)
+	
+	# --- NUEVO: Conexiones para el bono de evento ---
+	EventBus.evento_cansancio_iniciado.connect(_al_iniciar_evento_1_arg)
+	EventBus.evento_alta_demanda_iniciado.connect(_al_iniciar_evento_1_arg)
+	EventBus.evento_corte_luz_iniciado.connect(_al_iniciar_evento_2_args)
+	EventBus.evento_sueno_iniciado.connect(_marcar_inicio_evento)
+
+	EventBus.evento_cansancio_finalizado.connect(_marcar_fin_evento)
+	EventBus.evento_alta_demanda_finalizado.connect(_marcar_fin_evento)
+	EventBus.evento_corte_luz_finalizado.connect(_marcar_fin_evento)
 
 func _process(delta: float) -> void:
 	# Avanza los enfriamientos activos; avisa solo cuando uno termina.
@@ -108,6 +125,12 @@ func reiniciar_partida() -> void:
 	dinero_descontado_hoy = 0
 	pedidos_correctos_hoy = 0
 	
+	# Reiniciar flags de evento
+	hubo_evento_hoy = false
+	evento_en_curso = false
+	errores_durante_evento = 0
+	bono_evento_perfecto = 0
+	
 	mejoras_compradas.clear()
 	eventos_usados.clear()
 	_reiniciar_usos_herramientas()
@@ -142,6 +165,12 @@ func avanzar_siguiente_dia() -> void:
 	dinero_ganado_hoy = 0
 	dinero_descontado_hoy = 0
 	pedidos_correctos_hoy = 0
+
+	# Reiniciar flags de evento para el nuevo día
+	hubo_evento_hoy = false
+	evento_en_curso = false
+	errores_durante_evento = 0
+	bono_evento_perfecto = 0
 
 	# Reiniciar los usos de herramientas del nuevo día.
 	_reiniciar_usos_herramientas()
@@ -251,6 +280,13 @@ func _registrar_acierto() -> void:
 func _aplicar_error(motivo: String) -> void:
 	errores_hoy += 1
 	dinero_descontado_hoy += PENALIZACION_ERROR
+	
+	# --- NUEVO: Registrar si el error fue durante un evento ---
+	if evento_en_curso:
+		errores_durante_evento += 1
+		print("Error cometido durante el evento.")
+	# ----------------------------------------------------------
+	
 	#registramos la hipotesis 3 (evento cansancio)
 	if evento_cansancio_activo:
 		Metrics.record_add("errores_cansancio", 1)
@@ -273,18 +309,25 @@ func _aplicar_error(motivo: String) -> void:
 
 # Método para liquidar el saldo del día en la billetera
 func liquidar_dia() -> void:
-	var balance_neto: int = dinero_ganado_hoy - dinero_descontado_hoy
+	var balance_neto: int = dinero_ganado_hoy - dinero_descontado_hoy + bono_evento_perfecto
 	dinero_total += balance_neto
 	dinero_cambiado.emit(dinero_total)
-	print("Día liquidado. Balance neto: $", balance_neto, " | Saldo total tienda: $", dinero_total)
+	print("Día liquidado. Balance neto: $", balance_neto, " | Saldo total tienda: $", dinero_total, " (incluye bono evento perfecto: $", bono_evento_perfecto, ")")
 # Retorna la estructura de datos que requiere la ventana de resumen
 func obtener_stats_resumen() -> Dictionary:
+	var hubo_evento_hoy_final: bool = hubo_evento_hoy
+	var errores_evento_final: int = errores_durante_evento
+	var bono_evento_final: int = bono_evento_perfecto
+	
 	return {
 		"correctos": pedidos_correctos_hoy,
 		"total": pedidos_realizados_hoy,
 		"ganado": dinero_ganado_hoy,
 		"descontado": dinero_descontado_hoy,
-		"neto": dinero_ganado_hoy - dinero_descontado_hoy
+		"neto": dinero_ganado_hoy - dinero_descontado_hoy + bono_evento_final,
+		"hubo_evento": hubo_evento_hoy_final,
+		"errores_evento": errores_evento_final,
+		"bono_evento": bono_evento_final
 	}
 # Llama a esto cuando la energía del jugador llega a 0
 func trigger_game_over_por_energia() -> void:
@@ -298,6 +341,13 @@ func comprobar_fin_de_dia() -> void:
 	
 	if pedidos_realizados_hoy >= objetivo_actual:
 		print("¡Meta del día cumplida!")
+		
+		# --- Evaluamos el bono pero NO lo mezclamos con dinero_ganado_hoy ---
+		if hubo_evento_hoy and errores_durante_evento == 0:
+			bono_evento_perfecto = BONO_PERFECTO_CANTIDAD
+			print("¡Bono de evento perfecto aplicado! +$", bono_evento_perfecto)
+		# --------------------------------------------------------------------
+		
 		#liquidar_dia() CREO QUE ESTO ESTA DE MAS SI NO ME SUMA 2 VECES LA PLATA
 		# SI ES EL DÍA 5 (EL ÚLTIMO), SALTA DIRECTO A LA VICTORIA
 		const ULTIMO_DIA: int = 5
@@ -327,3 +377,19 @@ func registrar_tiempo_procesamiento_paquete() -> void:
 		Metrics.record_add("tiempo_sin_corte", segundos_tardados)
 		
 	tiempo_inicio_paquete = 0.0
+
+
+# --- FUNCIONES ADAPTADORAS PARA SEÑALES DE EVENTOS ---
+func _al_iniciar_evento_1_arg(_arg1) -> void:
+	_marcar_inicio_evento()
+
+func _al_iniciar_evento_2_args(_arg1, _arg2) -> void:
+	_marcar_inicio_evento()
+
+func _marcar_inicio_evento() -> void:
+	print("LOG: Evento detectado por GameManager")
+	hubo_evento_hoy = true
+	evento_en_curso = true
+
+func _marcar_fin_evento() -> void:
+	evento_en_curso = false
