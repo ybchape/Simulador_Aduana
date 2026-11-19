@@ -166,6 +166,12 @@ func avanzar_siguiente_dia() -> void:
 	dinero_descontado_hoy = 0
 	pedidos_correctos_hoy = 0
 
+	# Reiniciar flags de evento para el nuevo día
+	hubo_evento_hoy = false
+	evento_en_curso = false
+	errores_durante_evento = 0
+	bono_evento_perfecto = 0
+
 	# Reiniciar los usos de herramientas del nuevo día.
 	_reiniciar_usos_herramientas()
 	iniciar_turno_dia()
@@ -303,27 +309,22 @@ func _aplicar_error(motivo: String) -> void:
 
 # Método para liquidar el saldo del día en la billetera
 func liquidar_dia() -> void:
-	var balance_neto: int = dinero_ganado_hoy - dinero_descontado_hoy
+	var balance_neto: int = dinero_ganado_hoy - dinero_descontado_hoy + bono_evento_perfecto
 	dinero_total += balance_neto
 	dinero_cambiado.emit(dinero_total)
-	print("Día liquidado. Balance neto: $", balance_neto, " | Saldo total tienda: $", dinero_total)
+	print("Día liquidado. Balance neto: $", balance_neto, " | Saldo total tienda: $", dinero_total, " (incluye bono evento perfecto: $", bono_evento_perfecto, ")")
 # Retorna la estructura de datos que requiere la ventana de resumen
 func obtener_stats_resumen() -> Dictionary:
 	var hubo_evento_hoy_final: bool = hubo_evento_hoy
 	var errores_evento_final: int = errores_durante_evento
 	var bono_evento_final: int = bono_evento_perfecto
 	
-	# Reiniciar flags de evento para el próximo día
-	hubo_evento_hoy = false
-	errores_durante_evento = 0
-	bono_evento_perfecto = 0
-	
 	return {
 		"correctos": pedidos_correctos_hoy,
 		"total": pedidos_realizados_hoy,
 		"ganado": dinero_ganado_hoy,
 		"descontado": dinero_descontado_hoy,
-		"neto": dinero_ganado_hoy - dinero_descontado_hoy,
+		"neto": dinero_ganado_hoy - dinero_descontado_hoy + bono_evento_final,
 		"hubo_evento": hubo_evento_hoy_final,
 		"errores_evento": errores_evento_final,
 		"bono_evento": bono_evento_final
