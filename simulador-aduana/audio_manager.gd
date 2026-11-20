@@ -15,6 +15,7 @@ const SFX_MENU_CLICK = preload("res://sounds/main_menu_button/main_menu_click.wa
 const SFX_ENERGIZANTE = preload ("res://sounds/energizante/energizante_sound.wav")
 const SFX_CANSANCIO = preload("res://sounds/events/sound_cansancio.wav")
 const SFX_SUENO = preload("res://sounds/events/sound_sueno.wav")
+const SFX_DEMANDA = preload("res://sounds/events/alarm_alta_demanda.mp3")
 
 var player_musica: AudioStreamPlayer
 var player_sfx: AudioStreamPlayer
@@ -63,6 +64,7 @@ func reproducir_musica_gameplay() -> void:
 # func de sfx
 func reproducir_escaner() -> void:
 	player_sfx.stream = SFX_ESCANER
+	player_musica.volume_db = -5.0 # # VOLUMEN DEL escaner: AJUSTABLEEEEE
 	player_sfx.play()
 
 func reproducir_cutter() -> void:
@@ -100,4 +102,10 @@ func reproducir_cansancio() -> void:
 func reproducir_sueno() -> void:
 	if player_sfx:
 		player_sfx.stream = SFX_SUENO
+		player_sfx.play()
+
+func reproducir_demanda() -> void:
+	if player_sfx:
+		player_sfx.stream = SFX_DEMANDA
+		player_musica.volume_db = -20.0 # # VOLUMEN DEMANDAA: AJUSTABLEEEEE
 		player_sfx.play()
