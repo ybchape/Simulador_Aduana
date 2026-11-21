@@ -43,6 +43,8 @@ var fov_objetivo: float = 75.0
 var esta_cansado: bool = false
 var _tiempo_cansancio: float = 0.0
 
+var _intensidad_shake: float = 0.0
+
 func _ready() -> void:
 # El cursor inicia visible para poder interactuar libremente
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
@@ -58,6 +60,10 @@ func _ready() -> void:
 		esta_cansado = false
 		_tiempo_cansancio = 0.0
 	)
+	GameManager.error_registrado.connect(func(_total_errores): 
+		_intensidad_shake = 0.08 # Fuerza de la vibración (ajusta entre 0.05 y 0.12)
+	)
+
 
 func _process(delta: float) -> void:
 	# ZOOM PESADO
@@ -82,6 +88,17 @@ func _process(delta: float) -> void:
 		balanceo_roll = cos(_tiempo_cansancio * 0.9) * deg_to_rad(1.5)
 
 	rotation = Vector3(pitch + cabeceo_pitch, yaw, balanceo_roll)
+
+# VIBRACIÓN DE CÁMARA AL COMETER UN ERROR (Camera Shake)
+	if camera:
+		if _intensidad_shake > 0.001:
+			camera.h_offset = randf_range(-_intensidad_shake, _intensidad_shake)
+			camera.v_offset = randf_range(-_intensidad_shake, _intensidad_shake)
+			# Se va amortiguando suavemente en ~0.35 segundos
+			_intensidad_shake = lerpf(_intensidad_shake, 0.0, 12.0 * delta)
+		else:
+			camera.h_offset = 0.0
+			camera.v_offset = 0.0
 
 func _unhandled_input(event: InputEvent) -> void:
 # --- CONTROL DE ZOOM CON RUEDITA DEL MOUSE ---

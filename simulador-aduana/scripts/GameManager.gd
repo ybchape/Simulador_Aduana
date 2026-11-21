@@ -12,7 +12,7 @@ signal herramienta_estado_cambiado(id: String, restantes: int, maximo: int)
 
 var dia_actual: int = 1
 # la billetera empieza vacía y es la fuente única de plata
-var dinero_total: int = 500 
+var dinero_total: int = 0
 var pedidos_realizados_hoy: int = 0
 var mejoras_compradas: Array[String] = []
 
@@ -34,9 +34,9 @@ const BONO_PERFECTO_CANTIDAD: int = 200
 # --- Límites de uso de herramientas ---
 # Usos permitidos por día. -1 = sin límite.
 const USOS_BASE_HERRAMIENTA: Dictionary = {
-	"escaner": 2,
-	"cuter": 2,
-	"balanza": 2,
+	"escaner": -1,
+	"cuter": -1,
+	"balanza": -1,
 	"energizante": -1,
 }
 # Cuántos usos extra aporta cada mejora de nivel 2 de la tienda.
@@ -217,13 +217,18 @@ func herramienta_disponible(id: String) -> bool:
 		return false
 	return obtener_usos_restantes(id) != 0
 
+func obtener_cooldown_maximo(id: String) -> float:
+	if mejoras_compradas.has(id + "_lvl2"):
+		return COOLDOWN_HERRAMIENTA * 0.5 # 5.0 segundos si compró la mejora
+	return COOLDOWN_HERRAMIENTA # 10.0 segundos base
+
 # Registra un uso efectivo: descuenta un uso (si aplica) e inicia el enfriamiento.
 func consumir_uso_herramienta(id: String) -> bool:
 	if not herramienta_disponible(id):
 		return false
 	if obtener_usos_restantes(id) > 0:
 		_usos_gastados[id] = int(_usos_gastados.get(id, 0)) + 1
-	_cooldown_restante[id] = COOLDOWN_HERRAMIENTA
+	_cooldown_restante[id] = obtener_cooldown_maximo(id)
 	_emitir_estado_herramienta(id)
 	return true
 
