@@ -6,7 +6,7 @@ extends Control
 
 const PRECIO_MEJORA_NIVEL_2: int = 300
 const PRECIO_COMPRA_BALANZA: int = 450
-const PRECIO_COMPRA_ENERGIZANTE: int = 150
+const PRECIO_COMPRA_ENERGIZANTE: int = 100
 
 @onready var texto_dinero: Label = $Label
 @onready var btn_mejorar_escaner: Button = $ScrollContainer/VBoxContainer/PanelEscaner/HBoxContainer/VBoxContainer2/BtnMejorar
@@ -49,7 +49,7 @@ func _restaurar_estado_compras() -> void:
 	if mejoras.has("escaner_lvl2"):
 		btn_mejorar_escaner.text = "¡Adquirido!"
 		btn_mejorar_escaner.disabled = true
-		nivel_escaner.text = "Nivel 2"
+		nivel_escaner.text = "Nivel 2: Reduce cooldown a la mitad"
 	else:
 		btn_mejorar_escaner.text = "Mejorar: $" + str(PRECIO_MEJORA_NIVEL_2)
 		nivel_escaner.text = "Nivel 1"
@@ -57,7 +57,7 @@ func _restaurar_estado_compras() -> void:
 	if mejoras.has("cuter_lvl2"):
 		btn_mejorar_cuter.text = "¡Adquirido!"
 		btn_mejorar_cuter.disabled = true
-		nivel_cutar.text = "Nivel 2"
+		nivel_cutar.text = "Nivel 2: Reduce cooldown a la mitad"
 	else:
 		btn_mejorar_cuter.text = "Mejorar: $" + str(PRECIO_MEJORA_NIVEL_2)
 		nivel_cutar.text = "Nivel 1"
@@ -78,7 +78,7 @@ func _restaurar_estado_compras() -> void:
 		btn_comprar_energizante.visible = false
 		btn_mejorar_energizante.visible = true
 		btn_mejorar_energizante.text = "¡Adquirido!"
-		nivel_energizante.text = "Nivel 2"
+		nivel_energizante.text = "Nivel 2: Obtenes 20% de energía y reduce cooldown a la mitad "
 	elif mejoras.has("energizante_obtenido"):
 		btn_comprar_energizante.visible = false
 		btn_mejorar_energizante.visible = true

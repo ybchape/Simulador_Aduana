@@ -211,6 +211,7 @@ theme_override_styles/panel = SubResource("CardStyle")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/PanelCuter" unique_id=1444364840]
 layout_mode = 2
+mouse_filter = 2
 theme_override_constants/separation = 28
 
 [node name="TextureRect" type="TextureRect" parent="ScrollContainer/VBoxContainer/PanelCuter/HBoxContainer" unique_id=675872001]

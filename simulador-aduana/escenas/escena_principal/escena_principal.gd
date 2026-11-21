@@ -153,10 +153,14 @@ func _on_decision_tomada(fue_permitido: bool) -> void:
 	if pedido_actual == null:
 		return
 
+	# Guardamos el dato y anulamos pedido_actual inmediatamente para evitar doble envío
+	var era_ilegal: bool = pedido_actual.es_ilegal
+	pedido_actual = null
+
 	if fue_permitido:
-		GameManager.procesar_aprobar_paquete(pedido_actual.es_ilegal)
+		GameManager.procesar_aprobar_paquete(era_ilegal)
 	else:
-		GameManager.procesar_denegar_paquete(pedido_actual.es_ilegal)
+		GameManager.procesar_denegar_paquete(era_ilegal)
 
 # Func que crea la siguiente caja y genera datos aleatorios
 func _on_siguiente_pedido_solicitado() -> void:
@@ -200,16 +204,14 @@ func _on_siguiente_pedido_solicitado() -> void:
 # generación de datos aleatorios para comparar Planilla con ek Ticket 
 func _generar_y_cargar_nuevo_pedido() -> void:
 	pedido_actual = PedidoInfo.new()
-	#var productos_posibles = ["Alfajor", "Cocaína", "BMO", "Copa", "Microondas"]
-	# Determinar si el paquete será ilegal (30% de probabilidad)
-	pedido_actual.es_ilegal = randf() < 0.35
 	
+	# Determinar si el paquete será ilegal (35% de probabilidad)
+	pedido_actual.es_ilegal = randf() < 0.35
 	
 	# Datos base de la Planilla
 	pedido_actual.peso_kg = snappedf(randf_range(10.0, 30.0), 0.1)
 	pedido_actual.codigo_identificador = "RF-" + str(randi_range(100, 999)) + " VY"
-# Si es ilegal es sospechoso (100%). Si es legal, hay 15% de chance de que parezca sospechoso (falsa alarma)
-	# Asigna el modelo 3D y el nombre según el historial sin repetición
+
 	if pedido_actual.es_ilegal:
 		var tipo_contrabando = randi() % 4
 		
@@ -223,9 +225,9 @@ func _generar_y_cargar_nuevo_pedido() -> void:
 			pedido_actual.ticket_peso_kg = pedido_actual.peso_kg
 			pedido_actual.ticket_codigo_identificador = pedido_actual.codigo_identificador
 			
-			# Adentro va un arma (obliga a usar escáner o cúter)
+			# Adentro va un objeto ilegal (obliga a usar escáner o cúter)
 			pedido_actual.objeto_escena = mallas_ilegales[idx_ilegal]
-			pedido_actual.es_sospechoso = true # Pista visual en el ticket
+			pedido_actual.es_sospechoso = true
 			
 		elif tipo_contrabando == 1:
 			# EXCESO DE PESO (Fuera del margen de 0.5 kg)
@@ -250,20 +252,14 @@ func _generar_y_cargar_nuevo_pedido() -> void:
 			pedido_actual.ticket_codigo_identificador = pedido_actual.codigo_identificador.replace("VY", "XX")
 			pedido_actual.es_sospechoso = true
 	else:
-		# PEDIDO LEGAL (Puede ser un objeto normal O un arma con permiso declarado)
-		if randf() < 0.25:
-			# Arma/herramienta pesada PERO con papeles 100% en regla (rompe el piloto automático)
-			var idx_ilegal = _obtener_indice_ilegal_unico()
-			pedido_actual.nombre_producto = nombres_ilegales[idx_ilegal]
-			pedido_actual.objeto_escena = mallas_ilegales[idx_ilegal]
-		else:
-			var idx_legal = _obtener_indice_legal_unico()
-			pedido_actual.nombre_producto = nombres_legales[idx_legal]
-			pedido_actual.objeto_escena = mallas_legales[idx_legal]
+		# PEDIDO LEGAL: siempre lleva un objeto legal adentro
+		var idx_legal = _obtener_indice_legal_unico()
+		pedido_actual.nombre_producto = nombres_legales[idx_legal]
+		pedido_actual.objeto_escena = mallas_legales[idx_legal]
 		
 		# 25% de los legales tienen una variación de peso DENTRO del margen permitido (Falsa alarma)
 		if randf() < 0.25:
-			pedido_actual.es_sospechoso = true # Ticket torcido para hacer dudar
+			pedido_actual.es_sospechoso = true # Ticket torcido/arrugado para hacer dudar
 			var variacion_tolerada = randf_range(0.1, MARGEN_PESO_TOLERADO)
 			pedido_actual.ticket_peso_kg = snappedf(pedido_actual.peso_kg + variacion_tolerada, 0.1)
 		else:
@@ -275,7 +271,6 @@ func _generar_y_cargar_nuevo_pedido() -> void:
 
 	if planilla_ui:
 		planilla_ui.cargar_pedido(pedido_actual)
-	
 	
 func _on_game_over() -> void:
 	# función para ir a la escena de derrota 

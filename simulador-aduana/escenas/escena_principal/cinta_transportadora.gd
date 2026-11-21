@@ -144,7 +144,7 @@ func _on_alta_demanda_finalizado() -> void:
 func _actualizar_velocidad_segun_dia() -> void:
 	# Día 1: 1.0x | Día 2: 1.2x | Día 3: 1.4x | Día 4: 1.6x | Día 5: 1.8x
 	var dia: int = GameManager.dia_actual if GameManager else 1
-	var mult_dia: float = 1.0 + (dia - 1) * 0.2
+	var mult_dia: float = 1.0 + (dia - 1) * 0.35
 	var mult_evento: float = 2.3 if _alta_demanda_activa else 1.0
 	
 	velocidad = velocidad_base * mult_dia * mult_evento
