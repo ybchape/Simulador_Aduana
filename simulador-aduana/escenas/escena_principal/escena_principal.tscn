@@ -415,8 +415,6 @@ script = ExtResource("37_2smbc")
 
 [node name="GestorEventos" type="Node" parent="." unique_id=120175220]
 script = ExtResource("38_0a0g7")
-cansancio_min_duracion = 60.0
-cansancio_max_duracion = 75.0
 
 [node name="CartelesEventos" type="CanvasLayer" parent="." unique_id=1553171201]
 

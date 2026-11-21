@@ -19,11 +19,14 @@ var estado: String = "ESPERANDO" # ESPERANDO, AVANZANDO, INSPECCIONANDO, SALIEND
 var indice_punto_actual: int = 0
 var jornada_completada: bool = false
 var notificada_inspeccion: bool = false
+var _alta_demanda_activa: bool = false
 
 func _ready() -> void:
 	# save veloc base al iniciar
 	velocidad_base = velocidad
 	velocidad_animacion_base = velocidad_animacion_cinta
+	
+	_actualizar_velocidad_segun_dia()
 	EventBus.decision_tomada.connect(_on_decision_tomada)
 	EventBus.objetivo_dia_alcanzado.connect(_on_objetivo_alcanzado)
 
@@ -31,6 +34,7 @@ func _ready() -> void:
 	EventBus.evento_alta_demanda_iniciado.connect(_on_alta_demanda_iniciado)
 	EventBus.evento_alta_demanda_finalizado.connect(_on_alta_demanda_finalizado)
 	
+
 
 func _process(delta: float) -> void:
 	if jornada_completada:
@@ -129,11 +133,19 @@ func _on_objetivo_alcanzado(_stats: Dictionary = {}) -> void:
 
 func _on_alta_demanda_iniciado(_duracion:float) -> void:
 		print ("Acelareción de la cinta: ALTA DEMANDA")
-		# multiplicamos por 1.8 para que la cinta corra mas rapido (ajustar veloc)
-		velocidad = velocidad_base * 2.3
-		velocidad_animacion_cinta = velocidad_animacion_base * 2.3
+		_alta_demanda_activa = true
+		_actualizar_velocidad_segun_dia()
 
 func _on_alta_demanda_finalizado() -> void:
 		print ("Alta demanda FINALIZADA. Velocidad de la cinta normal.")
-		velocidad = velocidad_base
-		velocidad_animacion_cinta = velocidad_animacion_base
+		_alta_demanda_activa = false
+		_actualizar_velocidad_segun_dia()
+
+func _actualizar_velocidad_segun_dia() -> void:
+	# Día 1: 1.0x | Día 2: 1.2x | Día 3: 1.4x | Día 4: 1.6x | Día 5: 1.8x
+	var dia: int = GameManager.dia_actual if GameManager else 1
+	var mult_dia: float = 1.0 + (dia - 1) * 0.2
+	var mult_evento: float = 2.3 if _alta_demanda_activa else 1.0
+	
+	velocidad = velocidad_base * mult_dia * mult_evento
+	velocidad_animacion_cinta = velocidad_animacion_base * mult_dia * mult_evento
