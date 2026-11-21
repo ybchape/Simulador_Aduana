@@ -4,8 +4,8 @@ extends Node
 @export var tiempo_max_duracion: float = 40.0
 @export var costo_reparacion_luz: float = 150.0
 
-@export var cansancio_min_duracion: float = 50.0 # <-- duración mínima para cansancio
-@export var cansancio_max_duracion: float = 65.0 # <-- duración máxima para cansancio
+@export var cansancio_min_duracion: float = 35.0 # <-- duración mínima para cansancio
+@export var cansancio_max_duracion: float = 45.0 # <-- duración máxima para cansancio
 
 # Lista de todos los eventos aleatorios posibles 
 const EVENTOS_POSIBLES: Array[String] = ["cansancio", "alta_demanda", "corte_luz", "sueno"]
